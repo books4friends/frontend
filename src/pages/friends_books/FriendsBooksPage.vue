@@ -16,7 +16,6 @@
     import FilterByFriends from './FilterByFriends.vue'
     import SearchByTitle from './SearchByTitle.vue'
     export default {
-      name: 'App',
       components: {
         BooksList,
         FilterByFriends,

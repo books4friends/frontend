@@ -1,12 +1,12 @@
 <template>
-<div id="navigation">
-    <div id="center">
-        <div class="menu active">Книги друзей</div>
-        <div class="menu">Мои книги</div>
-        <div class="menu">Настройки</div>
-        <div class="menu">О проекте</div>
+    <div id="navigation">
+        <div id="center">
+            <router-link to="/" class="menu">Книги друзей</router-link>
+            <router-link class="menu" to="/my-books/">Мои книги</router-link>
+            <router-link class="menu" to="/settings/">Настройки</router-link>
+            <router-link class="menu" to="/about/">О проекте</router-link>
+        </div>
     </div>
-</div>
 </template>
 
 <style scoped>
@@ -27,13 +27,14 @@
     text-align: center;
     font-family: -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .menu:hover{
     background-color: #3d6898;
 }
 
-.menu.active, .menu.active:hover{
+.router-link-exact-active, .router-link-exact-active:hover{
     background-color: #335e8f;
 }
 </style>
