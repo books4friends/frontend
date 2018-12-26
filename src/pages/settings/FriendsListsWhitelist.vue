@@ -1,17 +1,17 @@
 <template>
-    <DialogSetting title="Выберите списки друзей" :onSave="saveClick">
+    <DialogSetting title="Выберите списки друзей" :onSave="onSave" :cancelDialog="cancelDialog">
         <div id="mb-friends_list_whitelist-friends_list">
             <div class="mb-friends_list_whitelist-friends_list-item">
                 <span>Родные</span>
-                <CircleCheckbox :onClick="saveClick"/>
+                <CircleCheckbox :onClick="circleClick"/>
             </div>
             <div class="mb-friends_list_whitelist-friends_list-item">
                 <span>Универ</span>
-                <CircleCheckbox selected :onClick="saveClick"/>
+                <CircleCheckbox selected :onClick="circleClick"/>
             </div>
             <div class="mb-friends_list_whitelist-friends_list-item">
                 <span>Школа</span>
-                <CircleCheckbox selected :onClick="saveClick"/>
+                <CircleCheckbox selected :onClick="circleClick"/>
             </div>
         </div>
     </DialogSetting>
@@ -27,9 +27,19 @@
             CircleCheckbox,
             DialogSetting
         },
+        props: {
+            cancelDialog:  {
+                type: Function,
+                required: true
+            },
+            onSave:  {
+                type: Function,
+                required: true
+            },
+        },
         methods: {
-            saveClick: function() {
-                console.log('saveClick clicked')
+            circleClick: function(){
+                console.log('circleClick');
             }
         }
     }

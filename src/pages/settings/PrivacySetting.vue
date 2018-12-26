@@ -4,15 +4,86 @@
             <span>Кто видит список моих книг</span>
         </div>
         <div id="mb-privacy_settings-right">
-            <select>
+            <select @click="onSelectOption" v-model="key">
                 <option value="all-friends">Только друзья</option>
                 <option value="some-friends">Некоторые друзья</option>
                 <option value="some-friends-list">Некоторые списки друзей</option>
             </select>
             <div id="mb-privacy_settings-accepted_list">Одноклассники, Семья</div>
         </div>
+
+        <FriendsWhitelist
+                v-if="modalStatus==MODAL_FRIENDS"
+                :cancelDialog="cancelModal"
+                :onSave="saveFriendsWhitelist"
+        />
+        <FriendsListsWhitelist
+                v-if="modalStatus==MODAL_FRIENDS_LISTS"
+                :cancelDialog="cancelModal"
+                :onSave="saveFriendsListsWhitelist"
+        />
     </div>
 </template>
+
+<script>
+
+import FriendsListsWhitelist from './FriendsListsWhitelist.vue'
+import FriendsWhitelist from './FriendsWhitelist.vue'
+
+const MODAL_NONE = 0
+const MODAL_FRIENDS = 1
+const MODAL_FRIENDS_LISTS = 2
+
+export default {
+  name: 'App',
+  components: {
+    FriendsListsWhitelist,
+    FriendsWhitelist
+  },
+  data:  function(){
+    return {
+        key: undefined,
+        hard_key: undefined,
+        modalStatus: MODAL_NONE,
+        MODAL_NONE: MODAL_NONE,
+        MODAL_FRIENDS: MODAL_FRIENDS,
+        MODAL_FRIENDS_LISTS: MODAL_FRIENDS_LISTS
+    }
+  },
+  methods: {
+    saveFriendsWhitelist: function(){
+        console.log("friends saved");
+        this.modalStatus = MODAL_NONE;
+        this.hard_key = this.key;
+    },
+    saveFriendsListsWhitelist: function(){
+        console.log("friends list saved");
+        this.modalStatus = MODAL_NONE;
+        this.hard_key = this.key;
+    },
+    cancelModal: function(){
+        this.modalStatus = MODAL_NONE;
+        this.key = this.hard_key;
+    },
+    onSelectOption(){
+        switch(this.key){
+            case "all-friends":
+                this.hard_key = this.key;
+                console.log("all-friends");
+                break;
+            case "some-friends":
+                console.log("some-friends");
+                this.modalStatus = MODAL_FRIENDS;
+                break;
+            case "some-friends-list":
+                console.log("some-friends");
+                this.modalStatus = MODAL_FRIENDS_LISTS;
+                break;
+        }
+    }
+  }
+}
+</script>
 
 <style scoped>
 #mb-privacy_settings-left{

@@ -1,14 +1,14 @@
 <template>
     <div id="dialog-header">
         <div id="dialog-header-title">{{title}}</div>
-        <div id="dialog_header-close" @click="onClose"></div>
+        <div id="dialog_header-close" @click="cancelDialog"></div>
     </div>
 </template>
 ​
 <script>
 export default {
   props: {
-    onClose: {
+    cancelDialog: {
       type: Function,
       required: true
     },

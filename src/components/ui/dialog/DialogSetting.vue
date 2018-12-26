@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="setting_dialog">
-            <DialogHeader :onClose="cancelDialog" :title="title" />
+            <DialogHeader :cancelDialog="cancelDialog" :title="title" />
             <slot></slot>
             <div class="setting_dialog-control">
                 <AppButton :onClick="cancelDialog" transparent>Отмена</AppButton>
@@ -31,11 +31,10 @@
             onSave: {
                 type: Function,
                 required: true
-            }
-        },
-        methods: {
-            cancelDialog: function() {
-                console.log('cancelDialog')
+            },
+            cancelDialog: {
+                type: Function,
+                required: true
             }
         }
     }

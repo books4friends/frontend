@@ -1,21 +1,22 @@
 <template>
-    <DialogSetting title="Выберите друзей" :onSave="saveClick">
+    <DialogSetting title="Выберите друзей" :onSave="onSave" :cancelDialog="cancelDialog">
         <div id="mb-friends_whitelist-search">
             <SearchInline placeholder="Начните вводить имя друга" />
-            <ToggleButton :onClick="saveClick" selected>показать выбранных</ToggleButton>
+            <ToggleButton :onClick="circleClick" selected>показать выбранных</ToggleButton>
         </div>
         <div id="mb-friends_whitelist-friends_list">
             <div class="mb-friends_whitelist-friends_list-item">
-               ` <CircleCheckbox :onClick="saveClick"/>
+                <FriendTitle img="https://m.vk.com/images/camera_100.png?ava=1" name="Айбулат Шашкин"/>
+                <div class="friend_checkbox selected"></div><CircleCheckbox :onClick="circleClick"/>
             </div>
             <div class="mb-friends_whitelist-friends_list-item">
                 <FriendTitle img="https://m.vk.com/images/camera_100.png?ava=1" name="Ришат Галин"/>
                 <div class="friend_checkbox selected"></div>
-                <CircleCheckbox selected :onClick="saveClick"/>
+                <CircleCheckbox selected :onClick="circleClick"/>
             </div>
             <div class="mb-friends_whitelist-friends_list-item">
                 <FriendTitle img="https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1" name="Руслан Билалов"/>
-                <CircleCheckbox selected :onClick="saveClick"/>
+                <CircleCheckbox selected :onClick="circleClick"/>
             </div>
         </div>
     </DialogSetting>
@@ -37,9 +38,19 @@
             SearchInline,
             ToggleButton
         },
+        props: {
+            cancelDialog:  {
+                type: Function,
+                required: true
+            },
+            onSave:  {
+                type: Function,
+                required: true
+            },
+        },
         methods: {
-            saveClick: function() {
-                console.log('saveClick clicked')
+            circleClick: function(){
+                console.log('circleClick');
             }
         }
     }
