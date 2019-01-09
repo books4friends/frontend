@@ -7,7 +7,7 @@
         <div id="mb-friends_whitelist-friends_list">
             <div v-for="friend in friends" class="mb-friends_whitelist-friends_list-item">
                 <FriendTitle :img="friend.image" :name="friend.name"/>
-                <CircleCheckbox :selected="friend.selected" :onClick="circleClick"/>
+                <CircleCheckbox :selected="friend.selected" :onClick="circleClick.bind(null, friend)"/>
             </div>
         </div>
     </DialogSetting>
@@ -61,8 +61,8 @@
             }
         },
         methods: {
-            circleClick: function(){
-                console.log('circleClick');
+            circleClick: function(friend){
+                friend.selected = !friend.selected;
             }
         }
     }

@@ -1,9 +1,9 @@
 <template>
     <DialogSetting title="Выберите списки друзей" :onSave="onSave" :cancelDialog="cancelDialog">
         <div id="mb-friends_list_whitelist-friends_list">
-            <div v-for="friends_list in friends_lists" class="mb-friends_list_whitelist-friends_list-item">
-                <span>{{ friends_list.title }}</span>
-                <CircleCheckbox :selected="friends_list.selected" :onClick="circleClick"/>
+            <div v-for="friendsList in friendsLists" class="mb-friends_list_whitelist-friends_list-item">
+                <span>{{ friendsList.title }}</span>
+                <CircleCheckbox :selected="friendsList.selected" :onClick="circleClick.bind(null, friendsList)"/>
             </div>
         </div>
     </DialogSetting>
@@ -31,7 +31,7 @@
         },
         data: function(){
             return {
-                friends_lists: [
+                friendsLists: [
                     {
                         "title": "Родные",
                         "selected": false
@@ -48,8 +48,8 @@
             }
         },
         methods: {
-            circleClick: function(){
-                console.log('circleClick');
+            circleClick: function(friendsList){
+                friendsList.selected = !friendsList.selected;
             }
         }
     }
