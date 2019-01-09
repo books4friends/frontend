@@ -3,28 +3,51 @@
         <div id="fb-friends_list_list">
             <ul>
                 <li class="selected">Все</li>
-                <li>Семья</li>
-                <li>Универ</li>
+                <li v-for="friends_list in friends_list_list">{{ friends_list.title }}</li>
             </ul>
         </div>
         <div id="fb-friends_list">
             <ul>
-                <li class="fb-friends_list-item">
-                    <img src="https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1" alt="Айгиз Мухамадиев">
-                    <span>Айгиз Мухамадиев</span>
-                </li>
-                <li class="fb-friends_list-item">
-                    <img src="https://m.vk.com/images/camera_100.png?ava=1" alt="Ришат Галин">
-                    <span>Ришат Галин</span>
-                </li>
-                <li class="fb-friends_list-item">
-                    <img src="https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1" alt="Руслан Билалов">
-                    <span>Руслан Билалов</span>
+                <li class="fb-friends_list-item" v-for="friend in friends_list">
+                    <img :src="friend.image" :alt="friend.name">
+                    <span>{{ friend.name }}</span>
                 </li>
             </ul>
         </div>
     </div>
 </template>
+
+<script>
+    export default {
+        data:  function(){
+            return {
+                friends_list_list: [
+                    {
+                        title: "Семья"
+                    },
+                    {
+                        title: "Универ"
+                    }
+                ],
+                friends_list: [
+                    {
+                        name: "Айгиз Мухамадиев",
+                        image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1"
+                    },
+                    {
+                        name: "Ришат Галин",
+                        image: "https://m.vk.com/images/camera_100.png?ava=1"
+                    },
+                    {
+                        name: "Руслан Билалов",
+                        image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1"
+                    },
+                ]
+            }
+        }
+    }
+
+</script>
 
 <style scoped>
 #fb-friends_list_list > ul > li{

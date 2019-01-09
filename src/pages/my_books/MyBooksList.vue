@@ -1,12 +1,11 @@
 <template>
     <BookListFrame>
-        <BookItemFrame>
-            <BookOwner link="https://vk.com/aygiz_obstinate" img="https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1" name="Айгиз Мухамадиев"/>
-            <BookImage img="https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api" alt="7 навыков высокоэффективных людей"/>
-            <BookTitle>7 навыков высокоэффективных людей</BookTitle>
-            <BookAuthor>Стивен Кови</BookAuthor>
+        <BookItemFrame  v-for="book in books">
+            <BookImage :img="book.description.image" :alt="book.description.title"/>
+            <BookTitle>{{ book.description.title }}</BookTitle>
+            <BookAuthor>{{ book.description.author }}</BookAuthor>
             <BreakLine />
-            <BookCommentEditable>Могу подарить</BookCommentEditable>
+            <BookCommentEditable v-if="book.comment">{{ book.comment }}</BookCommentEditable>
             <div class="actions">
                 <AppButton :onClick="foo" class="action-button">Активно</AppButton>
                 <AppButton :onClick="foo" class="action-button">Удалить</AppButton>
@@ -39,6 +38,28 @@
             BookOwner,
             BookTitle,
             BreakLine
+        },
+        data:  function() {
+            return {
+                books: [
+                    {
+                        description: {
+                            title: "7 навыков высокоэффективных людей",
+                            author: "Стивен Кови",
+                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
+                        },
+                        comment: "Могу подарить"
+                    },
+                    {
+                        description: {
+                            title: "Бизнес как игра",
+                            author: "Сергей Абдульманов",
+                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
+                        },
+                        comment: null
+                    }
+                ]
+            }
         },
         methods: {
             foo: function() {

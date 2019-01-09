@@ -5,18 +5,9 @@
             <ToggleButton :onClick="circleClick" selected>показать выбранных</ToggleButton>
         </div>
         <div id="mb-friends_whitelist-friends_list">
-            <div class="mb-friends_whitelist-friends_list-item">
-                <FriendTitle img="https://m.vk.com/images/camera_100.png?ava=1" name="Айбулат Шашкин"/>
-                <div class="friend_checkbox selected"></div><CircleCheckbox :onClick="circleClick"/>
-            </div>
-            <div class="mb-friends_whitelist-friends_list-item">
-                <FriendTitle img="https://m.vk.com/images/camera_100.png?ava=1" name="Ришат Галин"/>
-                <div class="friend_checkbox selected"></div>
-                <CircleCheckbox selected :onClick="circleClick"/>
-            </div>
-            <div class="mb-friends_whitelist-friends_list-item">
-                <FriendTitle img="https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1" name="Руслан Билалов"/>
-                <CircleCheckbox selected :onClick="circleClick"/>
+            <div v-for="friend in friends" class="mb-friends_whitelist-friends_list-item">
+                <FriendTitle :img="friend.image" :name="friend.name"/>
+                <CircleCheckbox :selected="friend.selected" :onClick="circleClick"/>
             </div>
         </div>
     </DialogSetting>
@@ -47,6 +38,27 @@
                 type: Function,
                 required: true
             },
+        },
+        data: function(){
+            return {
+                friends: [
+                    {
+                        name: "Айбулат Шашкин",
+                        image: "https://m.vk.com/images/camera_100.png?ava=1",
+                        selected: false
+                    },
+                    {
+                        name: "Ришат Галин",
+                        image: "https://m.vk.com/images/camera_100.png?ava=1",
+                        selected: true
+                    },
+                    {
+                        name: "Руслан Билалов",
+                        image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1",
+                        selected: false
+                    }
+                ]
+            }
         },
         methods: {
             circleClick: function(){

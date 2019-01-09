@@ -9,7 +9,12 @@
                 <option value="some-friends">Некоторые друзья</option>
                 <option value="some-friends-list">Некоторые списки друзей</option>
             </select>
-            <div id="mb-privacy_settings-accepted_list">Одноклассники, Семья</div>
+            <div id="mb-privacy_settings-accepted_list">
+                <span v-for="(item, index) in list_description">
+                    {{ item.title }}
+                    <span v-if="index < list_description.length - 1"> ,</span>
+                </span>
+            </div>
         </div>
 
         <FriendsWhitelist
@@ -42,8 +47,16 @@ export default {
   },
   data:  function(){
     return {
-        key: undefined,
-        hard_key: undefined,
+        key: "some-friends",
+        list_description: [
+            {
+                title: "Семья"
+            },
+            {
+                title: "Каюмовы"
+            }
+        ],
+        hard_key: "some-friends",
         modalStatus: MODAL_NONE,
         MODAL_NONE: MODAL_NONE,
         MODAL_FRIENDS: MODAL_FRIENDS,
