@@ -1,15 +1,14 @@
 <template>
     <div class="friend-title">
         <a v-if="link" :href="link">
-            <img :src="img" alt="Ришат Галин">
+            <img :src="img" :alt="name">
             <span>{{name}}</span>
         </a>
         <div v-else>
-            <img :src="img" alt="Ришат Галин">
+            <img :src="img" :alt="name">
             <span>{{name}}</span>
         </div>
     </div>
-
 </template>
 
 <script>
