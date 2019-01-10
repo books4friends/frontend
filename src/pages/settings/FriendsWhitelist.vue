@@ -2,7 +2,7 @@
     <DialogSetting title="Выберите друзей" :onSave="onSave" :cancelDialog="cancelDialog">
         <div id="mb-friends_whitelist-search">
             <SearchInline :onChange="changeSearch" placeholder="Начните вводить имя друга" />
-            <ToggleButton :onClick="circleClick" selected>показать выбранных</ToggleButton>
+            <ToggleButton :onClick="switchFilterSelected" :selected="toFilterSelected">показать выбранных</ToggleButton>
         </div>
         <div id="mb-friends_whitelist-friends_list">
             <div v-for="friend in filteredFriends" class="mb-friends_whitelist-friends_list-item">
@@ -36,11 +36,12 @@
             onSave:  {
                 type: Function,
                 required: true
-            },
+            }
         },
         data: function(){
             return {
                 searchStr: "",
+                toFilterSelected: false,
                 friends: [
                     {
                         name: "Айбулат Шашкин",
@@ -66,30 +67,40 @@
             },
             changeSearch: function (str) {
                 this.searchStr = str;
+            },
+            filterBySearchWord: function (friend) {
+                let searchWords = this.searchStr.toLowerCase().split(/\s+/);
+                let nameWords = friend.name.toLowerCase().split(/\s+/);
+                let accepted = true;
+                for (let i=0; i<searchWords.length; i++){
+                    let founded = false;
+                    for (let j=0; j<nameWords.length; j++) {
+                        if (nameWords[j].indexOf(searchWords[i]) > -1){
+                            founded = true;
+                        }
+                    }
+                    if (!founded) {
+                       accepted = false;
+                    }
+                }
+                return accepted;
+            },
+            switchFilterSelected: function(){
+                this.toFilterSelected = !this.toFilterSelected;
             }
         },
         computed: {
             filteredFriends: function(){
-                let searchWords = this.searchStr.toLowerCase().split(/\s+/);
-                if (!searchWords)
-                    return this.friends;
+                let list = null;
+                if (!this.searchStr.toLowerCase().split(/\s+/))
+                    list = this.friends;
                 else
-                    return this.friends.filter(friend => {
-                        let nameWords = friend.name.toLowerCase().split(/\s+/);
-                        let accepted = true;
-                        for (let i=0; i<searchWords.length; i++){
-                            let founded = false;
-                            for (let j=0; j<nameWords.length; j++) {
-                                if (nameWords[j].indexOf(searchWords[i]) > -1){
-                                    founded = true;
-                                }
-                            }
-                            if (!founded) {
-                               accepted = false;
-                            }
-                        }
-                        return accepted;
-                    })
+                    list = this.friends.filter(this.filterBySearchWord)
+
+                if (this.toFilterSelected)
+                    list = list.filter(friend => friend.selected);
+
+                return list
             }
         }
     }
