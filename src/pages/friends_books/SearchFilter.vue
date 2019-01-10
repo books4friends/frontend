@@ -1,5 +1,5 @@
 <template>
-    <div class="search-inline">
+    <div id="fb-search">
         <input type="text" :placeholder="placeholder" @keyup="update" v-model="str">
     </div>
 </template>
@@ -31,30 +31,28 @@
 </script>
 
 <style scoped>
-.search-inline {
-    margin: 0 0 0 10px;
-    width: 360px;
+#fb-search {
+    margin: 10px 0 10px;
 }
 
-.search-inline > input{
+#fb-search > input{
     background: transparent;
     border: 0;
     display: block;
     width: 100%;
     padding: 10px 32px;
-    font-size: 13px;
+    font-size: 16px;
     box-sizing: border-box;
     background: url(../../assets/images/search_icon.png) no-repeat scroll 5px 10px;
 }
 
-.search-inline > input:focus{
+#fb-search > input:focus{
     outline-width: 0;
 }
-.search-inline > input::placeholder{
-    color: #94a2bb
+#fb-search > input::placeholder{
+    color: #8c8c8c;
 }
-.search-inline > input:focus::placeholder{
-    color: #c0cce1
+#fb-search > input:focus::placeholder{
+    color: #bfbfbf;
 }
-
 </style>

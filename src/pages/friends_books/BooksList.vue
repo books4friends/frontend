@@ -1,6 +1,6 @@
 <template>
     <BookListFrame>
-        <BookItemFrame v-for="book in books">
+        <BookItemFrame v-for="book in filteredBooks">
             <BookOwner :link="book.owner.link" :img="book.owner.image" :name="book.owner.name"/>
             <BookImage :img="book.description.image" :alt="book.description.title"/>
             <BookTitle>{{ book.description.title }}</BookTitle>
@@ -18,6 +18,7 @@
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
     import BookOwner from "../../components/ui/book_card/BookOwner"
     import BookTitle from "../../components/ui/book_card/BookTitle"
+    import { doArraysContainArrays } from "../../utils/stringUtils.js"
 
     export default {
         components: {
@@ -28,6 +29,12 @@
             BookListFrame,
             BookOwner,
             BookTitle
+        },
+        props: {
+            searchStr: {
+                type: String,
+                required: true
+            }
         },
         data:  function(){
             return {
@@ -61,5 +68,24 @@
                 ]
             }
         },
+        methods: {
+            filterByTitleAndAuthor: function (book) {
+                let searchWords = this.searchStr.toLowerCase().split(/\s+/);
+                let titleWords = book.description.title.toLowerCase().split(/\s+/)
+                    .concat(book.description.author.toLowerCase().split(/\s+/));
+                return doArraysContainArrays(searchWords, titleWords);
+            }
+        },
+        computed: {
+            filteredBooks: function(){
+                let list = null;
+                if (!this.searchStr.toLowerCase().split(/\s+/))
+                    list = this.books;
+                else
+                    list = this.books.filter(this.filterByTitleAndAuthor);
+
+                return list
+            }
+        }
     }
 </script>

@@ -19,7 +19,7 @@
     import FriendTitle from "../../components/ui/FriendTitle.vue"
     import SearchInline from "../../components/ui/SearchInline.vue"
     import ToggleButton from "../../components/ui/ToggleButton.vue"
-    import {doArraysContainArrays} from "../../utils/stringUtils.js"
+    import { doArraysContainArrays } from "../../utils/stringUtils.js"
 
     export default {
         components: {

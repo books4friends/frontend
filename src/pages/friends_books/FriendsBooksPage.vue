@@ -1,11 +1,11 @@
 <template>
     <div id="fb">
         <div id="fb-left">
-            <SearchByTitle />
-            <BooksList />
+            <SearchFilter :onChange="changeSearch" />
+            <BooksList :searchStr="searchStr" />
         </div>
         <div id="fb-right">
-            <FilterByFriends />
+            <FilterByFriends/>
         </div>
     </div>
 </template>
@@ -14,13 +14,24 @@
 <script>
     import BooksList from './BooksList.vue'
     import FilterByFriends from './FilterByFriends.vue'
-    import SearchByTitle from './SearchByTitle.vue'
+    import SearchFilter from './SearchFilter.vue'
+
     export default {
-      components: {
-        BooksList,
-        FilterByFriends,
-        SearchByTitle
-      }
+        components: {
+            BooksList,
+            FilterByFriends,
+            SearchFilter
+        },
+        data: function() {
+            return {
+                searchStr: ""
+            }
+        },
+        methods: {
+            changeSearch: function (str) {
+                this.searchStr = str;
+            }
+        },
     }
 </script>
 
