@@ -19,6 +19,7 @@
     import FriendTitle from "../../components/ui/FriendTitle.vue"
     import SearchInline from "../../components/ui/SearchInline.vue"
     import ToggleButton from "../../components/ui/ToggleButton.vue"
+    import {doArraysContainArrays} from "../../utils/stringUtils.js"
 
     export default {
         components: {
@@ -71,19 +72,7 @@
             filterBySearchWord: function (friend) {
                 let searchWords = this.searchStr.toLowerCase().split(/\s+/);
                 let nameWords = friend.name.toLowerCase().split(/\s+/);
-                let accepted = true;
-                for (let i=0; i<searchWords.length; i++){
-                    let founded = false;
-                    for (let j=0; j<nameWords.length; j++) {
-                        if (nameWords[j].indexOf(searchWords[i]) > -1){
-                            founded = true;
-                        }
-                    }
-                    if (!founded) {
-                       accepted = false;
-                    }
-                }
-                return accepted;
+                return doArraysContainArrays(searchWords, nameWords);
             },
             switchFilterSelected: function(){
                 this.toFilterSelected = !this.toFilterSelected;
