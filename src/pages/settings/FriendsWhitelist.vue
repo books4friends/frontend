@@ -1,11 +1,11 @@
 <template>
     <DialogSetting title="Выберите друзей" :onSave="onSave" :cancelDialog="cancelDialog">
         <div id="mb-friends_whitelist-search">
-            <SearchInline placeholder="Начните вводить имя друга" />
+            <SearchInline :onChange="changeSearch" placeholder="Начните вводить имя друга" />
             <ToggleButton :onClick="circleClick" selected>показать выбранных</ToggleButton>
         </div>
         <div id="mb-friends_whitelist-friends_list">
-            <div v-for="friend in friends" class="mb-friends_whitelist-friends_list-item">
+            <div v-for="friend in filteredFriends" class="mb-friends_whitelist-friends_list-item">
                 <FriendTitle :img="friend.image" :name="friend.name"/>
                 <CircleCheckbox :selected="friend.selected" :onClick="circleClick.bind(null, friend)"/>
             </div>
@@ -21,7 +21,6 @@
     import ToggleButton from "../../components/ui/ToggleButton.vue"
 
     export default {
-        name: 'app',
         components: {
             CircleCheckbox,
             DialogSetting,
@@ -41,6 +40,7 @@
         },
         data: function(){
             return {
+                searchStr: "",
                 friends: [
                     {
                         name: "Айбулат Шашкин",
@@ -61,8 +61,35 @@
             }
         },
         methods: {
-            circleClick: function(friend){
+            circleClick: function (friend) {
                 friend.selected = !friend.selected;
+            },
+            changeSearch: function (str) {
+                this.searchStr = str;
+            }
+        },
+        computed: {
+            filteredFriends: function(){
+                let searchWords = this.searchStr.toLowerCase().split(/\s+/);
+                if (!searchWords)
+                    return this.friends;
+                else
+                    return this.friends.filter(friend => {
+                        let nameWords = friend.name.toLowerCase().split(/\s+/);
+                        let accepted = true;
+                        for (let i=0; i<searchWords.length; i++){
+                            let founded = false;
+                            for (let j=0; j<nameWords.length; j++) {
+                                if (nameWords[j].indexOf(searchWords[i]) > -1){
+                                    founded = true;
+                                }
+                            }
+                            if (!founded) {
+                               accepted = false;
+                            }
+                        }
+                        return accepted;
+                    })
             }
         }
     }

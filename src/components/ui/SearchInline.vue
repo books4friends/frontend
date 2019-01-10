@@ -1,15 +1,29 @@
 <template>
     <div class="search-inline">
-        <input type="text" :placeholder="placeholder">
+        <input type="text" :placeholder="placeholder" @keyup="update" v-model="str">
     </div>
 </template>
 
 <script>
     export default {
-        props:{
+        props: {
+            onChange: {
+                type: Function,
+                required: true
+            },
             placeholder: {
                 type: String,
                 required: true
+            }
+        },
+        data: function(){
+            return {
+                str: ""
+            }
+        },
+        methods: {
+            update: function () {
+               this.onChange(this.str);
             }
         }
     }
