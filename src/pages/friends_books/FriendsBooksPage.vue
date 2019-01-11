@@ -2,10 +2,10 @@
     <div id="fb">
         <div id="fb-left">
             <SearchFilter :onChange="changeSearch" />
-            <BooksList :searchStr="searchStr" :friendsFilter="friendsFilter"/>
+            <BooksList :searchStr="searchStr" :filter="filter"/>
         </div>
         <div id="fb-right">
-            <FilterByFriends :setFilter="setFriendsFilter"/>
+            <FilterByFriends :setFilter="setFilter"/>
         </div>
     </div>
 </template>
@@ -16,6 +16,8 @@
     import FilterByFriends from './FilterByFriends.vue'
     import SearchFilter from './SearchFilter.vue'
 
+    import {FILTER_ALL} from './consts'
+
     export default {
         components: {
             BooksList,
@@ -25,15 +27,21 @@
         data: function() {
             return {
                 searchStr: "",
-                friendsFilter: []
+                friendsFilter: [],
+                cityFilter: "",
+                filter: {
+                    type: FILTER_ALL,
+                    value: undefined
+                }
             }
         },
         methods: {
             changeSearch: function (str){
                 this.searchStr = str;
             },
-            setFriendsFilter: function (friendsFilter){
-                this.friendsFilter = friendsFilter;
+            setFilter: function (type, value){
+                this.filter.type = type;
+                this.filter.value = value;
             }
         },
     }

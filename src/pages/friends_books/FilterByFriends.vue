@@ -1,12 +1,25 @@
 <template>
     <div>
-        <div id="friends_filter_commands">
+        <div id="filter_commands">
             <ul>
                 <li
-                        @click="clearFilter"
+                        @click="clearFriendsFilter"
                         v-bind:class="{ selected: filterStatus == FILTER_STATUS_ALL }"
+                        class="li_choice"
                 >
                     Все
+                </li>
+            </ul>
+        </div>
+        <div id="cities">
+            <ul>
+                <li
+                        v-for="city in generateCitiesList"
+                        @click="cityFilterChoice(city)"
+                        v-bind:class="{ selected: filterStatus == FILTER_BY_FRIENDS_LIST &&  filterId==city.id}"
+                        class="li_choice"
+                >
+                    {{ city.title }}
                 </li>
             </ul>
         </div>
@@ -14,8 +27,9 @@
             <ul>
                 <li
                         v-for="friendsList in friends_list_list"
-                        @click="setFriendListFilter(friendsList)"
-                        v-bind:class="{ selected: filterStatus == FILTER_STATUS_FRIENDS_LIST &&  filterId==friendsList.id}"
+                        @click="friendListFilterChoice(friendsList)"
+                        v-bind:class="{ selected: filterStatus == FILTER_BY_FRIENDS_LIST &&  filterId==friendsList.id}"
+                        class="li_choice"
                 >
                     {{ friendsList.title }}
                 </li>
@@ -25,8 +39,8 @@
             <ul>
                 <li
                         v-for="friend in friends_list"
-                        @click="setFriendFilter(friend)"
-                        v-bind:class="{ selected: filterStatus == FILTER_STATUS_FRIEND &&  filterId==friend.id}"
+                        @click="friendFilterChoice(friend)"
+                        v-bind:class="{ selected: filterStatus == FILTER_BY_FRIEND &&  filterId==friend.id}"
                 >
                     <img :src="friend.image" :alt="friend.name">
                     <span>{{ friend.name }}</span>
@@ -37,9 +51,7 @@
 </template>
 
 <script>
-    const FILTER_STATUS_ALL = 0;
-    const FILTER_STATUS_FRIEND = 1;
-    const FILTER_STATUS_FRIENDS_LIST = 2;
+    import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND, FILTER_BY_FRIENDS_LIST } from "./consts"
 
     export default {
         props: {
@@ -50,12 +62,14 @@
         },
         data:  function(){
             return {
-                FILTER_STATUS_ALL: FILTER_STATUS_ALL,
-                FILTER_STATUS_FRIEND: 1,
-                FILTER_STATUS_FRIENDS_LIST: 2,
+                FILTER_STATUS_ALL: FILTER_ALL,
+                FILTER_BY_CITIES: FILTER_BY_CITY,
+                FILTER_BY_FRIEND: FILTER_BY_FRIEND,
+                FILTER_BY_FRIENDS_LIST: FILTER_BY_FRIENDS_LIST,
 
-                filterStatus: FILTER_STATUS_ALL,
+                filterStatus: FILTER_ALL,
                 filterId: undefined,
+                filterCityId: "",
                 friends_list_list: [
                     {
                         id: "2",
@@ -72,35 +86,84 @@
                     {
                         id: "1",
                         name: "Айгиз Мухамадиев",
-                        image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1"
+                        image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1",
+                        city: {
+                            id: "1",
+                            title: "Уфа"
+                        }
                     },
                     {
                         id: "2",
                         name: "Ришат Галин",
-                        image: "https://m.vk.com/images/camera_100.png?ava=1"
+                        image: "https://m.vk.com/images/camera_100.png?ava=1",
+                        city: {
+                            id: "1",
+                            title: "Уфа"
+                        }
                     },
                     {
                         id: "3",
                         name: "Руслан Билалов",
-                        image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1"
+                        image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1",
+                        city: {
+                            id: "2",
+                            title: "Москва"
+                        }
                     },
                 ]
             }
         },
         methods: {
-            clearFilter: function () {
-                this.setFilter([]);
-                this.filterStatus = FILTER_STATUS_ALL;
+            clearFriendsFilter: function () {
+                this.setFilter(FILTER_ALL, []);
+                this.filterStatus = FILTER_ALL;
             },
-            setFriendFilter: function (friend){
-                this.setFilter([friend.id]);
-                this.filterStatus = FILTER_STATUS_FRIEND;
+            friendFilterChoice: function (friend) {
+                this.setFilter(FILTER_BY_FRIEND, friend.id);
+                this.filterStatus = FILTER_BY_FRIEND;
                 this.filterId = friend.id;
             },
-            setFriendListFilter: function(friendList){
-                this.setFilter(friendList.list);
-                this.filterStatus = FILTER_STATUS_FRIENDS_LIST;
+            friendListFilterChoice: function (friendList) {
+                this.setFilter(FILTER_BY_FRIENDS_LIST, friendList.list);
+                this.filterStatus = FILTER_BY_FRIENDS_LIST;
                 this.filterId = friendList.id;
+            },
+            cityFilterChoice: function (city) {
+                this.setFilter(FILTER_BY_CITY, city.id);
+                this.filterStatus = FILTER_BY_CITY;
+                this.filterId = city.id;
+            }
+        },
+        computed: {
+            generateCitiesList: function () {
+                let sortByOccurrence = function (originArray) {
+                    let s = originArray.reduce(function (m, v) {
+                        m[v] = (m[v] || 0) + 1;
+                        return m;
+                    }, {}); // builds {2: 4, 4: 2, 6: 3}
+                    let a = [];
+                    for (let k in s) a.push({k: k, n: s[k]});
+                    // now we have [{"k":"2","n":4},{"k":"4","n":2},{"k":"6","n":3}]
+                    a.sort(function (a, b) {
+                        return b.n - a.n
+                    });
+                    return a.map(function (a) {
+                        return a.k
+                    });
+                };
+
+                let citiesNotOrdered = Array.from(this.friends_list, x => x.city);
+                let citiesIdsOrdered = sortByOccurrence(
+                    Array.from(citiesNotOrdered, x => x.id)
+                );
+
+                let citiesDict = {};
+                for (let city of citiesNotOrdered) {
+                    citiesDict[city.id] = city;
+                }
+
+                let cities = Array.from(citiesIdsOrdered, id => citiesDict[id]);
+                return cities;
             }
         }
     }
@@ -108,7 +171,8 @@
 </script>
 
 <style scoped>
-#friends_filter_commands > ul > li, #friends_list_list > ul > li{
+
+.li_choice{
     font-family: -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
     font-weight: 400;
     font-size: 13px;
@@ -121,11 +185,11 @@
     padding: 0 5px 0 28px;
 }
 
-#friends_filter_commands > ul > li:hover, #friends_list_list > ul > li:hover{
+.li_choice:hover{
     background-color: #edeef0;
 }
 
-#friends_filter_commands > ul > li.selected, #friends_list_list > ul > li.selected{
+.li_choice.selected{
     border-right: 2px solid #5181b8;
     font-weight: 800;
     color: #000;

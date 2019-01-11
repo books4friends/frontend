@@ -18,7 +18,9 @@
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
     import BookOwner from "../../components/ui/book_card/BookOwner"
     import BookTitle from "../../components/ui/book_card/BookTitle"
+
     import { doArraysContainArrays } from "../../utils/stringUtils.js"
+    import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND, FILTER_BY_FRIENDS_LIST } from "./consts"
 
     export default {
         components: {
@@ -35,8 +37,8 @@
                 type: String,
                 required: true
             },
-            friendsFilter: {
-                type: Array,
+            filter: {
+                type: Object,
                 required: true
             }
         },
@@ -48,7 +50,8 @@
                             id: "1",
                             name: "Айгиз Мухамадиев",
                             link: "https://vk.com/aygiz_obstinate",
-                            image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1"
+                            image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1",
+                            cityId: "1"
                         },
                         description: {
                             title: "7 навыков высокоэффективных людей",
@@ -62,7 +65,8 @@
                             id: "2",
                             name: "Ришат Галин",
                             link: "https://vk.com/choco_latepuma",
-                            image: "https://m.vk.com/images/camera_100.png?ava=1"
+                            image: "https://m.vk.com/images/camera_100.png?ava=1",
+                            cityId: "1"
                         },
                         description: {
                             title: "Бизнес как игра",
@@ -76,7 +80,8 @@
                             id: "3",
                             name: "Руслан Билалов",
                             link: "https://vk.com/choco_latepuma",
-                            image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1"
+                            image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1",
+                            cityId: "2"
                         },
                         description: {
                             title: "Бизнес как игра",
@@ -90,7 +95,8 @@
                             id: "3",
                             name: "Руслан Билалов",
                             link: "https://vk.com/choco_latepuma",
-                            image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1"
+                            image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1",
+                            cityId: "2"
                         },
                         description: {
                             title: "Бизнес как игра",
@@ -109,8 +115,14 @@
                     .concat(book.description.author.toLowerCase().split(/\s+/));
                 return doArraysContainArrays(searchWords, titleWords);
             },
-            filterByFriends: function (book) {
-                return this.friendsFilter.includes(book.owner.id);
+            filterByFriend: function (book) {
+                return this.filter.value === book.owner.id;
+            },
+            filterByFriendsList: function (book) {
+                return this.filter.value.includes(book.owner.id);
+            },
+            filterByCity: function (book) {
+                return this.filter.value  === book.owner.cityId;
             }
         },
         computed: {
@@ -121,11 +133,19 @@
                 else
                     list = this.books.filter(this.filterByTitleAndAuthor);
 
-                if (this.friendsFilter.length > 0){
-                    list = list.filter(this.filterByFriends);
+                switch (this.filter.type) {
+                    case FILTER_BY_FRIENDS_LIST:
+                        list = list.filter(this.filterByFriendsList);
+                        break;
+                    case FILTER_BY_FRIEND:
+                        list = list.filter(this.filterByFriend);
+                        break;
+                    case FILTER_BY_CITY:
+                        list = list.filter(this.filterByCity);
+                        break;
                 }
 
-                return list
+                return list;
             }
         }
     }
