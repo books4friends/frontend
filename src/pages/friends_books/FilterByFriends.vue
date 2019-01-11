@@ -16,7 +16,7 @@
                 <li
                         v-for="city in generateCitiesList"
                         @click="cityFilterChoice(city)"
-                        v-bind:class="{ selected: filterStatus == FILTER_BY_FRIENDS_LIST &&  filterId==city.id}"
+                        v-bind:class="{ selected: filterStatus == FILTER_BY_CITY &&  filterId==city.id}"
                         class="li_choice"
                 >
                     {{ city.title }}
@@ -63,7 +63,7 @@
         data:  function(){
             return {
                 FILTER_STATUS_ALL: FILTER_ALL,
-                FILTER_BY_CITIES: FILTER_BY_CITY,
+                FILTER_BY_CITY: FILTER_BY_CITY,
                 FILTER_BY_FRIEND: FILTER_BY_FRIEND,
                 FILTER_BY_FRIENDS_LIST: FILTER_BY_FRIENDS_LIST,
 

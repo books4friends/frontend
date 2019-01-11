@@ -5,7 +5,7 @@
             <BookTitle>{{ book.description.title }}</BookTitle>
             <BookAuthor>{{ book.description.author }}</BookAuthor>
             <BreakLine />
-            <BookCommentEditable v-if="book.comment">{{ book.comment }}</BookCommentEditable>
+            <BookCommentEditable :saveValue="saveComment" :value="book.comment" :bookId="book.id"/>
             <div class="actions">
                 <AppButton :onClick="foo" class="action-button">Активно</AppButton>
                 <AppButton :onClick="foo" class="action-button">Удалить</AppButton>
@@ -43,6 +43,7 @@
             return {
                 books: [
                     {
+                        id: "1",
                         description: {
                             title: "7 навыков высокоэффективных людей",
                             author: "Стивен Кови",
@@ -51,6 +52,7 @@
                         comment: "Могу подарить"
                     },
                     {
+                        id: "2",
                         description: {
                             title: "Бизнес как игра",
                             author: "Сергей Абдульманов",
@@ -62,6 +64,9 @@
             }
         },
         methods: {
+            saveComment: function(bookId, value){
+                console.log(bookId, "updated, new value:", value)
+            },
             foo: function() {
                 console.log('cancelDialog')
             }
