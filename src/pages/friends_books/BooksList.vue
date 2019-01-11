@@ -34,6 +34,10 @@
             searchStr: {
                 type: String,
                 required: true
+            },
+            friendsFilter: {
+                type: Array,
+                required: true
             }
         },
         data:  function(){
@@ -41,6 +45,7 @@
                 books: [
                     {
                         owner: {
+                            id: 1,
                             name: "Айгиз Мухамадиев",
                             link: "https://vk.com/aygiz_obstinate",
                             image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1"
@@ -54,6 +59,35 @@
                     },
                     {
                         owner: {
+                            id: 2,
+                            name: "Ришат Галин",
+                            link: "https://vk.com/choco_latepuma",
+                            image: "https://m.vk.com/images/camera_100.png?ava=1"
+                        },
+                        description: {
+                            title: "Бизнес как игра",
+                            author: "Сергей Абдульманов",
+                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
+                        },
+                        comment: null
+                    },
+                    {
+                        owner: {
+                            id: 3,
+                            name: "Руслан Билалов",
+                            link: "https://vk.com/choco_latepuma",
+                            image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1"
+                        },
+                        description: {
+                            title: "Бизнес как игра",
+                            author: "Сергей Абдульманов",
+                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
+                        },
+                        comment: null
+                    },
+                    {
+                        owner: {
+                            id: 3,
                             name: "Руслан Билалов",
                             link: "https://vk.com/choco_latepuma",
                             image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1"
@@ -74,6 +108,9 @@
                 let titleWords = book.description.title.toLowerCase().split(/\s+/)
                     .concat(book.description.author.toLowerCase().split(/\s+/));
                 return doArraysContainArrays(searchWords, titleWords);
+            },
+            filterByFriends: function (book) {
+                return this.friendsFilter.includes(book.owner.id);
             }
         },
         computed: {
@@ -83,6 +120,10 @@
                     list = this.books;
                 else
                     list = this.books.filter(this.filterByTitleAndAuthor);
+
+                if (this.friendsFilter.length > 0){
+                    list = list.filter(this.filterByFriends);
+                }
 
                 return list
             }

@@ -1,14 +1,33 @@
 <template>
     <div>
-        <div id="fb-friends_list_list">
+        <div id="friends_filter_commands">
             <ul>
-                <li class="selected">Все</li>
-                <li v-for="friends_list in friends_list_list">{{ friends_list.title }}</li>
+                <li
+                        @click="clearFilter"
+                        v-bind:class="{ selected: filterStatus == FILTER_STATUS_ALL }"
+                >
+                    Все
+                </li>
             </ul>
         </div>
-        <div id="fb-friends_list">
+        <div id="friends_list_list">
             <ul>
-                <li class="fb-friends_list-item" v-for="friend in friends_list">
+                <li
+                        v-for="friendsList in friends_list_list"
+                        @click="setFriendListFilter(friendsList)"
+                        v-bind:class="{ selected: filterStatus == FILTER_STATUS_FRIENDS_LIST &&  filterId==friendsList.id}"
+                >
+                    {{ friendsList.title }}
+                </li>
+            </ul>
+        </div>
+        <div id="friends_list">
+            <ul>
+                <li
+                        v-for="friend in friends_list"
+                        @click="setFriendFilter(friend)"
+                        v-bind:class="{ selected: filterStatus == FILTER_STATUS_FRIEND &&  filterId==friend.id}"
+                >
                     <img :src="friend.image" :alt="friend.name">
                     <span>{{ friend.name }}</span>
                 </li>
@@ -18,31 +37,70 @@
 </template>
 
 <script>
+    const FILTER_STATUS_ALL = 0;
+    const FILTER_STATUS_FRIEND = 1;
+    const FILTER_STATUS_FRIENDS_LIST = 2;
+
     export default {
+        props: {
+            setFilter: {
+                type: Function,
+                required: true
+            }
+        },
         data:  function(){
             return {
+                FILTER_STATUS_ALL: FILTER_STATUS_ALL,
+                FILTER_STATUS_FRIEND: 1,
+                FILTER_STATUS_FRIENDS_LIST: 2,
+
+                filterStatus: FILTER_STATUS_ALL,
+                filterId: undefined,
                 friends_list_list: [
                     {
-                        title: "Семья"
+                        id: 2,
+                        title: "Айгиз",
+                        list: [1]
                     },
                     {
-                        title: "Универ"
+                        id: 4,
+                        title: "Айгиз и Ришат",
+                        list: [1, 2]
                     }
                 ],
                 friends_list: [
                     {
+                        id: 1,
                         name: "Айгиз Мухамадиев",
                         image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1"
                     },
                     {
+                        id: 2,
                         name: "Ришат Галин",
                         image: "https://m.vk.com/images/camera_100.png?ava=1"
                     },
                     {
+                        id: 3,
                         name: "Руслан Билалов",
                         image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1"
                     },
                 ]
+            }
+        },
+        methods: {
+            clearFilter: function () {
+                this.setFilter([]);
+                this.filterStatus = FILTER_STATUS_ALL;
+            },
+            setFriendFilter: function (friend){
+                this.setFilter([friend.id]);
+                this.filterStatus = FILTER_STATUS_FRIEND;
+                this.filterId = friend.id;
+            },
+            setFriendListFilter: function(friendList){
+                this.setFilter(friendList.list);
+                this.filterStatus = FILTER_STATUS_FRIENDS_LIST;
+                this.filterId = friendList.id;
             }
         }
     }
@@ -50,7 +108,7 @@
 </script>
 
 <style scoped>
-#fb-friends_list_list > ul > li{
+#friends_filter_commands > ul > li, #friends_list_list > ul > li{
     font-family: -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
     font-weight: 400;
     font-size: 13px;
@@ -63,29 +121,29 @@
     padding: 0 5px 0 28px;
 }
 
-#fb-friends_list_list > ul > li:hover{
+#friends_filter_commands > ul > li:hover, #friends_list_list > ul > li:hover{
     background-color: #edeef0;
 }
 
-#fb-friends_list_list > ul > li.selected{
+#friends_filter_commands > ul > li.selected, #friends_list_list > ul > li.selected{
     border-right: 2px solid #5181b8;
     font-weight: 800;
     color: #000;
     background-color: #edeef0;
 }
 
-.fb-friends_list-item{
+#friends_list > ul > li{
     display: flex;
     text-decoration-line: none;
     cursor: pointer;
     border-radius: 24px 0 0 24px;
 }
 
-.fb-friends_list-item:hover{
+#friends_list > ul > li:hover{
     background-color: #edeef0;
 }
 
-.fb-friends_list-item > span{
+#friends_list > ul > li > span{
     line-height: 35px;
     display: inline-block;
     margin-left: 10px;
@@ -96,18 +154,18 @@
     color: #656565;
 }
 
-.fb-friends_list-item > img{
+#friends_list > ul > li > img{
     border-radius: 50%;
     width: 35px;
     height: 35px;
     margin: 2px 0;
 }
 
-.fb-friends_list-item.selected{
+#friends_list > ul > li.selected{
     border-right: 2px solid #5181b8;
     background-color: #edeef0;
 }
-.fb-friends_list-item.selected > span{
+#friends_list > ul > li.selected > span{
     font-weight: 800;
     color: #000;
 }

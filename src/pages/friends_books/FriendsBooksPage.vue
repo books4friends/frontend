@@ -2,10 +2,10 @@
     <div id="fb">
         <div id="fb-left">
             <SearchFilter :onChange="changeSearch" />
-            <BooksList :searchStr="searchStr" />
+            <BooksList :searchStr="searchStr" :friendsFilter="friendsFilter"/>
         </div>
         <div id="fb-right">
-            <FilterByFriends/>
+            <FilterByFriends :setFilter="setFriendsFilter"/>
         </div>
     </div>
 </template>
@@ -24,12 +24,16 @@
         },
         data: function() {
             return {
-                searchStr: ""
+                searchStr: "",
+                friendsFilter: []
             }
         },
         methods: {
-            changeSearch: function (str) {
+            changeSearch: function (str){
                 this.searchStr = str;
+            },
+            setFriendsFilter: function (friendsFilter){
+                this.friendsFilter = friendsFilter;
             }
         },
     }
