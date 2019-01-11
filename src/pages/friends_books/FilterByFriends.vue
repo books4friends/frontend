@@ -58,29 +58,29 @@
                 filterId: undefined,
                 friends_list_list: [
                     {
-                        id: 2,
+                        id: "2",
                         title: "Айгиз",
-                        list: [1]
+                        list: ["1"]
                     },
                     {
-                        id: 4,
+                        id: "4",
                         title: "Айгиз и Ришат",
-                        list: [1, 2]
+                        list: ["1", "2"]
                     }
                 ],
                 friends_list: [
                     {
-                        id: 1,
+                        id: "1",
                         name: "Айгиз Мухамадиев",
                         image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1"
                     },
                     {
-                        id: 2,
+                        id: "2",
                         name: "Ришат Галин",
                         image: "https://m.vk.com/images/camera_100.png?ava=1"
                     },
                     {
-                        id: 3,
+                        id: "3",
                         name: "Руслан Билалов",
                         image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1"
                     },
