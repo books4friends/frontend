@@ -7,7 +7,8 @@
             <BreakLine />
             <BookCommentEditable :saveValue="saveComment" :value="book.comment" :bookId="book.id"/>
             <div class="actions">
-                <AppButton :onClick="foo" class="action-button">Активно</AppButton>
+                <AppButton v-if="book.active" :onClick="deactivate" :clickParameters="[book]" class="action-button">Активно</AppButton>
+                <AppButton v-else :onClick="activate" :clickParameters="[book]" class="action-button">Не активно</AppButton>
                 <AppButton :onClick="foo" class="action-button">Удалить</AppButton>
             </div>
         </BookItemFrame>
@@ -49,7 +50,8 @@
                             author: "Стивен Кови",
                             image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
                         },
-                        comment: "Могу подарить"
+                        comment: "Могу подарить",
+                        active: true
                     },
                     {
                         id: "2",
@@ -58,7 +60,8 @@
                             author: "Сергей Абдульманов",
                             image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
                         },
-                        comment: null
+                        comment: null,
+                        active: false
                     }
                 ]
             }
@@ -67,8 +70,16 @@
             saveComment: function(bookId, value){
                 console.log(bookId, "updated, new value:", value)
             },
-            foo: function() {
-                console.log('cancelDialog')
+            activate: function(attr) {
+                let book = attr[0];
+                console.log(book.id, "activate")
+            },
+            deactivate: function (attr) {
+                let book = attr[0];
+                console.log(book.id, "deactivate")
+            },
+            foo: function () {
+                
             }
         }
     }
