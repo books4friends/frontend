@@ -1,5 +1,5 @@
 <template>
-    <DialogSetting title="Выберите друзей" :onSave="onSave" :cancelDialog="cancelDialog">
+    <DialogSetting title="Выберите друзей" :onAccept="onSave" :cancelDialog="cancelDialog" acceptTitle="Сохранить" >
         <div id="mb-friends_whitelist-search">
             <SearchInline :onChange="changeSearch" placeholder="Начните вводить имя друга" />
             <ToggleButton :onClick="switchFilterSelected" :selected="toFilterSelected">показать выбранных</ToggleButton>

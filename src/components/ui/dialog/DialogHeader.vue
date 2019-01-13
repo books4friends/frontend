@@ -1,22 +1,27 @@
 <template>
     <div id="dialog-header">
         <div id="dialog-header-title">{{title}}</div>
-        <div id="dialog_header-close" @click="cancelDialog"></div>
+        <div id="dialog_header-close" @click="cancelDialog(attrs)"></div>
     </div>
 </template>
 ​
 <script>
 export default {
-  props: {
-    cancelDialog: {
-      type: Function,
-      required: true
-    },
-    title: {
-      type: String,
-      required: true
-    },
-  }
+    props: {
+        cancelDialog: {
+            type: Function,
+            required: true
+        },
+        title: {
+            type: String,
+            required: true
+        },
+        attrs: {
+            type: Array,
+            required: false,
+            default: () => []
+        }
+    }
 }
 </script>
 

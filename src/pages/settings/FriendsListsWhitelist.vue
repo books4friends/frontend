@@ -1,5 +1,5 @@
 <template>
-    <DialogSetting title="Выберите списки друзей" :onSave="onSave" :cancelDialog="cancelDialog">
+    <DialogSetting title="Выберите списки друзей" :onAccept="onSave" :cancelDialog="cancelDialog" acceptTitle="Сохранить">
         <div id="mb-friends_list_whitelist-friends_list">
             <div v-for="friendsList in friendsLists" class="mb-friends_list_whitelist-friends_list-item">
                 <span>{{ friendsList.title }}</span>

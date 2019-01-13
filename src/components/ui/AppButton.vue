@@ -1,5 +1,5 @@
 <template>
-    <button @click="onClick(clickParameters)" class="button" v-bind:class="{ transparent: transparent }">
+    <button @click="onClick(attrs)" class="button" v-bind:class="{ transparent: transparent }">
         <slot></slot>
     </button>
 </template>
@@ -11,7 +11,7 @@
                 type: Function,
                 required: true
             },
-            clickParameters: {
+            attrs: {
                 type: Array,
                 required: false,
                 default: () => []

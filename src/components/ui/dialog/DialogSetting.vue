@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="setting_dialog">
-            <DialogHeader :cancelDialog="cancelDialog" :title="title" />
+            <DialogHeader :cancelDialog="cancelDialog" :attrs="attrs" :title="title" />
             <slot></slot>
             <div class="setting_dialog-control">
-                <AppButton :onClick="cancelDialog" transparent>Отмена</AppButton>
-                <AppButton :onClick="onSave">Сохранить</AppButton>
+                <AppButton :onClick="cancelDialog" :attrs="attrs" transparent>Отмена</AppButton>
+                <AppButton :onClick="onAccept" :attrs="attrs">{{ acceptTitle }}</AppButton>
             </div>
         </div>
         <div class="black-background"></div>
@@ -28,13 +28,23 @@
                 type: String,
                 required: true
             },
-            onSave: {
+            onAccept: {
                 type: Function,
                 required: true
             },
             cancelDialog: {
                 type: Function,
                 required: true
+            },
+            acceptTitle: {
+                type: String,
+                required: false,
+                default: "Ok"
+            },
+            attrs: {
+                type: Array,
+                required: false,
+                default: () => []
             }
         }
     }
@@ -42,7 +52,7 @@
 
 <style scoped>
 .setting_dialog{
-    position: absolute;
+    position: fixed;
     top: 120px;
     width: 560px;
     left: 0;
