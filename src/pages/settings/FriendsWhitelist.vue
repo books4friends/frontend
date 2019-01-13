@@ -106,7 +106,7 @@
 }
 
 #mb-friends_whitelist-friends_list{
-    height: 400px;
+    height: 350px;
     overflow-y: scroll;
 }
 .mb-friends_whitelist-friends_list-item{
