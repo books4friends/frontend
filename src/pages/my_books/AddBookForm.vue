@@ -67,7 +67,7 @@
                          })
                         .then((data) => {
                             this.googleBooks = [];
-                            if (data.items)
+                            if (data && data.items)
                                 for(let i=0; i<data.items.length; i++){
                                     let book = {};
                                     book.id = data.items[i].id;
