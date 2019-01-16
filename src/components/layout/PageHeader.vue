@@ -1,10 +1,10 @@
 <template>
     <div id="navigation">
         <div id="center">
-            <router-link to="/" class="menu">Книги друзей</router-link>
-            <router-link class="menu" to="/my-books/">Мои книги</router-link>
-            <router-link class="menu" to="/settings/">Настройки</router-link>
-            <router-link class="menu" to="/about/">О проекте</router-link>
+            <router-link to="/app/" class="menu">Книги друзей</router-link>
+            <router-link class="menu" to="/app/my-books/">Мои книги</router-link>
+            <router-link class="menu" to="/app/settings/">Настройки</router-link>
+            <router-link class="menu" to="/app/about/">О проекте</router-link>
         </div>
     </div>
 </template>

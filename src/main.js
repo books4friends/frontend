@@ -8,43 +8,24 @@ import MyBooksPage from './pages/my_books/MyBooksPage.vue'
 import SettingsPage from './pages/settings/SettingsPage.vue'
 import AboutPage from './pages/about/AboutPage.vue'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 Vue.use(VueRouter)
 
-const NotFound = { template: '<p>Page not found</p>' }
-/*const routes = {
-    "/": FriendsBooksPage ,
-    "/my-books/": MyBooksPage,
-    "/settings/": SettingsPage,
-    "/about/": AboutPage
-}
-new Vue({
-  data: {
-    currentRoute: window.location.pathname
-  },
-  computed: {
-    ViewComponent () {
-      return routes[this.currentRoute] || NotFound
-    }
-  },
-  render (h) { return h(this.ViewComponent) }
-}).$mount('#app')
-*/
-
+//TODO: move url apps/ to constants
 const routes = [
-    { path: "/", component: FriendsBooksPage },
-    { path: "/my-books/", component: MyBooksPage },
-    { path: "/settings/", component: SettingsPage },
-    { path: "/about/", component: AboutPage },
-]
+    { path: "/app/", component: FriendsBooksPage },
+    { path: "/app/my-books/", component: MyBooksPage },
+    { path: "/app/settings/", component: SettingsPage },
+    { path: "/app/about/", component: AboutPage },
+];
 
 const router = new VueRouter({
     routes,
     mode: 'history'
-})
+});
 
 new Vue({
     router,
     render: function (h) { return h(App)}
-}).$mount('#app')
+}).$mount('#app');
