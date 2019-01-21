@@ -2,7 +2,7 @@
     <div id="mb-add_book">
             <h2>Добавить книгу</h2>
             <div id="mb-add_book-form-inputs">
-                <label for="add_title">Название*</label>
+                <label for="add_title">Название<span class="red"> *</span></label>
                 <div id="add_title_div">
                     <input v-model="title"
                            @keyup="searchGoogle"
@@ -10,7 +10,7 @@
                            @blur="hideGoogleSuggestions"
                            name="title" id="add_title" type="text" placeholder="Название">
 
-                    <div v-if="googleSuggestionsVisible" id="google_books_suggestion">
+                    <div v-if="googleSuggestionsVisible && !!googleBooks.length" id="google_books_suggestion">
                         <div v-for="book in googleBooks"
                              @click="selectGoogleBook(book)"
                              class="google_book"
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <label for="add_author">Автор*</label>
+                <label for="add_author">Автор</label>
                 <input v-model="author" name="author" id="add_author" type="text" placeholder="Автор">
                 <label for="add_comment">Комментарий</label>
                 <input v-model="comment" name="comment" id="add_comment" type="text" placeholder="Комментарий">
@@ -29,15 +29,22 @@
             <div id="mb-add_book-form-submit">
                 <AppButton :onClick="submit">Добавить</AppButton>
             </div>
+        <NotificationWindow :close="hideNotification" v-if="notificationVisible">{{ notificationText }}</NotificationWindow>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+    axios.defaults.xsrfCookieName = "csrftoken";
+
     import AppButton from "../../components/ui/AppButton"
+    import NotificationWindow from "../../components/ui/NotificationWindow"
 
     export default {
         components: {
-            AppButton
+            AppButton,
+            NotificationWindow
         },
         data: function () {
             return {
@@ -47,7 +54,9 @@
                 selectedGoogleBook: null,
                 googleSuggestionsVisible: false,
                 googleSearchTimeout: null,
-                googleBooks: []
+                googleBooks: [],
+                notificationVisible: false,
+                notificationText: ""
             }
         },
         methods: {
@@ -72,7 +81,7 @@
                                     let book = {};
                                     book.id = data.items[i].id;
                                     if (data.items[i].volumeInfo.hasOwnProperty("authors")){
-                                        book.author = data.items[i].volumeInfo.authors[0];
+                                        book.author = data.items[i].volumeInfo.authors.join(', ');
                                         book.title = data.items[i].volumeInfo.title;
                                     }else{
                                         book.title = data.items[i].volumeInfo.title;
@@ -96,18 +105,31 @@
                 }.bind(this), 200);
             },
             submit: function () {
-                if(!this.title || !this.author)
+                if(!this.title)
                     return;
 
+                let google_id = null;
                 if (
                     this.selectedGoogleBook
                     && this.title === this.selectedGoogleBook.title
                     && this.author === this.selectedGoogleBook.author
-                ){
-                    console.log("Add book: ", this.selectedGoogleBook.id, this.title, this.author);
-                }else{
-                    console.log("Add book: ", this.title, this.author);
-                }
+                )
+                    google_id =  this.selectedGoogleBook.id
+
+                //let csrftoken = Cookies.get('csrftoken');
+                axios.post('http://127.0.0.1:8000/app/api/books/add-book/', {
+                    external_id: google_id,
+                    title: this.title,
+                    author: this.author
+                }).then(function (response) {
+                    this.notificationText = "Книга \""+ response.data.book.title + "\" добавлена";
+                    this.notificationVisible = true;
+                }.bind(this)).catch(function (e) {
+                    console.log(e);
+                })
+            },
+            hideNotification: function(){
+                this.notificationVisible = false;
             }
         }
     }
@@ -139,6 +161,11 @@
 #mb-add_book-form-inputs input[type="text"]:focus::placeholder{
     color: #bfbfbf;
 }
+
+.red{
+    color: darkred;
+}
+
 #add_title_div{
     width: 100%;
     position: relative;
