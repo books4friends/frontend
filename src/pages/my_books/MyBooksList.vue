@@ -34,6 +34,8 @@
 
 
 <script>
+    import axios from 'axios';
+
     import AppButton from "../../components/ui/AppButton"
     import BookAuthor from "../../components/ui/book_card/BookAuthor"
     import BookCommentEditable from "../../components/ui/book_card/BookCommentEditable"
@@ -61,28 +63,7 @@
         },
         data:  function() {
             return {
-                books: [
-                    {
-                        id: "1",
-                        description: {
-                            title: "7 навыков высокоэффективных людей",
-                            author: "Стивен Кови",
-                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
-                        },
-                        comment: "Могу подарить",
-                        active: true
-                    },
-                    {
-                        id: "2",
-                        description: {
-                            title: "Бизнес как игра",
-                            author: "Сергей Абдульманов",
-                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
-                        },
-                        comment: null,
-                        active: false
-                    }
-                ],
+                books: [],
                 deleteSettings: {
                     visible: false,
                     book: {
@@ -96,6 +77,15 @@
             }
         },
         methods: {
+            loadBooksList: function(){
+                axios.get('http://127.0.0.1:8000/app/api/books/my-books/')
+                    .then(response => {
+                        this.books = response.data.books
+                    })
+                    .catch(e => {
+                        this.errors.push(e)
+                    })
+            },
             saveComment: function(bookId, value){
                 console.log(bookId, "updated, new value:", value)
             },
@@ -120,6 +110,9 @@
             cancelDeleteDialog: function () {
                 this.deleteSettings.visible = false;
             }
+        },
+        created() {
+            this.loadBooksList()
         }
     }
 </script>
