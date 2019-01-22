@@ -46,6 +46,12 @@
             AppButton,
             NotificationWindow
         },
+        props: {
+            onBookAdded: {
+                type: Function,
+                required: true
+            }
+        },
         data: function () {
             return {
                 title: "",
@@ -123,8 +129,9 @@
                     author: this.author,
                     comment: this.comment,
                 }).then(function (response) {
-                    this.notificationText = "Книга \""+ response.data.book.title + "\" добавлена";
+                    this.notificationText = "Книга \""+ response.data.book.description.title + "\" добавлена";
                     this.notificationVisible = true;
+                    this.onBookAdded(response.data.book);
                 }.bind(this)).catch(function (e) {
                     console.log(e);
                 })

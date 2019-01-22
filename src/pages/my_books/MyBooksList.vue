@@ -86,6 +86,9 @@
                         this.errors.push(e)
                     })
             },
+            addBook: function(book){
+                this.books.unshift(book);
+            },
             saveComment: function(bookId, value){
                 console.log(bookId, "updated, new value:", value)
             },

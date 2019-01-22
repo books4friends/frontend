@@ -1,8 +1,8 @@
 <template>
     <div>
-        <AddBookForm />
+        <AddBookForm :onBookAdded="onBookAdded"/>
         <h2>Мои книги</h2>
-        <MyBooksList id="mb-book_list"/>
+        <MyBooksList ref="bookList" id="mb-book_list"/>
     </div>
 </template>
 
@@ -14,6 +14,11 @@ export default {
     components: {
         AddBookForm,
         MyBooksList
+    },
+    methods: {
+        onBookAdded: function(book){
+            this.$refs.bookList.addBook(book);
+        }
     }
 }
 
