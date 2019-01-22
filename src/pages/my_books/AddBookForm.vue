@@ -120,7 +120,8 @@
                 axios.post('http://127.0.0.1:8000/app/api/books/add-book/', {
                     external_id: google_id,
                     title: this.title,
-                    author: this.author
+                    author: this.author,
+                    comment: this.comment,
                 }).then(function (response) {
                     this.notificationText = "Книга \""+ response.data.book.title + "\" добавлена";
                     this.notificationVisible = true;
