@@ -17,7 +17,7 @@
         <DialogSetting
                 v-if="deleteSettings.visible"
                 title="Удалить книгу"
-                :onAccept="saveDeleteDialog"
+                :onAccept="handleDeleteDialog"
                 :cancelDialog="cancelDeleteDialog"
                 :attrs="[deleteSettings.book]"
                 acceptTitle="Удалить"
@@ -105,9 +105,12 @@
                 this.deleteSettings.visible = true;
                 this.deleteSettings.book = book;
             },
-            saveDeleteDialog: function(attrs){
+            handleDeleteDialog: function(attrs){
                 let book = attrs[0];
-                console.log(book.id, "delete");
+                axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + book.id + '/delete/')
+                    .then(function (response) {
+                        this.loadBooksList()
+                    }.bind(this));
                 this.deleteSettings.visible = false;
             },
             cancelDeleteDialog: function () {
