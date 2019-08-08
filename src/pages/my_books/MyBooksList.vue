@@ -90,7 +90,10 @@
                 this.books.unshift(book);
             },
             saveComment: function(bookId, value){
-                console.log(bookId, "updated, new value:", value)
+                axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + bookId + '/edit-comment/', {comment: value})
+                    .then(function (response) {
+                        this.loadBooksList()
+                    }.bind(this));
             },
             activate: function(attr) {
                 let book = attr[0];
