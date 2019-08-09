@@ -52,7 +52,7 @@
             loadFriendsList: function(){
                 axios.get('http://127.0.0.1:8000/app/api/settings/friends-list/')
                     .then(response => {
-                        this.data.friends = response.data.friends
+                        this.friends = response.data.friends
                     })
                     .catch(e => {
                         this.errors.push(e)
