@@ -53,7 +53,20 @@
         },
         methods: {
             handleAccept: function(){
-                console.log("friends saved");
+                switch (this.key) {
+                    case this.ALL_FRIENDS:
+                        axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-all-friends/')
+                            .then(response => {});
+                        break;
+                    case this.ONLY_SOME_FRIENDS:
+                        axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-some-friends/',{
+                            selected_friends: this.friends.filter(function(friend){
+                                return friend.selected
+                            }).map(friend => friend.external_id)
+                        })
+                            .then(response => {});
+                        break;
+                }
             },
             handleCancel: function(){
                 this.loadSettings();
@@ -82,7 +95,7 @@
                     })
             },
             onSelectOption(){
-                if (this.key==='SOME_FRIENDS'){
+                if (this.friends.length===0 && this.key===this.ONLY_SOME_FRIENDS){
                     this.loadFriendsList()
                 }
             }
