@@ -14,6 +14,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     import CircleCheckbox from "../../components/ui/CircleCheckbox.vue"
     import DialogSetting from "../../components/ui/dialog/DialogSetting.vue"
     import FriendTitle from "../../components/ui/FriendTitle.vue"
@@ -43,26 +45,19 @@
             return {
                 searchStr: "",
                 toFilterSelected: false,
-                friends: [
-                    {
-                        name: "Айбулат Шашкин",
-                        image: "https://m.vk.com/images/camera_100.png?ava=1",
-                        selected: false
-                    },
-                    {
-                        name: "Ришат Галин",
-                        image: "https://m.vk.com/images/camera_100.png?ava=1",
-                        selected: true
-                    },
-                    {
-                        name: "Руслан Билалов",
-                        image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1",
-                        selected: false
-                    }
-                ]
+                friends: []
             }
         },
         methods: {
+            loadFriendsList: function(){
+                axios.get('http://127.0.0.1:8000/app/api/settings/friends-list/')
+                    .then(response => {
+                        this.data.friends = response.data.friends
+                    })
+                    .catch(e => {
+                        this.errors.push(e)
+                    })
+            },
             circleClick: function (friend) {
                 friend.selected = !friend.selected;
             },
@@ -77,6 +72,9 @@
             switchFilterSelected: function(){
                 this.toFilterSelected = !this.toFilterSelected;
             }
+        },
+        created() {
+            this.loadFriendsList();
         },
         computed: {
             filteredFriends: function(){
