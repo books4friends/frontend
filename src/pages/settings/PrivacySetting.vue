@@ -5,8 +5,8 @@
         </div>
         <div id="mb-privacy_settings-right">
             <select @click="onSelectOption" v-model="key">
-                <option value="ALL_FRIENDS">Только друзья</option>
-                <option value="SOME_FRIENDS">Некоторые друзья</option>
+                <option :value="ALL_FRIENDS">Все друзья</option>
+                <option :value="ONLY_SOME_FRIENDS">Некоторые друзья</option>
             </select>
             <div id="mb-privacy_settings-accepted_list">
                 <span v-for="(item, index) in list_description">
@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <FriendsWhitelist v-if="key==='SOME_FRIENDS'" :friends="friends"/>
+        <FriendsWhitelist v-if="key===ONLY_SOME_FRIENDS" :friends="friends"/>
 
         <AppButton :onClick="handleCancel" transparent>Отмена</AppButton>
         <AppButton :onClick="handleAccept" >Сохранить</AppButton>
@@ -29,6 +29,11 @@
     import AppButton from "../../components/ui/AppButton.vue"
     import FriendsWhitelist from './FriendsWhitelist.vue'
 
+    const ALL_FRIENDS = 0;
+    const ONLY_OWNER = 1;
+    const ONLY_SOME_FRIENDS = 2;
+    const ONLY_SOME_FRIENDS_LISTS = 3;
+
     export default {
         name: 'App',
         components: {
@@ -37,16 +42,13 @@
         },
         data:  function(){
             return {
-                key: "SOME_FRIENDS",
-                list_description: [
-                    {
-                        title: "Семья"
-                    },
-                    {
-                        title: "Каюмовы"
-                    }
-                ],
-                friends: []
+                key: undefined,
+                list_description: [],
+                friends: [],
+                ALL_FRIENDS: ALL_FRIENDS,
+                ONLY_OWNER: ONLY_OWNER,
+                ONLY_SOME_FRIENDS: ONLY_SOME_FRIENDS,
+                ONLY_SOME_FRIENDS_LISTS: ONLY_SOME_FRIENDS_LISTS,
             }
         },
         methods: {
@@ -54,17 +56,30 @@
                 console.log("friends saved");
             },
             handleCancel: function(){
-
+                this.loadSettings();
+            },
+            loadSettings: function(){
+                axios.get('http://127.0.0.1:8000/app/api/settings/')
+                    .then(response => {
+                        this.key = response.data.visibility_type;
+                        switch (this.key) {
+                            case this.ONLY_SOME_FRIENDS:
+                                this.loadFriendsList();
+                                break;
+                        }
+                    })
+                    .catch(e => {
+                        this.errors.push(e)
+                    })
             },
             loadFriendsList: function(){
-                if (this.friends.length === 0)
-                    axios.get('http://127.0.0.1:8000/app/api/settings/friends-list/')
-                        .then(response => {
-                            this.friends = response.data.friends
-                        })
-                        .catch(e => {
-                            this.errors.push(e)
-                        })
+                axios.get('http://127.0.0.1:8000/app/api/settings/friends-list/')
+                    .then(response => {
+                        this.friends = response.data.friends
+                    })
+                    .catch(e => {
+                        this.errors.push(e)
+                    })
             },
             onSelectOption(){
                 if (this.key==='SOME_FRIENDS'){
@@ -73,7 +88,7 @@
             }
         },
         created() {
-            this.loadFriendsList();
+            this.loadSettings();
         }
 }
 </script>
