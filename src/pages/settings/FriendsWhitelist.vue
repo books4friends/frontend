@@ -1,5 +1,5 @@
 <template>
-    <DialogSetting title="Выберите друзей" :onAccept="onSave" :cancelDialog="cancelDialog" acceptTitle="Сохранить" >
+    <div id="root">
         <div id="mb-friends_whitelist-search">
             <SearchInline :onChange="changeSearch" placeholder="Начните вводить имя друга" />
             <ToggleButton :onClick="switchFilterSelected" :selected="toFilterSelected">показать выбранных</ToggleButton>
@@ -10,12 +10,10 @@
                 <CircleCheckbox :selected="friend.selected" :onClick="circleClick.bind(null, friend)"/>
             </div>
         </div>
-    </DialogSetting>
+    </div>
 </template>
 
 <script>
-    import axios from 'axios';
-
     import CircleCheckbox from "../../components/ui/CircleCheckbox.vue"
     import DialogSetting from "../../components/ui/dialog/DialogSetting.vue"
     import FriendTitle from "../../components/ui/FriendTitle.vue"
@@ -32,32 +30,18 @@
             ToggleButton
         },
         props: {
-            cancelDialog:  {
-                type: Function,
-                required: true
-            },
-            onSave:  {
-                type: Function,
+            friends:  {
+                type: Array,
                 required: true
             }
         },
         data: function(){
             return {
                 searchStr: "",
-                toFilterSelected: false,
-                friends: []
+                toFilterSelected: false
             }
         },
         methods: {
-            loadFriendsList: function(){
-                axios.get('http://127.0.0.1:8000/app/api/settings/friends-list/')
-                    .then(response => {
-                        this.friends = response.data.friends
-                    })
-                    .catch(e => {
-                        this.errors.push(e)
-                    })
-            },
             circleClick: function (friend) {
                 friend.selected = !friend.selected;
             },
@@ -72,9 +56,6 @@
             switchFilterSelected: function(){
                 this.toFilterSelected = !this.toFilterSelected;
             }
-        },
-        created() {
-            this.loadFriendsList();
         },
         computed: {
             filteredFriends: function(){
@@ -96,6 +77,10 @@
 
 
 <style scoped>
+#root{
+    width: 600px;
+    margin: auto;
+}
 #mb-friends_whitelist-search{
     border-bottom: 1px solid #e6e7eb;
 }

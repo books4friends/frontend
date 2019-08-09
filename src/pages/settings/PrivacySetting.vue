@@ -5,8 +5,8 @@
         </div>
         <div id="mb-privacy_settings-right">
             <select @click="onSelectOption" v-model="key">
-                <option value="all-friends">Только друзья</option>
-                <option value="some-friends">Некоторые друзья</option>
+                <option value="ALL_FRIENDS">Только друзья</option>
+                <option value="SOME_FRIENDS">Некоторые друзья</option>
             </select>
             <div id="mb-privacy_settings-accepted_list">
                 <span v-for="(item, index) in list_description">
@@ -16,104 +16,100 @@
             </div>
         </div>
 
-        <FriendsWhitelist
-                v-if="modalStatus==MODAL_FRIENDS"
-                :cancelDialog="cancelModal"
-                :onSave="saveFriendsWhitelist"
-        />
+        <FriendsWhitelist v-if="key==='SOME_FRIENDS'" :friends="friends"/>
+
+        <AppButton :onClick="handleCancel" transparent>Отмена</AppButton>
+        <AppButton :onClick="handleAccept" >Сохранить</AppButton>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
 
-import FriendsWhitelist from './FriendsWhitelist.vue'
+    import AppButton from "../../components/ui/AppButton.vue"
+    import FriendsWhitelist from './FriendsWhitelist.vue'
 
-const MODAL_NONE = 0
-const MODAL_FRIENDS = 1
-
-export default {
-    name: 'App',
-    components: {
-        FriendsWhitelist
-    },
-    data:  function(){
-        return {
-            key: "some-friends",
-            list_description: [
-                {
-                    title: "Семья"
-                },
-                {
-                    title: "Каюмовы"
-                }
-            ],
-            hard_key: "some-friends",
-            modalStatus: MODAL_NONE,
-            MODAL_NONE: MODAL_NONE,
-            MODAL_FRIENDS: MODAL_FRIENDS
-        }
-    },
-    methods: {
-        saveFriendsWhitelist: function(){
-            console.log("friends saved");
-            this.modalStatus = MODAL_NONE;
-            this.hard_key = this.key;
+    export default {
+        name: 'App',
+        components: {
+            FriendsWhitelist,
+            AppButton
         },
-        saveFriendsListsWhitelist: function(){
-            console.log("friends list saved");
-            this.modalStatus = MODAL_NONE;
-            this.hard_key = this.key;
-        },
-        cancelModal: function(){
-            this.modalStatus = MODAL_NONE;
-            this.key = this.hard_key;
-        },
-        onSelectOption(){
-            switch(this.key){
-                case "all-friends":
-                    this.hard_key = this.key;
-                    break;
-                case "some-friends":
-                    this.modalStatus = MODAL_FRIENDS;
-                    break;
+        data:  function(){
+            return {
+                key: "SOME_FRIENDS",
+                list_description: [
+                    {
+                        title: "Семья"
+                    },
+                    {
+                        title: "Каюмовы"
+                    }
+                ],
+                friends: []
             }
+        },
+        methods: {
+            handleAccept: function(){
+                console.log("friends saved");
+            },
+            handleCancel: function(){
+
+            },
+            loadFriendsList: function(){
+                if (this.friends.length === 0)
+                    axios.get('http://127.0.0.1:8000/app/api/settings/friends-list/')
+                        .then(response => {
+                            this.friends = response.data.friends
+                        })
+                        .catch(e => {
+                            this.errors.push(e)
+                        })
+            },
+            onSelectOption(){
+                if (this.key==='SOME_FRIENDS'){
+                    this.loadFriendsList()
+                }
+            }
+        },
+        created() {
+            this.loadFriendsList();
         }
-    }
 }
 </script>
 
 <style scoped>
-#mb-privacy_settings-left{
-    width: 400px;
-    display: inline-block;
-    vertical-align: top;
-}
-#mb-privacy_settings-right {
-    width: 350px;
-    display: inline-block;
+    #mb-privacy_settings-left{
+        width: 400px;
+        display: inline-block;
+        vertical-align: top;
+    }
+    #mb-privacy_settings-right {
+        width: 350px;
+        display: inline-block;
 
-}
+    }
 
-#mb-privacy_settings-right > select{
-    width: 200px;
-    font-size: 16px;
-    height: 34px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: none;
-    color: #2a5885;
-    text-decoration: none;
-    cursor: pointer;
-}
-#mb-privacy_settings-right > select:focus{
-    outline: none;
-}
+    #mb-privacy_settings-right > select{
+        width: 200px;
+        font-size: 16px;
+        height: 34px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        padding: 0;
+        margin: 0;
+        border: none;
+        background: none;
+        color: #2a5885;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    #mb-privacy_settings-right > select:focus{
+        outline: none;
+    }
 
-#mb-privacy_settings-accepted_list{
-    font-size: 12px;
-}
+    #mb-privacy_settings-accepted_list{
+        font-size: 12px;
+    }
 </style>
