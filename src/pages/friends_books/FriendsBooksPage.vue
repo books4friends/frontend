@@ -27,8 +27,6 @@
         data: function() {
             return {
                 searchStr: "",
-                friendsFilter: [],
-                cityFilter: "",
                 filter: {
                     type: FILTER_ALL,
                     value: undefined

@@ -4,7 +4,7 @@
             <ul>
                 <li
                         @click="clearFriendsFilter"
-                        v-bind:class="{ selected: filterStatus == FILTER_STATUS_ALL }"
+                        v-bind:class="{ selected: filterStatus === FILTER_STATUS_ALL }"
                         class="li_choice"
                 >
                     Все
@@ -14,24 +14,12 @@
         <div id="cities">
             <ul>
                 <li
-                        v-for="city in generateCitiesList"
+                        v-for="city in citiesList"
                         @click="cityFilterChoice(city)"
-                        v-bind:class="{ selected: filterStatus == FILTER_BY_CITY &&  filterId==city.id}"
+                        v-bind:class="{ selected: filterStatus === FILTER_BY_CITY &&  filterId===city.id}"
                         class="li_choice"
                 >
                     {{ city.title }}
-                </li>
-            </ul>
-        </div>
-        <div id="friends_list_list">
-            <ul>
-                <li
-                        v-for="friendsList in friends_list_list"
-                        @click="friendListFilterChoice(friendsList)"
-                        v-bind:class="{ selected: filterStatus == FILTER_BY_FRIENDS_LIST &&  filterId==friendsList.id}"
-                        class="li_choice"
-                >
-                    {{ friendsList.title }}
                 </li>
             </ul>
         </div>
@@ -40,7 +28,7 @@
                 <li
                         v-for="friend in friends_list"
                         @click="friendFilterChoice(friend)"
-                        v-bind:class="{ selected: filterStatus == FILTER_BY_FRIEND &&  filterId==friend.id}"
+                        v-bind:class="{ selected: filterStatus === FILTER_BY_FRIEND &&  filterId===friend.id}"
                 >
                     <img :src="friend.image" :alt="friend.name">
                     <span>{{ friend.name }}</span>
@@ -51,6 +39,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND, FILTER_BY_FRIENDS_LIST } from "./consts"
 
     export default {
@@ -69,64 +59,27 @@
 
                 filterStatus: FILTER_ALL,
                 filterId: undefined,
+                citiesList: [],
                 filterCityId: "",
-                friends_list_list: [
-                    {
-                        id: "2",
-                        title: "Айгиз",
-                        list: ["1"]
-                    },
-                    {
-                        id: "4",
-                        title: "Айгиз и Ришат",
-                        list: ["1", "2"]
-                    }
-                ],
-                friends_list: [
-                    {
-                        id: "1",
-                        name: "Айгиз Мухамадиев",
-                        image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1",
-                        city: {
-                            id: "1",
-                            title: "Уфа"
-                        }
-                    },
-                    {
-                        id: "2",
-                        name: "Ришат Галин",
-                        image: "https://m.vk.com/images/camera_100.png?ava=1",
-                        city: {
-                            id: "1",
-                            title: "Уфа"
-                        }
-                    },
-                    {
-                        id: "3",
-                        name: "Руслан Билалов",
-                        image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1",
-                        city: {
-                            id: "2",
-                            title: "Москва"
-                        }
-                    },
-                ]
+                friends_list: []
             }
         },
         methods: {
+            loadFilters: function(){
+                axios.get('http://127.0.0.1:8000/app/api/books/friends-books/get-filters/')
+                    .then(function (response){
+                        this.friends_list = response.data.data.friends;
+                        this.citiesList = response.data.data.cities;
+                    }.bind(this))
+            },
             clearFriendsFilter: function () {
                 this.setFilter(FILTER_ALL, []);
                 this.filterStatus = FILTER_ALL;
             },
             friendFilterChoice: function (friend) {
-                this.setFilter(FILTER_BY_FRIEND, friend.id);
+                this.setFilter(FILTER_BY_FRIEND, friend.account_id);
                 this.filterStatus = FILTER_BY_FRIEND;
-                this.filterId = friend.id;
-            },
-            friendListFilterChoice: function (friendList) {
-                this.setFilter(FILTER_BY_FRIENDS_LIST, friendList.list);
-                this.filterStatus = FILTER_BY_FRIENDS_LIST;
-                this.filterId = friendList.id;
+                this.filterId = friend.account_id;
             },
             cityFilterChoice: function (city) {
                 this.setFilter(FILTER_BY_CITY, city.id);
@@ -134,37 +87,8 @@
                 this.filterId = city.id;
             }
         },
-        computed: {
-            generateCitiesList: function () {
-                let sortByOccurrence = function (originArray) {
-                    let s = originArray.reduce(function (m, v) {
-                        m[v] = (m[v] || 0) + 1;
-                        return m;
-                    }, {}); // builds {2: 4, 4: 2, 6: 3}
-                    let a = [];
-                    for (let k in s) a.push({k: k, n: s[k]});
-                    // now we have [{"k":"2","n":4},{"k":"4","n":2},{"k":"6","n":3}]
-                    a.sort(function (a, b) {
-                        return b.n - a.n
-                    });
-                    return a.map(function (a) {
-                        return a.k
-                    });
-                };
-
-                let citiesNotOrdered = Array.from(this.friends_list, x => x.city);
-                let citiesIdsOrdered = sortByOccurrence(
-                    Array.from(citiesNotOrdered, x => x.id)
-                );
-
-                let citiesDict = {};
-                for (let city of citiesNotOrdered) {
-                    citiesDict[city.id] = city;
-                }
-
-                let cities = Array.from(citiesIdsOrdered, id => citiesDict[id]);
-                return cities;
-            }
+        created() {
+            this.loadFilters();
         }
     }
 

@@ -1,16 +1,22 @@
 <template>
     <BookListFrame>
-        <BookItemFrame v-for="book in filteredBooks">
+        <BookItemFrame v-for="book in books">
             <BookOwner :link="book.owner.link" :img="book.owner.image" :name="book.owner.name"/>
-            <BookImage :img="book.description.image" :alt="book.description.title"/>
+            <BookImage v-if="book.description.image" :img="book.description.image" :alt="book.description.title"/>
             <BookTitle>{{ book.description.title }}</BookTitle>
             <BookAuthor>{{ book.description.author }}</BookAuthor>
             <BookComment>{{ book.comment }}</BookComment>
         </BookItemFrame>
+        <InfiniteLoading :identifier="infiniteId" @infinite="loadBooks">
+            <div slot="no-more"></div>
+        </InfiniteLoading>
     </BookListFrame>
 </template>
 
 <script>
+    import axios from 'axios';
+    import InfiniteLoading from 'vue-infinite-loading';
+
     import BookAuthor from "../../components/ui/book_card/BookAuthor"
     import BookComment from "../../components/ui/book_card/BookComment"
     import BookImage from "../../components/ui/book_card/BookImage"
@@ -19,8 +25,7 @@
     import BookOwner from "../../components/ui/book_card/BookOwner"
     import BookTitle from "../../components/ui/book_card/BookTitle"
 
-    import { doArraysContainArrays } from "../../utils/stringUtils.js"
-    import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND, FILTER_BY_FRIENDS_LIST } from "./consts"
+    import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND } from "./consts"
 
     export default {
         components: {
@@ -30,7 +35,8 @@
             BookItemFrame,
             BookListFrame,
             BookOwner,
-            BookTitle
+            BookTitle,
+            InfiniteLoading,
         },
         props: {
             searchStr: {
@@ -44,108 +50,73 @@
         },
         data:  function(){
             return {
-                books: [
-                    {
-                        owner: {
-                            id: "1",
-                            name: "Айгиз Мухамадиев",
-                            link: "https://vk.com/aygiz_obstinate",
-                            image: "https://pp.userapi.com/c630716/v630716015/559f0/cUjWkUZTZqI.jpg?ava=1",
-                            cityId: "1"
-                        },
-                        description: {
-                            title: "7 навыков высокоэффективных людей",
-                            author: "Стивен Кови",
-                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
-                        },
-                        comment: "Могу подарить"
-                    },
-                    {
-                        owner: {
-                            id: "2",
-                            name: "Ришат Галин",
-                            link: "https://vk.com/choco_latepuma",
-                            image: "https://m.vk.com/images/camera_100.png?ava=1",
-                            cityId: "1"
-                        },
-                        description: {
-                            title: "Бизнес как игра",
-                            author: "Сергей Абдульманов",
-                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
-                        },
-                        comment: null
-                    },
-                    {
-                        owner: {
-                            id: "3",
-                            name: "Руслан Билалов",
-                            link: "https://vk.com/choco_latepuma",
-                            image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1",
-                            cityId: "2"
-                        },
-                        description: {
-                            title: "Бизнес как игра",
-                            author: "Сергей Абдульманов",
-                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
-                        },
-                        comment: null
-                    },
-                    {
-                        owner: {
-                            id: "3",
-                            name: "Руслан Билалов",
-                            link: "https://vk.com/choco_latepuma",
-                            image: "https://pp.userapi.com/c836120/v836120064/234f/IfGZCWGnXtc.jpg?ava=1",
-                            cityId: "2"
-                        },
-                        description: {
-                            title: "Бизнес как игра",
-                            author: "Сергей Абдульманов",
-                            image: "https://books.google.com/books/content?id=y68ZhLkkOmEC&printsec=frontcover&img=1&zoom=0&edge=curl&source=gbs_api"
-                        },
-                        comment: null
-                    }
-                ]
+                books: [],
+                token: undefined,
+                infiniteId: +new Date(),
+                searchTimeout1: undefined,
+                searchTimeout2: undefined,
+            }
+        },
+        watch: {
+            filter: {
+                handler(){
+                    this.infiniteId += 1;
+                    this.books = [];
+                },
+                deep: true
+            },
+            searchStr: function () {
+                // send request after 0.3 seconds if there is no changes in the string
+                // send request every 0.8 seconds while typing
+
+                let timeoutLoad = function(){
+                    clearTimeout(this.searchTimeout1);
+                    clearTimeout(this.searchTimeout2);
+                    this.searchTimeout2 = undefined;
+                    this.infiniteId += 1;
+                    this.books = [];
+                }.bind(this);
+
+                clearTimeout(this.searchTimeout1);
+                this.searchTimeout1 = setTimeout(timeoutLoad, 300);
+                if(this.searchTimeout2 === undefined)
+                    this.searchTimeout2 = setTimeout(timeoutLoad, 800);
+
             }
         },
         methods: {
-            filterByTitleAndAuthor: function (book) {
-                let searchWords = this.searchStr.toLowerCase().split(/\s+/);
-                let titleWords = book.description.title.toLowerCase().split(/\s+/)
-                    .concat(book.description.author.toLowerCase().split(/\s+/));
-                return doArraysContainArrays(searchWords, titleWords);
-            },
-            filterByFriend: function (book) {
-                return this.filter.value === book.owner.id;
-            },
-            filterByFriendsList: function (book) {
-                return this.filter.value.includes(book.owner.id);
-            },
-            filterByCity: function (book) {
-                return this.filter.value  === book.owner.cityId;
-            }
-        },
-        computed: {
-            filteredBooks: function(){
-                let list = null;
-                if (!this.searchStr.toLowerCase().split(/\s+/))
-                    list = this.books;
-                else
-                    list = this.books.filter(this.filterByTitleAndAuthor);
+            loadBooks: function ($state) {
+                let params = {};
+
+                if (this.token)
+                    params.token = this.token;
+
+                params.offset = this.books.length;
 
                 switch (this.filter.type) {
-                    case FILTER_BY_FRIENDS_LIST:
-                        list = list.filter(this.filterByFriendsList);
-                        break;
                     case FILTER_BY_FRIEND:
-                        list = list.filter(this.filterByFriend);
+                        params.friend = this.filter.value;
                         break;
                     case FILTER_BY_CITY:
-                        list = list.filter(this.filterByCity);
+                        params.city = this.filter.value;
                         break;
                 }
+                if (this.searchStr.toLowerCase().split(/\s+/))
+                    params.search = this.searchStr;
 
-                return list;
+                axios.get('http://127.0.0.1:8000/app/api/books/friends-books/get-books/', {
+                    params: params
+                }).then(function (response){
+                    if (response.data.data.books.length > 0){
+                        this.books.push(...response.data.data.books);
+                        if (response.data.token !== this.token)
+                            this.token = response.data.token;
+                        $state.loaded();
+                    }else{
+                        $state.complete();
+                    }
+
+                }.bind(this));
             }
         }
     }
