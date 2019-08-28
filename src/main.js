@@ -2,6 +2,7 @@
 import Vue from 'vue/dist/vue.esm.js';
 import App from './App.vue'
 import VueRouter from 'vue-router'
+import axios from 'axios';
 
 import FriendsBooksPage from "./pages/friends_books/FriendsBooksPage.vue"
 import MyBooksPage from './pages/my_books/MyBooksPage.vue'
@@ -10,7 +11,7 @@ import AboutPage from './pages/about/AboutPage.vue'
 
 Vue.config.productionTip = false;
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 //TODO: move url apps/ to constants
 const routes = [
@@ -23,6 +24,15 @@ const routes = [
 const router = new VueRouter({
     routes,
     mode: 'history'
+});
+
+axios.interceptors.response.use((response) => {
+    return response
+}, function (error) {
+    if (error.response.status === 401) {
+        router.go('/');
+    }
+    return Promise.reject(error)
 });
 
 new Vue({
