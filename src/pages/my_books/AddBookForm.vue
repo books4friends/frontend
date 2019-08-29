@@ -123,7 +123,7 @@
                     && this.title === this.selectedGoogleBook.title
                     && this.author === this.selectedGoogleBook.author
                 )
-                    google_id =  this.selectedGoogleBook.id
+                google_id =  this.selectedGoogleBook.id;
 
                 //let csrftoken = Cookies.get('csrftoken');
                 axios.post('http://127.0.0.1:8000/app/api/books/add-book/', {
