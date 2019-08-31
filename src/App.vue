@@ -26,10 +26,10 @@ html, body{
 }
 
 :root {
-  --primary-color: #e29858e6;
-  --primary-border-color: #ffa75be6;
-  --sub-color: #e6a872e6;
-  --primary-hover-color: #c77630e6;
+  --primary-color: #e29858f5;
+  --primary-border-color: #ffa75bf5;
+  --sub-color: #e6a872f5;
+  --primary-hover-color: #c77630f5;
 }
 
 * {
