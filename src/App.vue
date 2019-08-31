@@ -26,7 +26,10 @@ html, body{
 }
 
 :root {
-  --primary-color: #4a76a7;
+  --primary-color: #e29858e6;
+  --primary-border-color: #ffa75be6;
+  --sub-color: #e6a872e6;
+  --primary-hover-color: #c77630e6;
 }
 
 * {
@@ -36,7 +39,7 @@ html, body{
 #content{
    width: 800px;
    margin: auto;
-   padding: 20px 10px 40px 10px;
+   padding: 70px 10px 40px 10px;
 }
 
 

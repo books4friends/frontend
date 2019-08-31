@@ -3,7 +3,7 @@
         <div id="center">
             <router-link  class="menu" to="/app/">Книги друзей</router-link>
 
-            <router-link class="menu push" to="/app/my-books/">Мои книги</router-link>
+            <router-link class="menu route push" to="/app/my-books/">Мои книги</router-link>
             <div class="dropdown">
                 <div
                         class="menu dropdown-opener" v-bind:class="{active:menuShown}"
@@ -13,8 +13,10 @@
                     ☰
                 </div>
                 <div v-if="menuShown" class="dropdown-content">
-                    <router-link class="menu" to="/app/settings/">Настройки</router-link>
-                    <router-link class="menu" to="/app/about/">О проекте</router-link>
+                    <div class="dropdown-content-inner">
+                        <router-link class="menu route" to="/app/settings/">Настройки</router-link>
+                        <router-link class="menu route" to="/app/about/">О проекте</router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,13 +53,18 @@
 
 <style scoped>
 #navigation{
-    background-color: var(--primary-color);
+    position: fixed;
+    width: 100%;
     z-index: 1;
+    background-color: var(--primary-color);
+    border-bottom: 1px solid var(--primary-border-color);
+    box-shadow: 0 0 3px 0 var(--primary-border-color);
+    user-select:none;
 }
 
 #center{
    display: flex;
-   width: 800px;
+   max-width: 800px;
    margin: auto;
 }
 
@@ -73,8 +80,8 @@
     text-decoration: none;
 }
 
-.menu:hover, .dropdown-opener.active{
-    background-color: #3d6898;
+.menu.route:hover, .dropdown-opener.active{
+    background-color: var(--primary-hover-color);
 }
 
 .push {
@@ -87,18 +94,26 @@
 }
 
 .dropdown-content{
-    background-color: var(--primary-color);
-    right: 0;
     display: block;
     position: absolute;
     width: 150px;
+    right: -3px;
+    overflow: hidden;
+}
+
+.dropdown-content-inner{
+    margin: 0 3px 3px 3px;
+    background-color: var(--sub-color);
+    box-shadow: 0 0 3px 0 var(--primary-border-color);
+    border: 1px solid var(--primary-border-color);
+    border-top: 0;
 }
 
 .dropdown-content .menu{
     display: block;
 }
 
-.router-link-exact-active, .router-link-exact-active:hover{
-    background-color: #335e8f;
+.router-link-exact-active.route, .router-link-exact-active.route:hover{
+    background-color: var(--primary-hover-color);
 }
 </style>
