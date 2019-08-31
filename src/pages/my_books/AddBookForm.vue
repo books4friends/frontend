@@ -3,21 +3,22 @@
             <h2>Добавить книгу</h2>
             <div id="mb-add_book-form-inputs">
                 <label for="add_title">Название<span class="red"> *</span></label>
-                <div id="add_title_div">
+                <div>
                     <input v-model="title"
-                           @keyup="searchGoogle"
-                           @focus="showGoogleSuggestions"
-                           @blur="hideGoogleSuggestions"
-                           name="title" id="add_title" type="text" placeholder="Название">
-
-                    <div v-if="googleSuggestionsVisible && !!googleBooks.length" id="google_books_suggestion">
-                        <div v-for="book in googleBooks"
-                             @click="selectGoogleBook(book)"
-                             class="google_book"
-                        >
-                            <span v-if="book.author" class="google_book-author">{{ book.author }}</span>
-                            <span v-if="book.author">.&nbsp;</span>
-                            <span class="google_book-title">{{ book.title }}</span>
+                       @keyup="searchGoogle"
+                       @focus="showGoogleSuggestions"
+                       @blur="hideGoogleSuggestions"
+                       name="title" id="add_title" type="text" placeholder="Название">
+                    <div id="add_title_div">
+                        <div v-if="googleSuggestionsVisible && !!googleBooks.length" id="google_books_suggestion">
+                            <div v-for="book in googleBooks"
+                                 @click="selectGoogleBook(book)"
+                                 class="google_book"
+                            >
+                                <span v-if="book.author" class="google_book-author">{{ book.author }}</span>
+                                <span v-if="book.author">.&nbsp;</span>
+                                <span class="google_book-title">{{ book.title }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

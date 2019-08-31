@@ -25,6 +25,9 @@ html, body{
     padding: 0;
 }
 
+:root {
+  --primary-color: #4a76a7;
+}
 
 * {
     font-family: -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
