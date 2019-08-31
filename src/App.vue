@@ -37,7 +37,8 @@ html, body{
 }
 
 #content{
-   width: 800px;
+   min-width: 320px;
+   max-width: 800px;
    margin: auto;
    padding: 70px 10px 40px 10px;
 }
