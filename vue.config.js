@@ -2,7 +2,7 @@ const BundleTracker = require("webpack-bundle-tracker");
 //TODO: move paths to environment variables
 
 module.exports = {
-    baseUrl: "http://0.0.0.0:8080/",
+    publicPath: "/app/",
     outputDir: '../project/apps/frontend/static/frontend/app/',
 
     chainWebpack: config => {
