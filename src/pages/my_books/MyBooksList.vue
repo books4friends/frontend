@@ -1,7 +1,7 @@
 <template>
     <div>
         <BookListFrame>
-            <BookItemFrame  v-for="book in books">
+            <BookItemFrame  v-for="book in books" v-bind:key="book.id">
                 <BookImage :img="book.description.image" :alt="book.description.title"/>
                 <BookTitle>{{ book.description.title }}</BookTitle>
                 <BookAuthor>{{ book.description.author }}</BookAuthor>

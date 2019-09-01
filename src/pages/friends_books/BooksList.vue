@@ -1,6 +1,6 @@
 <template>
     <BookListFrame>
-        <BookItemFrame v-for="book in books">
+        <BookItemFrame v-for="book in books" v-bind:key="book.id">
             <BookOwner :link="book.owner.link" :img="book.owner.image" :name="book.owner.name"/>
             <BookImage v-if="book.description.image" :img="book.description.image" :alt="book.description.title"/>
             <BookTitle>{{ book.description.title }}</BookTitle>
