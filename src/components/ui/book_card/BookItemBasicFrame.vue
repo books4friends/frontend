@@ -6,6 +6,7 @@
 
 <style scoped>
     .item{
+        margin-bottom: 20px;
         display: flex;
         flex-direction: column;
         flex: 0 1 40%;
@@ -15,5 +16,8 @@
         box-sizing: border-box;
         transition: box-shadow 300ms;
         align-self: start;
+    }
+    .item:last-child{
+        margin-bottom: 0;
     }
 </style>
