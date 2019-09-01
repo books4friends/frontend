@@ -16,6 +16,7 @@
                     <div class="dropdown-content-inner">
                         <router-link class="menu route" to="/app/settings/">Настройки</router-link>
                         <router-link class="menu route" to="/app/about/">О проекте</router-link>
+                        <div class="menu" @click="logout">Выйти</div>
                     </div>
                 </div>
             </div>
@@ -24,7 +25,11 @@
 </template>
 
 <script>
+    import axios from 'axios';
     import ClickOutside from 'vue-click-outside'
+
+    axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+    axios.defaults.xsrfCookieName = "csrftoken";
 
     export default {
         data: () => {
@@ -41,6 +46,11 @@
             },
             hideDropdown: function(){
                 this.menuShown=false
+            },
+            logout: function(){
+                axios.post('http://127.0.0.1:8000/logout/').then(() => {
+                    window.location.href = 'http://127.0.0.1:8000/'
+                })
             }
         },
 
