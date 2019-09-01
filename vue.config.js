@@ -8,14 +8,14 @@ module.exports = {
     chainWebpack: config => {
 
         config.optimization
-            .splitChunks(false)
+            .splitChunks(false);
 
         config
             .plugin('BundleTracker')
-            .use(BundleTracker, [{filename: '../project/apps/frontend/webpack-stats.json'}])
+            .use(BundleTracker, [{filename: '../project/apps/frontend/webpack-stats.json'}]);
 
         config.resolve.alias
-            .set('__STATIC__', 'static')
+            .set('__STATIC__', 'static');
 
         config.devServer
             .public('http://0.0.0.0:8080')
