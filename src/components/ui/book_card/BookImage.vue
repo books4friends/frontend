@@ -24,15 +24,18 @@
 
 <style scoped>
     .image{
-        text-align: center;
+        display: flex;
         margin-top: 6px;
+        width: 170px;
+        height: 256px;
     }
 
     .image > img{
-        max-width: 150px;
-        max-height: 300px;
+        max-width: 170px;
+        max-height: 256px;
         border: 1px solid rgba(0, 0, 0, 0.10);
-        box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
         border-radius: 4px;
+        margin: auto auto;
     }
 </style>

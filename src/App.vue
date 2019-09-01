@@ -20,16 +20,20 @@ export default {
 </script>
 
 <style>
-html, body{
-    margin: 0;
-    padding: 0;
-}
-
 :root {
   --primary-color: #e29858f5;
   --primary-border-color: #ffa75bf5;
   --sub-color: #e6a872f5;
   --primary-hover-color: #c77630f5;
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+  background: #FFFCF9;
 }
 
 * {
@@ -40,7 +44,7 @@ html, body{
    min-width: 320px;
    max-width: 800px;
    margin: auto;
-   padding: 70px 10px 40px 10px;
+   padding: 70px 10px 15px 10px;
 }
 
 

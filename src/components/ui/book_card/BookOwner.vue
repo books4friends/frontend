@@ -34,7 +34,5 @@
 <style scoped>
     .title{
         padding: 4px 8px;
-        border-bottom: 1px solid #5181b8;
-        background-color: #dee6ef;
     }
 </style>

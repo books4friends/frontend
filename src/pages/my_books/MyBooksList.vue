@@ -1,7 +1,7 @@
 <template>
     <div>
         <BookListFrame>
-            <BookItemFrame  v-for="book in books">
+            <BookItemBasicFrame  v-for="book in books">
                 <BookImage :img="book.description.image" :alt="book.description.title"/>
                 <BookTitle>{{ book.description.title }}</BookTitle>
                 <BookAuthor>{{ book.description.author }}</BookAuthor>
@@ -12,7 +12,7 @@
                     <AppButton v-else :onClick="activate" :attrs="[book]" class="action-button">Не активно</AppButton>
                     <AppButton :onClick="openDeleteDialog" :attrs="[book]" class="action-button">Удалить</AppButton>
                 </div>
-            </BookItemFrame>
+            </BookItemBasicFrame>
         </BookListFrame>
         <DialogSetting
                 v-if="deleteSettings.visible"
@@ -40,7 +40,7 @@
     import BookAuthor from "../../components/ui/book_card/BookAuthor"
     import BookCommentEditable from "../../components/ui/book_card/BookCommentEditable"
     import BookImage from "../../components/ui/book_card/BookImage"
-    import BookItemFrame from "../../components/ui/book_card/BookItemFrame"
+    import BookItemBasicFrame from "../../components/ui/book_card/BookItemBasicFrame"
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
     import BookOwner from "../../components/ui/book_card/BookOwner"
     import BookTitle from "../../components/ui/book_card/BookTitle"
@@ -54,7 +54,7 @@
             BookAuthor,
             BookCommentEditable,
             BookImage,
-            BookItemFrame,
+            BookItemBasicFrame,
             BookListFrame,
             BookOwner,
             BookTitle,

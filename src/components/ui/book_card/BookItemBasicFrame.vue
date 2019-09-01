@@ -6,16 +6,12 @@
 
 <style scoped>
     .item{
-        margin-bottom: 20px;
-        display: flex;
-        flex-direction: column;
-        flex: 0 1 40%;
-        border: 1px solid #5181b8;
-        box-shadow: 0px 1px 4px rgba(160, 160, 199, 0.38);
+        border: 1px solid #f4d8bf;
         border-radius: 4px;
         box-sizing: border-box;
         transition: box-shadow 300ms;
         align-self: start;
+        background-color: #fff;
     }
     .item:last-child{
         margin-bottom: 0;

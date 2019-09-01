@@ -1,42 +1,27 @@
 <template>
-    <BookListFrame>
-        <BookItemFrame v-for="book in books">
-            <BookOwner :link="book.owner.link" :img="book.owner.image" :name="book.owner.name"/>
-            <BookImage v-if="book.description.image" :img="book.description.image" :alt="book.description.title"/>
-            <BookTitle>{{ book.description.title }}</BookTitle>
-            <BookAuthor>{{ book.description.author }}</BookAuthor>
-            <BookComment>{{ book.comment }}</BookComment>
-        </BookItemFrame>
+    <div>
+        <BookListFrame>
+            <BookItem v-for="book in books" :book="book" />
+        </BookListFrame>
         <InfiniteLoading :identifier="infiniteId" @infinite="loadBooks">
             <div slot="no-more"></div>
         </InfiniteLoading>
-    </BookListFrame>
+    </div>
 </template>
 
 <script>
     import axios from 'axios';
     import InfiniteLoading from 'vue-infinite-loading';
 
-    import BookAuthor from "../../components/ui/book_card/BookAuthor"
-    import BookComment from "../../components/ui/book_card/BookComment"
-    import BookImage from "../../components/ui/book_card/BookImage"
-    import BookItemFrame from "../../components/ui/book_card/BookItemFrame"
+    import BookItem from "./BookItem"
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
-    import BookOwner from "../../components/ui/book_card/BookOwner"
-    import BookTitle from "../../components/ui/book_card/BookTitle"
-
     import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND } from "./consts"
 
     export default {
         components: {
-            BookAuthor,
-            BookComment,
-            BookImage,
-            BookItemFrame,
-            BookListFrame,
-            BookOwner,
-            BookTitle,
             InfiniteLoading,
+            BookItem,
+            BookListFrame
         },
         props: {
             searchStr: {

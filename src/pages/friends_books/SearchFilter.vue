@@ -36,7 +36,7 @@
 }
 
 #fb-search > input{
-    background: transparent;
+    background: #fff;
     border: 0;
     display: block;
     width: 100%;
