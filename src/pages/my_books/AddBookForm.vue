@@ -1,31 +1,47 @@
 <template>
     <div id="mb-add_book">
             <h2>Добавить книгу</h2>
-            <div id="mb-add_book-form-inputs">
-                <label for="add_title">Название<span class="red"> *</span></label>
-                <div>
-                    <input v-model="title"
-                       @keyup="searchGoogle"
-                       @focus="showGoogleSuggestions"
-                       @blur="hideGoogleSuggestions"
-                       name="title" id="add_title" type="text" placeholder="Название">
-                    <div id="add_title_div">
-                        <div v-if="googleSuggestionsVisible && !!googleBooks.length" id="google_books_suggestion">
-                            <div v-for="book in googleBooks"
-                                 @click="selectGoogleBook(book)"
-                                 class="google_book"
-                            >
-                                <span v-if="book.author" class="google_book-author">{{ book.author }}</span>
-                                <span v-if="book.author">.&nbsp;</span>
-                                <span class="google_book-title">{{ book.title }}</span>
+            <div class="mb-form">
+                <div class="image_preview">
+                    <img v-if="image" :src="image">
+                </div>
+                <div id="mb-add_book-form-inputs">
+                    <div>
+                        <label for="add_title">Название<span class="red"> *</span></label>
+                        <div>
+                            <input v-model="title"
+                               @keyup="searchGoogle"
+                               @focus="showGoogleSuggestions"
+                               @blur="hideGoogleSuggestions"
+                               name="title" id="add_title" type="text" placeholder="Название">
+                            <div id="add_title_div">
+                                <div v-if="googleSuggestionsVisible && !!googleBooks.length" id="google_books_suggestion">
+                                    <div v-for="book in googleBooks"
+                                         @click="selectGoogleBook(book)"
+                                         class="google_book"
+                                    >
+                                        <div class="google_book-image">
+                                            <img v-if="book.image" :src="book.image" width="170" height="250"/>
+                                        </div>
+                                        <div class="google_book-text">
+                                            <span v-if="book.author" class="google_book-author">{{ book.author }}</span>
+                                            <span v-if="book.author">.&nbsp;</span>
+                                            <span class="google_book-title">{{ book.title }}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <label for="add_author">Автор</label>
+                        <input v-model="author" name="author" id="add_author" type="text" placeholder="Автор">
+                    </div>
+                    <div>
+                        <label for="add_comment">Комментарий</label>
+                        <input v-model="comment" name="comment" id="add_comment" type="text" placeholder="Комментарий">
+                    </div>
                 </div>
-                <label for="add_author">Автор</label>
-                <input v-model="author" name="author" id="add_author" type="text" placeholder="Автор">
-                <label for="add_comment">Комментарий</label>
-                <input v-model="comment" name="comment" id="add_comment" type="text" placeholder="Комментарий">
             </div>
             <div id="mb-add_book-form-submit">
                 <AppButton :onClick="submit">Добавить</AppButton>
@@ -59,6 +75,7 @@
             return {
                 title: "",
                 author: "",
+                image: null,
                 comment: null,
                 selectedGoogleBook: null,
                 googleSuggestionsVisible: false,
@@ -93,6 +110,8 @@
                                     if (data.items[i].volumeInfo.hasOwnProperty("authors")){
                                         book.author = data.items[i].volumeInfo.authors.join(', ');
                                         book.title = data.items[i].volumeInfo.title;
+                                        book.image = data.items[i].volumeInfo.imageLinks ?
+                                            data.items[i].volumeInfo.imageLinks.thumbnail : null;
                                     }else{
                                         book.title = data.items[i].volumeInfo.title;
                                     }
@@ -104,6 +123,7 @@
             selectGoogleBook: function (book) {
                 this.title = book.title;
                 this.author = book.author;
+                this.image = book.image;
                 this.selectedGoogleBook = book;
             },
             showGoogleSuggestions: function(){
@@ -149,11 +169,29 @@
 
 
 <style scoped>
-#mb-add_book-form-inputs{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-row-gap: 20px;
+.mb-form{
+    display: flex;
+    flex-direction: row;
 }
+
+.image_preview{
+    width: 128px;
+    height: 199px;
+}
+
+.image_preview > img{
+    max-width: 128px;
+    max-height: 199px;
+}
+
+#mb-add_book-form-inputs > div {
+    margin-bottom: 20px;
+}
+
+#mb-add_book-form-inputs > div:last-child {
+    margin-bottom: 0;
+}
+
 #mb-add_book-form-inputs label{
     display: inline-block;
 }
@@ -198,6 +236,16 @@
 }
 
 .google_book{
+    display: flex;
+    flex-direction: row;
+}
+
+.google_book-image, .google_book-image > img{
+    height: 45px;
+    width: 30px;
+}
+
+.google_book-text{
     padding: 5px 3px 3px 10px;
     border-bottom: 1px solid #c7c7c7;
     cursor: pointer;
