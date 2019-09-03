@@ -4,6 +4,7 @@
             <div class="mb-form">
                 <div class="image_preview">
                     <img v-if="image" :src="image">
+                    <div v-if="image" class="image-remove" @click="removeImage">x</div>
                 </div>
                 <div id="mb-add_book-form-inputs">
                     <div class="mb-add_book-form-inputs-line">
@@ -145,9 +146,20 @@
                 this.$refs['custom_image'].click();
             },
             handleFileUpload: function(event){
-                this.customImage =event.target.files[0];
+                this.customImage = event.target.files[0];
                 this.image = URL.createObjectURL(this.customImage);
-                this.selectedGoogleBook = false;
+            },
+            removeImage: function(){
+                if (this.customImage){
+                    this.customImage = null;
+                    if (this.selectedGoogleBook){
+                        this.image = this.selectedGoogleBook.image;
+                    }else{
+                        this.image = null;
+                    }
+                }else{
+                    this.image = null;
+                }
             },
             submit: function () {
                 if(!this.title)
@@ -164,9 +176,11 @@
                     formData.append('image', this.customImage);
 
                 if (
+                    ! this.customImage &&
                     this.selectedGoogleBook
                     && this.title === this.selectedGoogleBook.title
                     && this.author === this.selectedGoogleBook.author
+                    && this.image === this.selectedGoogleBook.image
                 )
                     formData.append('external_id', this.selectedGoogleBook.id);
 
@@ -194,11 +208,24 @@
     float:left;
     width: 128px;
     height: 199px;
+    position: relative;
 }
 
 .image_preview > img{
     max-width: 128px;
     max-height: 199px;
+}
+
+.image-remove{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background: #ffff00;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    vertical-align: center;
+    text-align: center;
 }
 
 .add_image > input{
