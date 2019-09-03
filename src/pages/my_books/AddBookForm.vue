@@ -6,15 +6,14 @@
                     <img v-if="image" :src="image">
                 </div>
                 <div id="mb-add_book-form-inputs">
-                    <div>
+                    <div class="mb-add_book-form-inputs-line">
                         <label for="add_title">Название<span class="red"> *</span></label>
-                        <div>
+                        <div id="add_title_div">
                             <input v-model="title"
                                @keyup="searchGoogle"
                                @focus="showGoogleSuggestions"
                                @blur="hideGoogleSuggestions"
                                name="title" id="add_title" type="text" placeholder="Название">
-                            <div id="add_title_div">
                                 <div v-if="googleSuggestionsVisible && !!googleBooks.length" id="google_books_suggestion">
                                     <div v-for="book in googleBooks"
                                          @click="selectGoogleBook(book)"
@@ -30,16 +29,23 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
-                    <div>
+                    <div class="mb-add_book-form-inputs-line">
                         <label for="add_author">Автор</label>
                         <input v-model="author" name="author" id="add_author" type="text" placeholder="Автор">
                     </div>
-                    <div>
+                    <div class="mb-add_book-form-inputs-line">
                         <label for="add_comment">Комментарий</label>
                         <input v-model="comment" name="comment" id="add_comment" type="text" placeholder="Комментарий">
+                    </div>
+                    <div class="add_image mb-add_book-form-inputs-line">
+                        <button @click="launchFilePicker">Загрузить свою картинку</button>
+                        <input
+                                ref="custom_image"
+                                type="file"
+                                @change="handleFileUpload"
+                        />
                     </div>
                 </div>
             </div>
@@ -76,6 +82,7 @@
                 title: "",
                 author: "",
                 image: null,
+                customImage: null,
                 comment: null,
                 selectedGoogleBook: null,
                 googleSuggestionsVisible: false,
@@ -134,25 +141,36 @@
                     this.googleSuggestionsVisible = false;
                 }.bind(this), 200);
             },
+            launchFilePicker: function(event){
+                this.$refs['custom_image'].click();
+            },
+            handleFileUpload: function(event){
+                this.customImage =event.target.files[0];
+                this.image = URL.createObjectURL(this.customImage);
+                this.selectedGoogleBook = false;
+            },
             submit: function () {
                 if(!this.title)
                     return;
 
-                let google_id = null;
+                let formData = new FormData();
+                formData.append('title', this.title);
+                if (this.author)
+                    formData.append('author', this.author);
+                if (this.comment)
+                    formData.append('comment', this.comment);
+
+                if (this.image)
+                    formData.append('image', this.customImage);
+
                 if (
                     this.selectedGoogleBook
                     && this.title === this.selectedGoogleBook.title
                     && this.author === this.selectedGoogleBook.author
                 )
-                google_id =  this.selectedGoogleBook.id;
+                    formData.append('external_id', this.selectedGoogleBook.id);
 
-                //let csrftoken = Cookies.get('csrftoken');
-                axios.post('http://127.0.0.1:8000/app/api/books/add-book/', {
-                    external_id: google_id,
-                    title: this.title,
-                    author: this.author,
-                    comment: this.comment,
-                }).then(function (response) {
+                axios.post('http://127.0.0.1:8000/app/api/books/add-book/', formData).then(function (response) {
                     this.notificationText = "Книга \""+ response.data.book.description.title + "\" добавлена";
                     this.notificationVisible = true;
                     this.onBookAdded(response.data.book);
@@ -170,11 +188,10 @@
 
 <style scoped>
 .mb-form{
-    display: flex;
-    flex-direction: row;
 }
 
 .image_preview{
+    float:left;
     width: 128px;
     height: 199px;
 }
@@ -184,31 +201,38 @@
     max-height: 199px;
 }
 
-#mb-add_book-form-inputs > div {
-    margin-bottom: 20px;
+.add_image > input{
+    display: none;
 }
 
-#mb-add_book-form-inputs > div:last-child {
-    margin-bottom: 0;
-}
-
-#mb-add_book-form-inputs label{
-    display: inline-block;
-}
-
-#mb-add_book-form-inputs input[type="text"]{
-    border: none;
-    border-bottom: 1px solid #333;
+#mb-add_book{
     width: 100%;
 }
 
-#mb-add_book-form-inputs input[type="text"]:focus{
+.mb-add_book-form-inputs-line {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.mb-add_book-form-inputs-line > label{
+    display: inline-block;
+    width: 50%;
+}
+
+.mb-add_book-form-inputs-line input[type="text"]{
+    border: none;
+    border-bottom: 1px solid #333;
+    width: 50%;
+}
+
+.mb-add_book-form-inputs-line input[type="text"]:focus{
     outline-width: 0;
 }
-#mb-add_book-form-inputs input[type="text"]::placeholder{
+.mb-add_book-form-inputs-line input[type="text"]::placeholder{
     color: #8c8c8c;
 }
-#mb-add_book-form-inputs input[type="text"]:focus::placeholder{
+.mb-add_book-form-inputs-line input[type="text"]:focus::placeholder{
     color: #bfbfbf;
 }
 
@@ -217,8 +241,12 @@
 }
 
 #add_title_div{
-    width: 100%;
+    width: 50%;
     position: relative;
+}
+
+#add_title_div > input{
+    width: 100%;
 }
 
 #mb-add_book-form-submit{
