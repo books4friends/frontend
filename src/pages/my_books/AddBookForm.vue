@@ -290,6 +290,7 @@
     position: absolute;
     width: 400px;
     top: 22px;
+    right: 0;
     background-color: #fff;
     border: 1px solid #c7c7c7;
     border-radius: 0 0 4px 4px;
