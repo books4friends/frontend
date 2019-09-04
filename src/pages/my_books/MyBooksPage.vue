@@ -16,8 +16,8 @@ export default {
         MyBooksList
     },
     methods: {
-        onBookAdded: function(book){
-            this.$refs.bookList.addBook(book);
+        onBookAdded: function(){
+            this.$refs.bookList.addBook();
         }
     }
 }

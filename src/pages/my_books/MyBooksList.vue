@@ -86,8 +86,8 @@
                         this.errors.push(e)
                     })
             },
-            addBook: function(book){
-                this.books.unshift(book);
+            addBook: function(){
+                this.loadBooksList()
             },
             saveComment: function(bookId, value){
                 axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + bookId + '/edit-comment/', {comment: value})
