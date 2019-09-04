@@ -164,6 +164,13 @@
                     this.image = null;
                 }
             },
+            clearFields: function(){
+                this.title = '';
+                this.author = '';
+                this.comment = '';
+                this.image = undefined;
+                this.customImage = undefined;
+            },
             submit: function () {
                 if(!this.title)
                     return;
@@ -188,6 +195,8 @@
                     && this.image === this.selectedGoogleBook.image
                 )
                     formData.append('external_id', this.selectedGoogleBook.id);
+
+                this.clearFields();
 
                 axios.post('http://127.0.0.1:8000/app/api/books/add-book/', formData).then(function (response) {
                     this.notificationText = "Книга \""+ response.data.book.description.title + "\" добавлена";
