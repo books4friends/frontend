@@ -4,6 +4,7 @@
             <div class="mb-form">
                 <div class="image_preview">
                     <img v-if="image" :src="image">
+                    <ImageGenerator v-else :author="author" :title="title" ref="generatedImage"/>
                     <div v-if="image" class="image-remove" @click="removeImage">x</div>
                 </div>
                 <div id="mb-add_book-form-inputs">
@@ -21,7 +22,7 @@
                                          class="google_book"
                                     >
                                         <div class="google_book-image">
-                                            <img v-if="book.image" :src="book.image" width="170" height="250"/>
+                                            <img v-if="book.image" :src="book.image"/>
                                         </div>
                                         <div class="google_book-text">
                                             <span v-if="book.author" class="google_book-author">{{ book.author }}</span>
@@ -63,6 +64,7 @@
     axios.defaults.xsrfCookieName = "csrftoken";
 
     import AppButton from "../../components/ui/AppButton"
+    import ImageGenerator from "./ImageGenerator";
     import NotificationWindow from "../../components/ui/NotificationWindow"
 
     const VUE_APP_GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
@@ -70,7 +72,8 @@
     export default {
         components: {
             AppButton,
-            NotificationWindow
+            NotificationWindow,
+            ImageGenerator
         },
         props: {
             onBookAdded: {
@@ -172,8 +175,10 @@
                 if (this.comment)
                     formData.append('comment', this.comment);
 
-                if (this.image)
+                if (this.customImage)
                     formData.append('image', this.customImage);
+                if (!this.image)
+                    formData.append('image', this.$refs.generatedImage.getBlob(), 'name.jpg');
 
                 if (
                     ! this.customImage &&
@@ -202,6 +207,7 @@
 
 <style scoped>
 .mb-form{
+    height: 200px;
 }
 
 .image_preview{
