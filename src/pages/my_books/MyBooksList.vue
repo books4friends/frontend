@@ -97,11 +97,17 @@
             },
             activate: function(attr) {
                 let book = attr[0];
-                console.log(book.id, "activate")
+                axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + book.id + '/activate/')
+                    .then(function (response) {
+                        attr[0].active = true;
+                    }.bind(this));
             },
             deactivate: function (attr) {
                 let book = attr[0];
-                console.log(book.id, "deactivate")
+                axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + book.id + '/deactivate/')
+                    .then(function (response) {
+                        attr[0].active = false;
+                    }.bind(this));
             },
             openDeleteDialog: function (attrs) {
                 let book = attrs[0];
