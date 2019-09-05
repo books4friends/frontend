@@ -8,6 +8,7 @@
                 <option :value="ALL_FRIENDS">Все друзья</option>
                 <option :value="ONLY_SOME_FRIENDS">Некоторые друзья</option>
                 <option :value="EXCEPT_SOME_FRIENDS">Всех, кроме некоторых друзей</option>
+                <option :value="ONLY_OWNER">Только я</option>
             </select>
             <div id="mb-privacy_settings-accepted_list">
                 <span v-for="(item, index) in list_description">
@@ -74,6 +75,10 @@
                                 return friend.blacklist_selected
                             }).map(friend => friend.external_id)
                         })
+                            .then(response => {});
+                        break;
+                    case this.ONLY_OWNER:
+                        axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-only-owner/')
                             .then(response => {});
                         break;
                 }
