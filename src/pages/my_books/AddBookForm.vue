@@ -16,7 +16,7 @@
                                @blur="hideGoogleSuggestions"
                                name="title" id="add_title" type="text" placeholder="Название">
                                 <GoogleSuggestions
-                                        v-if="googleSuggestionsVisible"
+                                        v-if="googleSuggestionsVisible && this.title"
                                         :selectGoogleBook="selectGoogleBook"
                                         :title="title"
                                 />
