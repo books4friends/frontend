@@ -1,13 +1,13 @@
 <template>
-    <div id="root">
-        <div id="mb-friends_whitelist-search">
+    <div class="root">
+        <div class="search">
             <SearchInline :onChange="changeSearch" placeholder="Начните вводить имя друга" />
             <ToggleButton :onClick="switchFilterSelected" :selected="toFilterSelected">показать выбранных</ToggleButton>
         </div>
-        <div id="mb-friends_whitelist-friends_list">
-            <div v-for="friend in filteredFriends" class="mb-friends_whitelist-friends_list-item">
+        <div class="friends_list">
+            <div v-for="friend in filteredFriends" class="friends_list-item">
                 <FriendTitle :img="friend.image" :name="friend.name"/>
-                <CircleCheckbox :selected="friend.selected" :onClick="circleClick.bind(null, friend)"/>
+                <CircleCheckbox :selected="friend[selectedParam]" :onClick="circleClick.bind(null, friend)"/>
             </div>
         </div>
     </div>
@@ -33,6 +33,10 @@
             friends:  {
                 type: Array,
                 required: true
+            },
+            selectedParam: {
+                type: String,
+                required: true
             }
         },
         data: function(){
@@ -43,7 +47,7 @@
         },
         methods: {
             circleClick: function (friend) {
-                friend.selected = !friend.selected;
+                friend[this.selectedParam] = !friend[this.selectedParam];
             },
             changeSearch: function (str) {
                 this.searchStr = str;
@@ -66,7 +70,7 @@
                     list = this.friends.filter(this.filterBySearchWord)
 
                 if (this.toFilterSelected)
-                    list = list.filter(friend => friend.selected);
+                    list = list.filter(friend => friend[this.selectedParam]);
 
                 return list
             }
@@ -77,22 +81,22 @@
 
 
 <style scoped>
-#root{
+.root{
     width: 600px;
     margin: auto;
 }
-#mb-friends_whitelist-search{
+.search{
     border-bottom: 1px solid #e6e7eb;
 }
-#mb-friends_whitelist-search > div{
+.search > div{
     display: inline-block;
 }
 
-#mb-friends_whitelist-friends_list{
+.friends_list{
     height: 350px;
     overflow-y: scroll;
 }
-.mb-friends_whitelist-friends_list-item{
+.friends_list-item{
     padding: 10px 20px;
     display: flex;
     border-bottom: 1px solid #e6e7eb;

@@ -7,6 +7,7 @@
             <select @click="onSelectOption" v-model="key">
                 <option :value="ALL_FRIENDS">Все друзья</option>
                 <option :value="ONLY_SOME_FRIENDS">Некоторые друзья</option>
+                <option :value="EXCEPT_SOME_FRIENDS">Всех, кроме некоторых друзей</option>
             </select>
             <div id="mb-privacy_settings-accepted_list">
                 <span v-for="(item, index) in list_description">
@@ -16,7 +17,8 @@
             </div>
         </div>
 
-        <FriendsWhitelist v-if="key===ONLY_SOME_FRIENDS" :friends="friends"/>
+        <FriendsList v-if="key===ONLY_SOME_FRIENDS" :friends="friends" selectedParam="whitelist_selected" />
+        <FriendsList v-if="key===EXCEPT_SOME_FRIENDS" :friends="friends" selectedParam="blacklist_selected" />
 
         <AppButton :onClick="handleCancel" transparent>Отмена</AppButton>
         <AppButton :onClick="handleAccept" >Сохранить</AppButton>
@@ -27,18 +29,18 @@
     import axios from 'axios';
 
     import AppButton from "../../components/ui/AppButton.vue"
-    import FriendsWhitelist from './FriendsWhitelist.vue'
+    import FriendsList from './FriendsList.vue'
 
     const ALL_FRIENDS = 0;
     const ONLY_OWNER = 1;
     const ONLY_SOME_FRIENDS = 2;
-    const ONLY_SOME_FRIENDS_LISTS = 3;
+    const EXCEPT_SOME_FRIENDS = 3;
 
     export default {
         name: 'App',
         components: {
-            FriendsWhitelist,
-            AppButton
+            AppButton,
+            FriendsList,
         },
         data:  function(){
             return {
@@ -48,7 +50,7 @@
                 ALL_FRIENDS: ALL_FRIENDS,
                 ONLY_OWNER: ONLY_OWNER,
                 ONLY_SOME_FRIENDS: ONLY_SOME_FRIENDS,
-                ONLY_SOME_FRIENDS_LISTS: ONLY_SOME_FRIENDS_LISTS,
+                EXCEPT_SOME_FRIENDS: EXCEPT_SOME_FRIENDS,
             }
         },
         methods: {
@@ -61,7 +63,15 @@
                     case this.ONLY_SOME_FRIENDS:
                         axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-some-friends/',{
                             selected_friends: this.friends.filter(function(friend){
-                                return friend.selected
+                                return friend.whitelist_selected
+                            }).map(friend => friend.external_id)
+                        })
+                            .then(response => {});
+                        break;
+                    case this.EXCEPT_SOME_FRIENDS:
+                        axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-except-some-friends/',{
+                            selected_friends: this.friends.filter(function(friend){
+                                return friend.blacklist_selected
                             }).map(friend => friend.external_id)
                         })
                             .then(response => {});
@@ -77,6 +87,7 @@
                         this.key = response.data.visibility_type;
                         switch (this.key) {
                             case this.ONLY_SOME_FRIENDS:
+                            case this.EXCEPT_SOME_FRIENDS:
                                 this.loadFriendsList();
                                 break;
                         }
@@ -95,7 +106,8 @@
                     })
             },
             onSelectOption(){
-                if (this.friends.length===0 && this.key===this.ONLY_SOME_FRIENDS){
+                if (this.friends.length===0 &&
+                    (this.key===this.ONLY_SOME_FRIENDS || this.key===this.EXCEPT_SOME_FRIENDS)){
                     this.loadFriendsList()
                 }
             }
