@@ -32,7 +32,7 @@ export default {
     cursor: pointer;
 }
 .circle-checkbox.selected{
-    background: url(../../assets/images/selected.svg) no-repeat 0;
+    background: url(../../assets/images/selected.png) no-repeat 0;
     box-shadow: none;
 }
 .circle-checkbox:after:after{
