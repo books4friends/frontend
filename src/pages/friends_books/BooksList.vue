@@ -24,6 +24,7 @@
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
     import BookOwner from "../../components/ui/book_card/BookOwner"
     import BookTitle from "../../components/ui/book_card/BookTitle"
+    import { SearchTimeout } from "../../utils/stringUtils"
 
     import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND } from "./consts"
 
@@ -53,8 +54,7 @@
                 books: [],
                 token: undefined,
                 infiniteId: +new Date(),
-                searchTimeout1: undefined,
-                searchTimeout2: undefined,
+                searchTimeout: undefined,
             }
         },
         watch: {
@@ -66,22 +66,7 @@
                 deep: true
             },
             searchStr: function () {
-                // send request after 0.3 seconds if there is no changes in the string
-                // send request every 0.8 seconds while typing
-
-                let timeoutLoad = function(){
-                    clearTimeout(this.searchTimeout1);
-                    clearTimeout(this.searchTimeout2);
-                    this.searchTimeout2 = undefined;
-                    this.infiniteId += 1;
-                    this.books = [];
-                }.bind(this);
-
-                clearTimeout(this.searchTimeout1);
-                this.searchTimeout1 = setTimeout(timeoutLoad, 300);
-                if(this.searchTimeout2 === undefined)
-                    this.searchTimeout2 = setTimeout(timeoutLoad, 800);
-
+                this.searchTimeout.reset();
             }
         },
         methods: {
@@ -118,6 +103,12 @@
 
                 }.bind(this));
             }
-        }
+        },
+        mounted: function () {
+            this.searchTimeout = new SearchTimeout(function () {
+                this.infiniteId += 1;
+                this.books = [];
+            }.bind(this))
+        },
     }
 </script>

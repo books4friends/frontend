@@ -47,4 +47,30 @@ const divideTextToLines = function (text, maxLines, maxLength) {
     return lines;
 };
 
-export { doArraysContainArrays, divideTextToLines }
+
+const SearchTimeout = class {
+    constructor(method){
+        this.method = method;
+        this.searchTimeout1 = undefined;
+        this.searchTimeout2 = undefined;
+    }
+    reset() {
+        // send request after 0.3 seconds if there is no changes in the string
+        // send request every 0.8 seconds while typing
+
+        let timeoutLoad = function () {
+            clearTimeout(this.searchTimeout1);
+            clearTimeout(this.searchTimeout2);
+            this.searchTimeout2 = undefined;
+            this.method();
+        }.bind(this);
+
+        clearTimeout(this.searchTimeout1);
+        this.searchTimeout1 = setTimeout(timeoutLoad, 300);
+        if (this.searchTimeout2 === undefined)
+            this.searchTimeout2 = setTimeout(timeoutLoad, 800);
+    };
+};
+
+
+export { doArraysContainArrays, divideTextToLines, SearchTimeout }

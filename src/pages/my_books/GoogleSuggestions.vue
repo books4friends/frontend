@@ -19,6 +19,8 @@
 <script>
     const VUE_APP_GOOGLE_API_KEY = process.env.VUE_APP_GOOGLE_API_KEY;
 
+    import { SearchTimeout } from "../../utils/stringUtils"
+
     export default {
         name: "GoogleSuggestions",
         props: {
@@ -33,45 +35,47 @@
         },
         data: () => {
             return {
-                googleSearchTimeout: null,
+                searchTimeout: undefined,
                 googleBooks: []
             }
         },
         watch: {
             title: function (){
-                if (this.title === "") {
-                    this.googleBooks = [];
-                    return;
-                }
-                if(this.googleSearchTimeout != null)
-                    clearTimeout(this.googleSearchTimeout);
-                this.googleSearchTimeout = setTimeout(function () {
-                    fetch("https://www.googleapis.com/books/v1/volumes?q=" + this.title + "&maxResults=5&xx&key="
-                        + VUE_APP_GOOGLE_API_KEY)
-                        .then((response) => {
-                            if(response.ok) {
-                                return response.json();
-                            }
-                        })
-                        .then((data) => {
-                            this.googleBooks = [];
-                            if (data && data.items)
-                                for(let i=0; i<data.items.length; i++){
-                                    let book = {};
-                                    book.id = data.items[i].id;
-                                    if (data.items[i].volumeInfo.hasOwnProperty("authors")){
-                                        book.author = data.items[i].volumeInfo.authors.join(', ');
-                                        book.title = data.items[i].volumeInfo.title;
-                                        book.image = data.items[i].volumeInfo.imageLinks ?
-                                            data.items[i].volumeInfo.imageLinks.thumbnail : null;
-                                    }else{
-                                        book.title = data.items[i].volumeInfo.title;
-                                    }
-                                    this.googleBooks.push(book);
-                                }
-                        });
-                }.bind(this), 350);
+                this.searchTimeout.reset();
             }
+        },
+        methods: {
+            loadGoogleBooks: function () {
+                fetch("https://www.googleapis.com/books/v1/volumes?q=" + this.title + "&maxResults=5&xx&key="
+                    + VUE_APP_GOOGLE_API_KEY)
+                    .then((response) => {
+                        if(response.ok) {
+                            return response.json();
+                        }
+                    })
+                    .then((data) => {
+                        this.googleBooks = [];
+                        if (data && data.items)
+                            for(let i=0; i<data.items.length; i++){
+                                let book = {};
+                                book.id = data.items[i].id;
+                                if (data.items[i].volumeInfo.hasOwnProperty("authors")){
+                                    book.author = data.items[i].volumeInfo.authors.join(', ');
+                                    book.title = data.items[i].volumeInfo.title;
+                                    book.image = data.items[i].volumeInfo.imageLinks ?
+                                        data.items[i].volumeInfo.imageLinks.thumbnail : null;
+                                }else{
+                                    book.title = data.items[i].volumeInfo.title;
+                                }
+                                this.googleBooks.push(book);
+                            }
+                    });
+            }
+        },
+        mounted() {
+            this.searchTimeout = new SearchTimeout(function () {
+                this.loadGoogleBooks();
+            }.bind(this))
         }
     }
 </script>
