@@ -47,6 +47,7 @@
                                 ref="custom_image"
                                 type="file"
                                 @change="handleFileUpload"
+                                accept=".png, .jpg, .jpeg"
                         />
                     </div>
                 </div>
