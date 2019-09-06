@@ -153,9 +153,15 @@
                 this.clearFields();
 
                 axios.post('http://127.0.0.1:8000/app/api/books/add-book/', formData).then(function (response) {
-                    this.notificationText = "Книга \""+ response.data.book.description.title + "\" добавлена";
-                    this.notificationVisible = true;
-                    this.onBookAdded();
+                    if (response.data.success) {
+                        this.notificationText = "Книга \""+ response.data.book.description.title + "\" добавлена";
+                        this.notificationVisible = true;
+                        this.onBookAdded();
+                    }else if(response.data.error_type === 'ALREADY_ADDED'){
+                        this.notificationText = "Книга \"" + response.data.author + ". " + response.data.title +
+                            "\" уже была добавлена до этого";
+                        this.notificationVisible = true;
+                    }
                 }.bind(this)).catch(function (e) {
                     console.log(e);
                 })
