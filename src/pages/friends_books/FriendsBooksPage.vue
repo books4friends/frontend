@@ -1,7 +1,7 @@
 <template>
     <div id="fb">
         <div id="fb-left">
-            <SearchFilter :onChange="changeSearch" />
+            <BookSearchFilter :onChange="changeSearch" />
             <BooksList :searchStr="searchStr" :filter="filter"/>
         </div>
         <div id="fb-right">
@@ -14,7 +14,7 @@
 <script>
     import BooksList from './BooksList.vue'
     import FilterByFriends from './FilterByFriends.vue'
-    import SearchFilter from './SearchFilter.vue'
+    import BookSearchFilter from '../../components/ui/BookSearchFilter.vue'
 
     import {FILTER_ALL} from './consts'
 
@@ -22,7 +22,7 @@
         components: {
             BooksList,
             FilterByFriends,
-            SearchFilter
+            BookSearchFilter,
         },
         data: function() {
             return {

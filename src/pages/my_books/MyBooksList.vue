@@ -1,7 +1,8 @@
 <template>
     <div>
+        <BookSearchFilter :onChange="handleSearch"/>
         <BookListFrame>
-            <BookItemFrame  v-for="book in books" v-bind:key="book.id">
+            <BookItemFrame  v-for="book in filteredBooks" v-bind:key="book.id">
                 <BookImage :img="book.description.image" :alt="book.description.title"/>
                 <BookTitle>{{ book.description.title }}</BookTitle>
                 <BookAuthor>{{ book.description.author }}</BookAuthor>
@@ -43,9 +44,11 @@
     import BookItemFrame from "../../components/ui/book_card/BookItemFrame"
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
     import BookOwner from "../../components/ui/book_card/BookOwner"
+    import BookSearchFilter from '../../components/ui/BookSearchFilter.vue'
     import BookTitle from "../../components/ui/book_card/BookTitle"
     import BreakLine from "../../components/ui/BreakLine"
     import DialogSetting from "../../components/ui/dialog/DialogSetting"
+    import { doArraysContainArrays } from "../../utils/stringUtils.js"
 
 
     export default {
@@ -57,6 +60,7 @@
             BookItemFrame,
             BookListFrame,
             BookOwner,
+            BookSearchFilter,
             BookTitle,
             BreakLine,
             DialogSetting
@@ -73,7 +77,8 @@
                             author: ""
                         }
                     }
-                }
+                },
+                searchStr: ""
             }
         },
         methods: {
@@ -124,6 +129,23 @@
             },
             cancelDeleteDialog: function () {
                 this.deleteSettings.visible = false;
+            },
+            handleSearch: function (newValue) {
+                this.searchStr = newValue;
+            },
+            filterByTitleAndAuthor: function (book) {
+                let searchWords = this.searchStr.toLowerCase().split(/\s+/);
+                let titleWords = book.description.title.toLowerCase().split(/\s+/)
+                    .concat(book.description.author.toLowerCase().split(/\s+/));
+                return doArraysContainArrays(searchWords, titleWords);
+            }
+        },
+        computed: {
+            filteredBooks : function () {
+                if (!this.searchStr.toLowerCase().split(/\s+/))
+                    return this.books;
+                else
+                    return this.books.filter(this.filterByTitleAndAuthor);
             }
         },
         created() {
