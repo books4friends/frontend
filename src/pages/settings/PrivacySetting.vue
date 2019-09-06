@@ -23,6 +23,9 @@
 
         <AppButton :onClick="handleCancel" transparent>Отмена</AppButton>
         <AppButton :onClick="handleAccept" >Сохранить</AppButton>
+        <NotificationWindow :close="hideNotification" v-if="notificationVisible">
+            Настройки сохранены
+        </NotificationWindow>
     </div>
 </template>
 
@@ -31,6 +34,7 @@
 
     import AppButton from "../../components/ui/AppButton.vue"
     import FriendsList from './FriendsList.vue'
+    import NotificationWindow from "../../components/ui/NotificationWindow"
 
     const ALL_FRIENDS = 0;
     const ONLY_OWNER = 1;
@@ -42,6 +46,7 @@
         components: {
             AppButton,
             FriendsList,
+            NotificationWindow,
         },
         data:  function(){
             return {
@@ -52,6 +57,7 @@
                 ONLY_OWNER: ONLY_OWNER,
                 ONLY_SOME_FRIENDS: ONLY_SOME_FRIENDS,
                 EXCEPT_SOME_FRIENDS: EXCEPT_SOME_FRIENDS,
+                notificationVisible: false,
             }
         },
         methods: {
@@ -59,7 +65,9 @@
                 switch (this.key) {
                     case this.ALL_FRIENDS:
                         axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-all-friends/')
-                            .then(response => {});
+                            .then(response => {
+                                this.notificationVisible = true;
+                            });
                         break;
                     case this.ONLY_SOME_FRIENDS:
                         axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-some-friends/',{
@@ -67,7 +75,9 @@
                                 return friend.whitelist_selected
                             }).map(friend => friend.external_id)
                         })
-                            .then(response => {});
+                            .then(response => {
+                                this.notificationVisible = true;
+                            });
                         break;
                     case this.EXCEPT_SOME_FRIENDS:
                         axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-except-some-friends/',{
@@ -75,11 +85,15 @@
                                 return friend.blacklist_selected
                             }).map(friend => friend.external_id)
                         })
-                            .then(response => {});
+                            .then(response => {
+                                this.notificationVisible = true;
+                            });
                         break;
                     case this.ONLY_OWNER:
                         axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-only-owner/')
-                            .then(response => {});
+                            .then(response => {
+                                this.notificationVisible = true;
+                            });
                         break;
                 }
             },
@@ -115,6 +129,9 @@
                     (this.key===this.ONLY_SOME_FRIENDS || this.key===this.EXCEPT_SOME_FRIENDS)){
                     this.loadFriendsList()
                 }
+            },
+            hideNotification: function(){
+                this.notificationVisible = false;
             }
         },
         created() {
