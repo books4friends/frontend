@@ -48,8 +48,8 @@
                 this.menuShown=false
             },
             logout: function(){
-                axios.post('http://127.0.0.1:8000/logout/').then(() => {
-                    window.location.href = 'http://127.0.0.1:8000/'
+                axios.post(process.env.VUE_APP_SERVER_URL + 'logout/').then(() => {
+                    window.location.href = process.env.VUE_APP_SERVER_URL + ''
                 })
             }
         },

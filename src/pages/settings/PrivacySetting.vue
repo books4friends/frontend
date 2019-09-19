@@ -64,13 +64,13 @@
             handleAccept: function(){
                 switch (this.key) {
                     case this.ALL_FRIENDS:
-                        axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-all-friends/')
+                        axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-all-friends/')
                             .then(response => {
                                 this.notificationVisible = true;
                             });
                         break;
                     case this.ONLY_SOME_FRIENDS:
-                        axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-some-friends/',{
+                        axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-some-friends/',{
                             selected_friends: this.friends.filter(function(friend){
                                 return friend.whitelist_selected
                             }).map(friend => friend.external_id)
@@ -80,7 +80,7 @@
                             });
                         break;
                     case this.EXCEPT_SOME_FRIENDS:
-                        axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-except-some-friends/',{
+                        axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-except-some-friends/',{
                             selected_friends: this.friends.filter(function(friend){
                                 return friend.blacklist_selected
                             }).map(friend => friend.external_id)
@@ -90,7 +90,7 @@
                             });
                         break;
                     case this.ONLY_OWNER:
-                        axios.post('http://127.0.0.1:8000/app/api/settings/privacy/set-only-owner/')
+                        axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-only-owner/')
                             .then(response => {
                                 this.notificationVisible = true;
                             });
@@ -101,7 +101,7 @@
                 this.loadSettings();
             },
             loadSettings: function(){
-                axios.get('http://127.0.0.1:8000/app/api/settings/')
+                axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/settings/')
                     .then(response => {
                         this.key = response.data.privacy_type;
                         switch (this.key) {
@@ -116,7 +116,7 @@
                     })
             },
             loadFriendsList: function(){
-                axios.get('http://127.0.0.1:8000/app/api/settings/privacy/friends/')
+                axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/friends/')
                     .then(response => {
                         this.friends = response.data.friends
                     })

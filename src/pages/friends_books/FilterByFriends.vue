@@ -66,7 +66,7 @@
         },
         methods: {
             loadFilters: function(){
-                axios.get('http://127.0.0.1:8000/app/api/friends-books/get-filters/')
+                axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/friends-books/get-filters/')
                     .then(function (response){
                         this.friends_list = response.data.data.friends;
                         this.citiesList = response.data.data.cities;

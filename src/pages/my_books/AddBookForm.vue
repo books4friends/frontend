@@ -152,7 +152,7 @@
 
                 this.clearFields();
 
-                axios.post('http://127.0.0.1:8000/app/api/my-books/add/', formData).then(function (response) {
+                axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/my-books/add/', formData).then(function (response) {
                     if (response.data.success) {
                         this.notificationText = "Книга \""+ response.data.book.description.title + "\" добавлена";
                         this.notificationVisible = true;
