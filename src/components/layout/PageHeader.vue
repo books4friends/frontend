@@ -16,7 +16,7 @@
                     <div class="dropdown-content-inner">
                         <router-link class="menu route" to="/app/settings/">Настройки</router-link>
                         <router-link class="menu route" to="/app/about/">О проекте</router-link>
-                        <div class="menu" @click="logout">Выйти</div>
+                        <div class="menu" @click="logout">{{ $t("quit") }}</div>
                     </div>
                 </div>
             </div>

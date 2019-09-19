@@ -4,6 +4,8 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import axios from 'axios';
 
+import i18n from './plugins/i18n.js'
+
 import FriendsBooksPage from "./pages/friends_books/FriendsBooksPage.vue"
 import MyBooksPage from './pages/my_books/MyBooksPage.vue'
 import SettingsPage from './pages/settings/SettingsPage.vue'
@@ -37,5 +39,6 @@ axios.interceptors.response.use((response) => {
 
 new Vue({
     router,
+    i18n,
     render: function (h) { return h(App)}
 }).$mount('#app');
