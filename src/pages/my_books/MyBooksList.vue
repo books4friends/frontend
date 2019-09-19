@@ -83,7 +83,7 @@
         },
         methods: {
             loadBooksList: function(){
-                axios.get('http://127.0.0.1:8000/app/api/books/my-books/')
+                axios.get('http://127.0.0.1:8000/app/api/my-books/')
                     .then(response => {
                         this.books = response.data.books
                     })
@@ -95,21 +95,21 @@
                 this.loadBooksList()
             },
             saveComment: function(bookId, value){
-                axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + bookId + '/edit-comment/', {comment: value})
+                axios.post('http://127.0.0.1:8000/app/api/my-books/' + bookId + '/edit-comment/', {comment: value})
                     .then(function (response) {
                         this.loadBooksList()
                     }.bind(this));
             },
             activate: function(attr) {
                 let book = attr[0];
-                axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + book.id + '/activate/')
+                axios.post('http://127.0.0.1:8000/app/api/my-books/' + book.id + '/activate/')
                     .then(function (response) {
                         attr[0].active = true;
                     }.bind(this));
             },
             deactivate: function (attr) {
                 let book = attr[0];
-                axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + book.id + '/deactivate/')
+                axios.post('http://127.0.0.1:8000/app/api/my-books/' + book.id + '/deactivate/')
                     .then(function (response) {
                         attr[0].active = false;
                     }.bind(this));
@@ -121,7 +121,7 @@
             },
             handleDeleteDialog: function(attrs){
                 let book = attrs[0];
-                axios.post('http://127.0.0.1:8000/app/api/books/my-books/' + book.id + '/delete/')
+                axios.post('http://127.0.0.1:8000/app/api/my-books/' + book.id + '/delete/')
                     .then(function (response) {
                         this.loadBooksList()
                     }.bind(this));

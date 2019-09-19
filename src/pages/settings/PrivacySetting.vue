@@ -116,7 +116,7 @@
                     })
             },
             loadFriendsList: function(){
-                axios.get('http://127.0.0.1:8000/app/api/settings/friends-list/')
+                axios.get('http://127.0.0.1:8000/app/api/settings/privacy/friends/')
                     .then(response => {
                         this.friends = response.data.friends
                     })

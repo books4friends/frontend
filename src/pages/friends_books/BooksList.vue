@@ -89,7 +89,7 @@
                 if (this.searchStr.toLowerCase().split(/\s+/))
                     params.search = this.searchStr;
 
-                axios.get('http://127.0.0.1:8000/app/api/books/friends-books/get-books/', {
+                axios.get('http://127.0.0.1:8000/app/api/friends-books/', {
                     params: params
                 }).then(function (response){
                     if (response.data.data.books.length > 0){
