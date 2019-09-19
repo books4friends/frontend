@@ -103,7 +103,7 @@
             loadSettings: function(){
                 axios.get('http://127.0.0.1:8000/app/api/settings/')
                     .then(response => {
-                        this.key = response.data.visibility_type;
+                        this.key = response.data.privacy_type;
                         switch (this.key) {
                             case this.ONLY_SOME_FRIENDS:
                             case this.EXCEPT_SOME_FRIENDS:
