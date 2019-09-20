@@ -10,12 +10,6 @@
                 <option :value="EXCEPT_SOME_FRIENDS">Всех, кроме некоторых друзей</option>
                 <option :value="ONLY_OWNER">Только я</option>
             </select>
-            <div id="mb-privacy_settings-accepted_list">
-                <span v-for="(item, index) in list_description">
-                    {{ item.title }}
-                    <span v-if="index < list_description.length - 1"> ,</span>
-                </span>
-            </div>
         </div>
 
         <FriendsList v-if="key===ONLY_SOME_FRIENDS" :friends="friends" selectedParam="whitelist_selected" />
@@ -51,7 +45,6 @@
         data:  function(){
             return {
                 key: undefined,
-                list_description: [],
                 friends: [],
                 ALL_FRIENDS: ALL_FRIENDS,
                 ONLY_OWNER: ONLY_OWNER,
