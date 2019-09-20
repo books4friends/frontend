@@ -1,8 +1,10 @@
 <template>
     <div class="root">
         <div class="search">
-            <SearchInline :onChange="changeSearch" placeholder="Начните вводить имя друга" />
-            <ToggleButton :onClick="switchFilterSelected" :selected="toFilterSelected">показать выбранных</ToggleButton>
+            <SearchInline :onChange="changeSearch" placeholder="filters.start_type_friends_name" />
+            <ToggleButton :onClick="switchFilterSelected" :selected="toFilterSelected">
+                {{ $t('actions.show_selected_friends') }}
+            </ToggleButton>
         </div>
         <div class="friends_list">
             <div v-for="friend in filteredFriends" class="friends_list-item">

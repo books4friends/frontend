@@ -1,6 +1,6 @@
 <template>
     <div class="search-inline">
-        <input type="text" :placeholder="placeholder" @keyup="update" v-model="str">
+        <input type="text" :placeholder="$t(placeholder)" @keyup="update" v-model="str">
     </div>
 </template>
 
@@ -14,7 +14,7 @@
             placeholder: {
                 type: String,
                 required: false,
-                default: "Поиск"
+                default: 'filters.search'
             }
         },
         data: function(){

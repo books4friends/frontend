@@ -1,24 +1,24 @@
 <template>
     <div id="mb-privacy_settings">
         <div id="mb-privacy_settings-left">
-            <span>Кто видит список моих книг</span>
+            <span>{{ $t('navigation.who_can_see_my_books') }}</span>
         </div>
         <div id="mb-privacy_settings-right">
             <select @click="onSelectOption" v-model="key">
-                <option :value="ALL_FRIENDS">Все друзья</option>
-                <option :value="ONLY_SOME_FRIENDS">Некоторые друзья</option>
-                <option :value="EXCEPT_SOME_FRIENDS">Всех, кроме некоторых друзей</option>
-                <option :value="ONLY_OWNER">Только я</option>
+                <option :value="ALL_FRIENDS">{{ $t('privacy.all_friends') }}</option>
+                <option :value="ONLY_SOME_FRIENDS">{{ $t('privacy.only_some_friends') }}</option>
+                <option :value="EXCEPT_SOME_FRIENDS">{{ $t('privacy.except_some_friends') }}</option>
+                <option :value="ONLY_OWNER">{{ $t('privacy.only_owner') }}</option>
             </select>
         </div>
 
         <FriendsList v-if="key===ONLY_SOME_FRIENDS" :friends="friends" selectedParam="whitelist_selected" />
         <FriendsList v-if="key===EXCEPT_SOME_FRIENDS" :friends="friends" selectedParam="blacklist_selected" />
 
-        <AppButton :onClick="handleCancel" transparent>Отмена</AppButton>
-        <AppButton :onClick="handleAccept" >Сохранить</AppButton>
+        <AppButton :onClick="handleCancel" transparent>{{ $t('actions.cancel') }}</AppButton>
+        <AppButton :onClick="handleAccept" >{{ $t('actions.save') }}</AppButton>
         <NotificationWindow :close="hideNotification" v-if="notificationVisible">
-            Настройки сохранены
+            {{ $t('notifications.settings_saved') }}
         </NotificationWindow>
     </div>
 </template>

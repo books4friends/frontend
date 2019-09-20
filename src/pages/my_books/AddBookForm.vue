@@ -1,6 +1,6 @@
 <template>
     <div id="mb-add_book">
-            <h2>Добавить книгу</h2>
+            <h2>{{ $t('navigation.add_book') }}</h2>
             <div class="mb-form">
                 <div class="image_preview">
                     <img v-if="image" :src="image">
@@ -9,12 +9,12 @@
                 </div>
                 <div id="mb-add_book-form-inputs">
                     <div class="mb-add_book-form-inputs-line">
-                        <label for="add_title">Название<span class="red"> *</span></label>
+                        <label for="add_title">{{ $t('forms.title') }}<span class="red"> *</span></label>
                         <div id="add_title_div">
                             <input v-model="title"
                                @focus="showGoogleSuggestions"
                                @blur="hideGoogleSuggestions"
-                               name="title" id="add_title" type="text" placeholder="Название">
+                               name="title" id="add_title" type="text" :placeholder="$t('forms.title')">
                                 <GoogleSuggestions
                                         v-if="googleSuggestionsVisible && this.title"
                                         :selectGoogleBook="selectGoogleBook"
@@ -23,15 +23,15 @@
                         </div>
                     </div>
                     <div class="mb-add_book-form-inputs-line">
-                        <label for="add_author">Автор</label>
-                        <input v-model="author" name="author" id="add_author" type="text" placeholder="Автор">
+                        <label for="add_author">{{ $t('forms.author') }}</label>
+                        <input v-model="author" name="author" id="add_author" type="text" :placeholder="$t('forms.author')">
                     </div>
                     <div class="mb-add_book-form-inputs-line">
-                        <label for="add_comment">Комментарий</label>
-                        <input v-model="comment" name="comment" id="add_comment" type="text" placeholder="Комментарий">
+                        <label for="add_comment">{{ $t('forms.comment') }}</label>
+                        <input v-model="comment" name="comment" id="add_comment" type="text" :placeholder="$t('forms.comment')">
                     </div>
                     <div class="add_image mb-add_book-form-inputs-line">
-                        <button @click="launchFilePicker">Загрузить свою картинку</button>
+                        <button @click="launchFilePicker">{{ $t('forms.upload_image') }}</button>
                         <input
                                 ref="custom_image"
                                 type="file"
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div id="mb-add_book-form-submit">
-                <AppButton :onClick="submit">Добавить</AppButton>
+                <AppButton :onClick="submit">{{ $t('actions.add') }}</AppButton>
             </div>
         <NotificationWindow :close="hideNotification" v-if="notificationVisible">{{ notificationText }}</NotificationWindow>
     </div>
@@ -154,12 +154,12 @@
 
                 axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/my-books/add/', formData).then(function (response) {
                     if (response.data.success) {
-                        this.notificationText = "Книга \""+ response.data.book.description.title + "\" добавлена";
+                        this.notificationText = this.$t('notifications.book_added', {title: response.data.book.description.title});
                         this.notificationVisible = true;
                         this.onBookAdded();
                     }else if(response.data.error_type === 'ALREADY_ADDED'){
-                        this.notificationText = "Книга \"" + response.data.author + ". " + response.data.title +
-                            "\" уже была добавлена до этого";
+                        this.notificationText = this.$t('notifications.book_already_added',
+                            {author: response.data.author, title: response.data.title });
                         this.notificationVisible = true;
                     }
                 }.bind(this)).catch(function (e) {

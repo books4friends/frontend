@@ -1,7 +1,7 @@
 <template>
     <div>
         <AddBookForm :onBookAdded="onBookAdded"/>
-        <h2>Мои книги</h2>
+        <h2>{{ $t('navigation.my_books') }}</h2>
         <MyBooksList ref="bookList" id="mb-book_list"/>
     </div>
 </template>

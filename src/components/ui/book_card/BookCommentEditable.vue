@@ -1,7 +1,7 @@
 <template>
     <div>
         <BookComment v-if="!editing && value">{{ value }}</BookComment>
-        <BookComment v-else-if="!editing && !value">Без комментария</BookComment>
+        <BookComment v-else-if="!editing && !value">{{ $t('book_desc.without_comment') }}</BookComment>
         <input v-else v-model="newValue" type="text" id="edit_input" ref="edit_input" >
 
         <div id="buttons">

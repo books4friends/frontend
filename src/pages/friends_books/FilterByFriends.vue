@@ -7,7 +7,7 @@
                         v-bind:class="{ selected: filterStatus === FILTER_STATUS_ALL }"
                         class="li_choice"
                 >
-                    Все
+                    {{ $t('filters.all_friends') }}
                 </li>
             </ul>
         </div>

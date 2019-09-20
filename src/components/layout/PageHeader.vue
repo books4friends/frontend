@@ -1,9 +1,9 @@
 <template>
     <div id="navigation">
         <div id="center">
-            <router-link  class="menu" to="/app/">Книги друзей</router-link>
+            <router-link  class="menu" to="/app/">{{ $t('navigation.friends_books') }}</router-link>
 
-            <router-link class="menu route push" to="/app/my-books/">Мои книги</router-link>
+            <router-link class="menu route push" to="/app/my-books/">{{ $t('navigation.my_books') }}</router-link>
             <div class="dropdown">
                 <div
                         class="menu dropdown-opener" v-bind:class="{active:menuShown}"
@@ -14,9 +14,9 @@
                 </div>
                 <div v-if="menuShown" class="dropdown-content">
                     <div class="dropdown-content-inner">
-                        <router-link class="menu route" to="/app/settings/">Настройки</router-link>
-                        <router-link class="menu route" to="/app/about/">О проекте</router-link>
-                        <div class="menu" @click="logout">{{ $t("quit") }}</div>
+                        <router-link class="menu route" to="/app/settings/">{{ $t('navigation.settings') }}</router-link>
+                        <router-link class="menu route" to="/app/about/">{{ $t('navigation.about_project') }}</router-link>
+                        <div class="menu" @click="logout">{{ $t('navigation.logout') }}</div>
                     </div>
                 </div>
             </div>

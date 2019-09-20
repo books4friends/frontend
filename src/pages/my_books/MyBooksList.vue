@@ -9,26 +9,35 @@
                 <BreakLine />
                 <BookCommentEditable :saveValue="saveComment" :value="book.comment" :bookId="book.id"/>
                 <div class="actions">
-                    <AppButton v-if="book.active" :onClick="deactivate" :attrs="[book]" class="action-button">Активно</AppButton>
-                    <AppButton v-else :onClick="activate" :attrs="[book]" class="action-button">Не активно</AppButton>
-                    <AppButton :onClick="openDeleteDialog" :attrs="[book]" class="action-button">Удалить</AppButton>
+                    <AppButton v-if="book.active" :onClick="deactivate" :attrs="[book]" class="action-button">
+                        {{ $t('book_desc.active') }}
+                    </AppButton>
+                    <AppButton v-else :onClick="activate" :attrs="[book]" class="action-button">
+                        {{ $t('book_desc.not_active') }}
+                    </AppButton>
+                    <AppButton :onClick="openDeleteDialog" :attrs="[book]" class="action-button">
+                        {{ $t('actions.delete') }}
+                    </AppButton>
                 </div>
             </BookItemFrame>
         </BookListFrame>
         <DialogSetting
                 v-if="deleteSettings.visible"
-                title="Удалить книгу"
+                :title="$t('navigation.delete_book')"
                 :onAccept="handleDeleteDialog"
                 :cancelDialog="cancelDeleteDialog"
                 :attrs="[deleteSettings.book]"
-                acceptTitle="Удалить"
+                acceptTitle="actions.delete"
         >
-                <div id="deleteDialog">
-                Вы уверены что хотите удалить книгу
-                <span id="deleteDialog_author">{{deleteSettings.book.description.author}}</span>
-                <span>.&nbsp;</span>
-                <span id="deleteDialog_title">"{{deleteSettings.book.description.title}}"</span>
-            </div>
+            <i18n
+                path="dialogs.sure_to_delete"
+                tag="div"
+                id="deleteDialog"
+            >
+                <span place="author" id="deleteDialog_author">{{deleteSettings.book.description.author}}</span>
+                <span place="title" id="deleteDialog_title">"{{deleteSettings.book.description.title}}"</span>
+            </i18n>
+
         </DialogSetting>
     </div>
 </template>
