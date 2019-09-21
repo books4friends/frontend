@@ -29,6 +29,11 @@
             cancel: function () {
                 this.key = i18n.locale;
             }
+        },
+        computed: {
+            changed: function () {
+                return this.key !== i18n.locale;
+            }
         }
     }
 </script>

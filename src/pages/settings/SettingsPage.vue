@@ -26,8 +26,14 @@
                 this.$refs.localeSettings.cancel();
             },
             handleSave: function () {
-                this.$refs.privacySettings.save();
-                this.$refs.localeSettings.save();
+                if (this.$refs.privacySettings.changed) {
+                    this.$refs.privacySettings.save();
+                    this.$refs.privacySettings.loadSettings();
+                }
+                if (this.$refs.localeSettings.changed) {
+                    this.$refs.localeSettings.save();
+                    window.location.reload();
+                }
             }
         }
     }

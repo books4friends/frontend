@@ -1,7 +1,7 @@
 <template>
     <div id="mb-privacy_settings">
         <SettingsSelect title="navigation.who_can_see_my_books">
-            <select @click="onSelectOption" v-model="key">
+            <select @click="onSelectOption" v-model="privacyType">
                 <option :value="ALL_FRIENDS">{{ $t('privacy.all_friends') }}</option>
                 <option :value="ONLY_SOME_FRIENDS">{{ $t('privacy.only_some_friends') }}</option>
                 <option :value="EXCEPT_SOME_FRIENDS">{{ $t('privacy.except_some_friends') }}</option>
@@ -9,8 +9,8 @@
             </select>
         </SettingsSelect>
 
-        <FriendsList v-if="key===ONLY_SOME_FRIENDS" :friends="friends" selectedParam="whitelist_selected" />
-        <FriendsList v-if="key===EXCEPT_SOME_FRIENDS" :friends="friends" selectedParam="blacklist_selected" />
+        <FriendsList v-if="privacyType===ONLY_SOME_FRIENDS" :friends="friends" selectedParam="whitelist_selected" />
+        <FriendsList v-if="privacyType===EXCEPT_SOME_FRIENDS" :friends="friends" selectedParam="blacklist_selected" />
 
         <NotificationWindow :close="hideNotification" v-if="notificationVisible">
             {{ $t('notifications.settings_saved') }}
@@ -41,8 +41,10 @@
         },
         data:  function(){
             return {
-                key: undefined,
+                privacyType: undefined,
+                privacyTypeOriginal: undefined,
                 friends: [],
+                friendsOriginal: [],
                 ALL_FRIENDS: ALL_FRIENDS,
                 ONLY_OWNER: ONLY_OWNER,
                 ONLY_SOME_FRIENDS: ONLY_SOME_FRIENDS,
@@ -52,7 +54,7 @@
         },
         methods: {
             save: function(){
-                switch (this.key) {
+                switch (this.privacyType) {
                     case this.ALL_FRIENDS:
                         axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-all-friends/')
                             .then(response => {
@@ -88,13 +90,15 @@
                 }
             },
             cancel: function(){
-                this.loadSettings();
+                this.privacyType = this.privacyTypeOriginal;
+                this.friends = [...this.friendsOriginal];
             },
             loadSettings: function(){
                 axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/settings/')
                     .then(response => {
-                        this.key = response.data.privacy_type;
-                        switch (this.key) {
+                        this.privacyType = response.data.privacy_type;
+                        this.privacyTypeOriginal = response.data.privacy_type;
+                        switch (this.privacyType) {
                             case this.ONLY_SOME_FRIENDS:
                             case this.EXCEPT_SOME_FRIENDS:
                                 this.loadFriendsList();
@@ -108,7 +112,8 @@
             loadFriendsList: function(){
                 axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/friends/')
                     .then(response => {
-                        this.friends = response.data.friends
+                        this.friendsOriginal = JSON.parse(JSON.stringify( response.data.friends ));
+                        this.friends = JSON.parse(JSON.stringify( response.data.friends ));
                     })
                     .catch(e => {
                         this.errors.push(e)
@@ -116,12 +121,32 @@
             },
             onSelectOption(){
                 if (this.friends.length===0 &&
-                    (this.key===this.ONLY_SOME_FRIENDS || this.key===this.EXCEPT_SOME_FRIENDS)){
+                    (this.privacyType===this.ONLY_SOME_FRIENDS || this.privacyType===this.EXCEPT_SOME_FRIENDS)){
                     this.loadFriendsList()
                 }
             },
             hideNotification: function(){
                 this.notificationVisible = false;
+            }
+        },
+        computed:{
+            changed: function () {
+                if (this.privacyType !== this.privacyTypeOriginal)
+                    return true;
+                else if (this.privacyType===this.ONLY_SOME_FRIENDS){
+                    for (let i=0 ; i<this.friends.length ; i++){
+                        if (this.friends[i].whitelist_selected !== this.friendsOriginal[i].whitelist_selected)
+                            return true
+                    }
+                    return false
+                }else if (this.privacyType===this.EXCEPT_SOME_FRIENDS){
+                    for (let i=0 ; i<this.friends.length ; i++){
+                        if (this.friends[i].blacklist_selected !== this.friendsOriginal[i].blacklist_selected)
+                            return true
+                    }
+                    return false
+                } else
+                    return false
             }
         },
         created() {
