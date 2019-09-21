@@ -15,8 +15,6 @@
         <FriendsList v-if="key===ONLY_SOME_FRIENDS" :friends="friends" selectedParam="whitelist_selected" />
         <FriendsList v-if="key===EXCEPT_SOME_FRIENDS" :friends="friends" selectedParam="blacklist_selected" />
 
-        <AppButton :onClick="handleCancel" transparent>{{ $t('actions.cancel') }}</AppButton>
-        <AppButton :onClick="handleAccept" >{{ $t('actions.save') }}</AppButton>
         <NotificationWindow :close="hideNotification" v-if="notificationVisible">
             {{ $t('notifications.settings_saved') }}
         </NotificationWindow>
@@ -54,7 +52,7 @@
             }
         },
         methods: {
-            handleAccept: function(){
+            save: function(){
                 switch (this.key) {
                     case this.ALL_FRIENDS:
                         axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-all-friends/')
@@ -90,7 +88,7 @@
                         break;
                 }
             },
-            handleCancel: function(){
+            cancel: function(){
                 this.loadSettings();
             },
             loadSettings: function(){
@@ -160,9 +158,5 @@
     }
     #mb-privacy_settings-right > select:focus{
         outline: none;
-    }
-
-    #mb-privacy_settings-accepted_list{
-        font-size: 12px;
     }
 </style>
