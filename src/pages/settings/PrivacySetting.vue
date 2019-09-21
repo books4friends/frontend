@@ -1,16 +1,13 @@
 <template>
     <div id="mb-privacy_settings">
-        <div id="mb-privacy_settings-left">
-            <span>{{ $t('navigation.who_can_see_my_books') }}</span>
-        </div>
-        <div id="mb-privacy_settings-right">
+        <SettingsSelect title="navigation.who_can_see_my_books">
             <select @click="onSelectOption" v-model="key">
                 <option :value="ALL_FRIENDS">{{ $t('privacy.all_friends') }}</option>
                 <option :value="ONLY_SOME_FRIENDS">{{ $t('privacy.only_some_friends') }}</option>
                 <option :value="EXCEPT_SOME_FRIENDS">{{ $t('privacy.except_some_friends') }}</option>
                 <option :value="ONLY_OWNER">{{ $t('privacy.only_owner') }}</option>
             </select>
-        </div>
+        </SettingsSelect>
 
         <FriendsList v-if="key===ONLY_SOME_FRIENDS" :friends="friends" selectedParam="whitelist_selected" />
         <FriendsList v-if="key===EXCEPT_SOME_FRIENDS" :friends="friends" selectedParam="blacklist_selected" />
@@ -27,6 +24,7 @@
     import AppButton from "../../components/ui/AppButton.vue"
     import FriendsList from './FriendsList.vue'
     import NotificationWindow from "../../components/ui/NotificationWindow"
+    import SettingsSelect from "../../components/ui/SettingsSelect";
 
     const ALL_FRIENDS = 0;
     const ONLY_OWNER = 1;
@@ -39,6 +37,7 @@
             AppButton,
             FriendsList,
             NotificationWindow,
+            SettingsSelect,
         },
         data:  function(){
             return {
@@ -132,31 +131,4 @@
 </script>
 
 <style scoped>
-    #mb-privacy_settings-left{
-        width: 50%;
-        display: inline-block;
-    }
-    #mb-privacy_settings-right {
-        width: 50%;
-        display: inline-block;
-        text-align: right;
-    }
-
-    #mb-privacy_settings-right > select{
-        font-size: 16px;
-        height: 34px;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        padding: 0;
-        margin: 0;
-        border: none;
-        background: none;
-        color: #2a5885;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    #mb-privacy_settings-right > select:focus{
-        outline: none;
-    }
 </style>
