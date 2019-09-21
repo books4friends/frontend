@@ -32,7 +32,7 @@
         text-align: right;
     }
 
-    .settings-right > select{
+    select{
         font-size: 16px;
         height: 34px;
         -webkit-appearance: none;
@@ -45,8 +45,14 @@
         color: #2a5885;
         text-decoration: none;
         cursor: pointer;
+        text-align-last: right;
     }
-    .settings-right > select:focus{
+
+    select:focus{
         outline: none;
+    }
+
+    option {
+        direction: rtl;
     }
 </style>
