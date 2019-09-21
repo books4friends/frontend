@@ -34,6 +34,7 @@ export default {
         'my_books' : 'My Books',
         'logout' : 'Logout',
         'settings' : 'Settings',
+        'select_locale': 'Choose language',
         'who_can_see_my_books': 'Who can see my books',
     },
     'notifications': {

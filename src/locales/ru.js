@@ -33,6 +33,7 @@ export default {
         'friends_books' : 'Книги друзей',
         'my_books' : 'Мои книги',
         'logout' : 'Выход',
+        'select_locale': 'Выберите язык',
         'settings' : 'Настройки',
         'who_can_see_my_books': 'Кто видит список моих книг',
     },
