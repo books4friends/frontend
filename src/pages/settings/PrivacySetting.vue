@@ -135,18 +135,16 @@
 
 <style scoped>
     #mb-privacy_settings-left{
-        width: 400px;
+        width: 50%;
         display: inline-block;
-        vertical-align: top;
     }
     #mb-privacy_settings-right {
-        width: 350px;
+        width: 50%;
         display: inline-block;
-
+        text-align: right;
     }
 
     #mb-privacy_settings-right > select{
-        width: 200px;
         font-size: 16px;
         height: 34px;
         -webkit-appearance: none;
