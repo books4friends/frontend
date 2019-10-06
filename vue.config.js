@@ -3,7 +3,7 @@ const BundleTracker = require("webpack-bundle-tracker");
 
 module.exports = {
     publicPath: "/app/",
-    outputDir: '../project/apps/frontend/static/frontend/app/',
+    outputDir: 'build/static/',
 
     chainWebpack: config => {
 
@@ -12,7 +12,7 @@ module.exports = {
 
         config
             .plugin('BundleTracker')
-            .use(BundleTracker, [{filename: '../project/apps/frontend/webpack-stats.json'}]);
+            .use(BundleTracker, [{filename: 'build/webpack-stats/webpack-stats.json'}]);
 
         config.resolve.alias
             .set('__STATIC__', 'static');
