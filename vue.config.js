@@ -3,7 +3,7 @@ const BundleTracker = require("webpack-bundle-tracker");
 
 module.exports = {
     publicPath: "/app/",
-    outputDir: 'build/static/',
+    outputDir: 'build/static/app/',
 
     chainWebpack: config => {
 
