@@ -138,8 +138,10 @@
 
                 if (this.customImage)
                     formData.append('image', this.customImage);
-                if (!this.image)
+                else if (!this.image)
                     formData.append('image', this.$refs.generatedImage.getBlob(), 'name.jpg');
+                else if (this.selectedGoogleBook)
+                    formData.append('external_image', this.selectedGoogleBook.image)
 
                 if (
                     ! this.customImage &&
