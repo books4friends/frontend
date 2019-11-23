@@ -2,10 +2,10 @@
     <BookListFrame>
         <BookItemFrame v-for="book in books" v-bind:key="book.id">
             <BookOwner :link="book.owner.link" :img="book.owner.image" :name="book.owner.name"/>
-            <BookImage v-if="book.description.image" :img="book.description.image" :alt="book.description.title"/>
-            <BookTitle>{{ book.description.title }}</BookTitle>
-            <BookAuthor>{{ book.description.author }}</BookAuthor>
-            <BookComment>{{ book.comment }}</BookComment>
+            <BookImage v-if="book.item.description.image" :img="book.item.description.image" :alt="book.item.description.title"/>
+            <BookTitle>{{ book.item.description.title }}</BookTitle>
+            <BookAuthor>{{ book.item.description.author }}</BookAuthor>
+            <BookComment>{{ book.item.comment }}</BookComment>
         </BookItemFrame>
         <InfiniteLoading :identifier="infiniteId" @infinite="loadBooks">
             <div slot="no-more"></div>
