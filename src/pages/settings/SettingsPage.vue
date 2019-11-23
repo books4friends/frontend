@@ -25,15 +25,18 @@
                 this.$refs.privacySettings.cancel();
                 this.$refs.localeSettings.cancel();
             },
-            handleSave: function () {
-                if (this.$refs.privacySettings.changed) {
-                    this.$refs.privacySettings.save();
-                    this.$refs.privacySettings.loadSettings();
-                }
-                if (this.$refs.localeSettings.changed) {
-                    this.$refs.localeSettings.save();
+            handleSave: async function () {
+                let methods = [];
+                if (this.$refs.privacySettings.changed)
+                    methods.push(this.$refs.privacySettings.save());
+                if (this.$refs.localeSettings.changed)
+                    methods.push(this.$refs.localeSettings.save());
+                await Promise.all(methods);
+
+                if (this.$refs.localeSettings.changed)
                     window.location.reload();
-                }
+                if (this.$refs.privacySettings.changed)
+                    this.$refs.privacySettings.loadSettings();
             }
         }
     }

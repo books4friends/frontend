@@ -53,16 +53,16 @@
             }
         },
         methods: {
-            save: function(){
+            save: async function(){
                 switch (this.privacyType) {
                     case this.ALL_FRIENDS:
-                        axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-all-friends/')
+                        await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-all-friends/')
                             .then(response => {
                                 this.notificationVisible = true;
                             });
                         break;
                     case this.ONLY_SOME_FRIENDS:
-                        axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-some-friends/',{
+                        await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-some-friends/',{
                             selected_friends: this.friends.filter(function(friend){
                                 return friend.whitelist_selected
                             }).map(friend => friend.external_id)
@@ -72,7 +72,7 @@
                             });
                         break;
                     case this.EXCEPT_SOME_FRIENDS:
-                        axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-except-some-friends/',{
+                        await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-except-some-friends/',{
                             selected_friends: this.friends.filter(function(friend){
                                 return friend.blacklist_selected
                             }).map(friend => friend.external_id)
@@ -82,7 +82,7 @@
                             });
                         break;
                     case this.ONLY_OWNER:
-                        axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-only-owner/')
+                        await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-only-owner/')
                             .then(response => {
                                 this.notificationVisible = true;
                             });
