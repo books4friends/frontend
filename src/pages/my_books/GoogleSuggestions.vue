@@ -62,6 +62,7 @@
                                 if (data.items[i].volumeInfo.hasOwnProperty("authors")){
                                     book.author = data.items[i].volumeInfo.authors.join(', ');
                                     book.title = data.items[i].volumeInfo.title;
+                                    book.description = data.items[i].volumeInfo.description;
                                     book.image = data.items[i].volumeInfo.imageLinks ?
                                         data.items[i].volumeInfo.imageLinks.thumbnail : null;
                                 }else{

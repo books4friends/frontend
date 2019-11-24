@@ -18,6 +18,7 @@ export default {
     'forms': {
         'author': 'Автор',
         'comment': 'Комментарий',
+        'description': 'Описание',
         'title': 'Название',
         'upload_image': 'Загрузить свою картинку',
     },

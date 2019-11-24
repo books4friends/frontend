@@ -27,6 +27,10 @@
                         <input v-model="author" name="author" id="add_author" type="text" :placeholder="$t('forms.author')">
                     </div>
                     <div class="mb-add_book-form-inputs-line">
+                        <label for="add_description">{{ $t('forms.description') }}</label>
+                        <textarea v-model="description" name="description" id="add_description" type="text" :placeholder="$t('forms.description')"></textarea>
+                    </div>
+                    <div class="mb-add_book-form-inputs-line">
                         <label for="add_comment">{{ $t('forms.comment') }}</label>
                         <input v-model="comment" name="comment" id="add_comment" type="text" :placeholder="$t('forms.comment')">
                     </div>
@@ -77,6 +81,7 @@
                 author: "",
                 image: null,
                 customImage: null,
+                description: null,
                 comment: null,
                 googleSuggestionsVisible: false,
                 selectedGoogleBook: null,
@@ -88,6 +93,7 @@
             selectGoogleBook: function (book) {
                 this.title = book.title;
                 this.author = book.author;
+                this.description = book.description;
                 this.image = book.image;
                 this.selectedGoogleBook = book;
             },
@@ -121,6 +127,7 @@
             clearFields: function(){
                 this.title = '';
                 this.author = '';
+                this.description = '';
                 this.comment = '';
                 this.image = undefined;
                 this.customImage = undefined;
@@ -133,6 +140,8 @@
                 formData.append('title', this.title);
                 if (this.author)
                     formData.append('author', this.author);
+                if (this.description)
+                    formData.append('description', this.description);
                 if (this.comment)
                     formData.append('comment', this.comment);
 
@@ -148,6 +157,7 @@
                     this.selectedGoogleBook
                     && this.title === this.selectedGoogleBook.title
                     && this.author === this.selectedGoogleBook.author
+                    && this.description === this.selectedGoogleBook.description
                     && this.image === this.selectedGoogleBook.image
                 )
                     formData.append('external_id', this.selectedGoogleBook.id);
@@ -177,15 +187,11 @@
 
 
 <style scoped>
-.mb-form{
-    height: 200px;
-}
-
 .image_preview{
-    float:left;
+    display: inline-block;
     width: 128px;
     height: 199px;
-    position: relative;
+    vertical-align: top;
 }
 
 .image_preview > img{
@@ -213,6 +219,11 @@
     width: 100%;
 }
 
+#mb-add_book-form-inputs{
+    display: inline-block;
+    width: 600px;
+}
+
 .mb-add_book-form-inputs-line {
     margin-bottom: 20px;
     display: flex;
@@ -224,19 +235,23 @@
     width: 50%;
 }
 
-.mb-add_book-form-inputs-line input[type="text"]{
+.mb-add_book-form-inputs-line input[type="text"], .mb-add_book-form-inputs-line textarea{
     border: none;
     border-bottom: 1px solid #333;
     width: 50%;
 }
 
-.mb-add_book-form-inputs-line input[type="text"]:focus{
+.mb-add_book-form-inputs-line textarea{
+    height: 150px;
+}
+
+.mb-add_book-form-inputs-line input[type="text"]:focus, .mb-add_book-form-inputs-line textarea:focus{
     outline-width: 0;
 }
-.mb-add_book-form-inputs-line input[type="text"]::placeholder{
+.mb-add_book-form-inputs-line input[type="text"]::placeholder, .mb-add_book-form-inputs-line textarea::placeholder{
     color: #8c8c8c;
 }
-.mb-add_book-form-inputs-line input[type="text"]:focus::placeholder{
+.mb-add_book-form-inputs-line input[type="text"]:focus::placeholder, .mb-add_book-form-inputs-line textarea:focus::placeholder{
     color: #bfbfbf;
 }
 

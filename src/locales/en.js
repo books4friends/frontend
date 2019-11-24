@@ -18,6 +18,7 @@ export default {
     'forms': {
         'author': 'Author',
         'comment': 'Comment',
+        'description': 'Description',
         'title': 'Title',
         'upload_image': 'Upload you own cover',
     },
