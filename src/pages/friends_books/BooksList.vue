@@ -1,10 +1,13 @@
 <template>
     <BookListFrame>
-        <BookItemFrame v-for="book in books" v-bind:key="book.id">
+        <BookItemFrame v-for="book in books" v-bind:key="book.item.id">
             <BookOwner :link="book.owner.link" :img="book.owner.image" :name="book.owner.name"/>
-            <BookImage v-if="book.item.description.image" :img="book.item.description.image" :alt="book.item.description.title"/>
-            <BookTitle>{{ book.item.description.title }}</BookTitle>
-            <BookAuthor>{{ book.item.description.author }}</BookAuthor>
+            <router-link class="route-book" :to="'/app/book/'+book.item.id+'/'">
+                <BookImage v-if="book.item.description.image" :img="book.item.description.image" :alt="book.item.description.title"/>
+                <BookTitle>{{ book.item.description.title }}</BookTitle>
+                <BookAuthor>{{ book.item.description.author }}</BookAuthor>
+            </router-link>
+            <BreakLine />
             <BookComment>{{ book.item.comment }}</BookComment>
         </BookItemFrame>
         <InfiniteLoading :identifier="infiniteId" @infinite="loadBooks">

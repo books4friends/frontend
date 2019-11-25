@@ -3,9 +3,11 @@
         <BookSearchFilter :onChange="handleSearch"/>
         <BookListFrame>
             <BookItemFrame  v-for="book in filteredBooks" v-bind:key="book.id">
-                <BookImage :img="book.description.image" :alt="book.description.title"/>
-                <BookTitle>{{ book.description.title }}</BookTitle>
-                <BookAuthor>{{ book.description.author }}</BookAuthor>
+                <router-link class="route-book" :to="'/app/book/'+book.id+'/'">
+                    <BookImage :img="book.description.image" :alt="book.description.title"/>
+                    <BookTitle>{{ book.description.title }}</BookTitle>
+                    <BookAuthor>{{ book.description.author }}</BookAuthor>
+                </router-link>
                 <BreakLine />
                 <BookCommentEditable :saveValue="saveComment" :value="book.comment" :bookId="book.id"/>
                 <div class="actions">
@@ -96,12 +98,6 @@
                     .then(response => {
                         this.books = response.data.books
                     })
-                    .catch(e => {
-                        this.errors.push(e)
-                    })
-            },
-            addBook: function(){
-                this.loadBooksList()
             },
             saveComment: function(bookId, value){
                 axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/my-books/' + bookId + '/edit-comment/', {comment: value})

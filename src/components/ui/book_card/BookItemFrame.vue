@@ -16,4 +16,11 @@
         transition: box-shadow 300ms;
         align-self: start;
     }
+    .item > .route-book{
+        color: #000;
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+    }
 </style>

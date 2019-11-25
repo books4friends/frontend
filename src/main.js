@@ -10,6 +10,7 @@ import FriendsBooksPage from "./pages/friends_books/FriendsBooksPage.vue"
 import MyBooksPage from './pages/my_books/MyBooksPage.vue'
 import SettingsPage from './pages/settings/SettingsPage.vue'
 import AboutPage from './pages/about/AboutPage.vue'
+import BookDetailPage from "./pages/book_detail/BookDetailPage";
 
 Vue.config.productionTip = false;
 
@@ -21,6 +22,7 @@ const routes = [
     { path: "/app/my-books/", component: MyBooksPage },
     { path: "/app/settings/", component: SettingsPage },
     { path: "/app/about/", component: AboutPage },
+    { path: "/app/book/:id/", component: BookDetailPage }
 ];
 
 const router = new VueRouter({
