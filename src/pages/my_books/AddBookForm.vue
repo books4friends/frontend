@@ -27,6 +27,14 @@
                         <input v-model="author" name="author" id="add_author" type="text" :placeholder="$t('forms.author')">
                     </div>
                     <div class="mb-add_book-form-inputs-line">
+                        <label>{{ $t('forms.genre') }}</label>
+                        <select name="add_genre" v-model="genre">
+                            <option disabled selected value="none">{{ $t('forms.select_genre') }} </option>
+                            <option :value="genre.index" v-for="genre in config.genres">{{ genre.title }}</option>
+                            <option selected :value="null">{{ $t('forms.no_genre') }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-add_book-form-inputs-line">
                         <label for="add_description">{{ $t('forms.description') }}</label>
                         <textarea v-model="description" name="description" id="add_description" type="text" :placeholder="$t('forms.description')"></textarea>
                     </div>
@@ -61,6 +69,7 @@
     import GoogleSuggestions from "./GoogleSuggestions";
     import ImageGenerator from "./ImageGenerator";
     import NotificationWindow from "../../components/ui/NotificationWindow"
+    import config from "../../plugins/getDjangoConfig";
 
     export default {
         components: {
@@ -79,6 +88,7 @@
             return {
                 title: "",
                 author: "",
+                genre: null,
                 image: null,
                 customImage: null,
                 description: null,
@@ -86,7 +96,8 @@
                 googleSuggestionsVisible: false,
                 selectedGoogleBook: null,
                 notificationVisible: false,
-                notificationText: ""
+                notificationText: "",
+                config,
             }
         },
         methods: {
@@ -144,6 +155,8 @@
                     formData.append('description', this.description);
                 if (this.comment)
                     formData.append('comment', this.comment);
+                if (this.genre)
+                    formData.append('genre', this.genre);
 
                 if (this.customImage)
                     formData.append('image', this.customImage);

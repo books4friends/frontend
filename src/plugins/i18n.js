@@ -8,8 +8,7 @@ import ru from '../locales/ru'
 
 Vue.use(VueI18n);
 
-const configElement = document.getElementById( 'config' );
-const config = JSON.parse( configElement.innerHTML );
+import config from "./getDjangoConfig";
 
 let locale;
 if(config.locale !== 'undefined'){
