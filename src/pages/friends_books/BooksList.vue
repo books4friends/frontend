@@ -7,7 +7,7 @@
                 <BookTitle>{{ book.item.description.title }}</BookTitle>
                 <BookAuthor>{{ book.item.description.author }}</BookAuthor>
             </router-link>
-            <BreakLine />
+            <BreakLine v-if="book.item.comment"/>
             <BookComment>{{ book.item.comment }}</BookComment>
         </BookItemFrame>
         <InfiniteLoading :identifier="infiniteId" @infinite="loadBooks">
@@ -27,6 +27,7 @@
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
     import BookOwner from "../../components/ui/book_card/BookOwner"
     import BookTitle from "../../components/ui/book_card/BookTitle"
+    import BreakLine from "../../components/ui/BreakLine";
     import { SearchTimeout } from "../../utils/stringUtils"
 
     import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND } from "./consts"
@@ -37,6 +38,7 @@
             BookComment,
             BookImage,
             BookItemFrame,
+            BreakLine,
             BookListFrame,
             BookOwner,
             BookTitle,
