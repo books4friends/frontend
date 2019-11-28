@@ -7,6 +7,7 @@
                     <BookImage :img="book.description.image" :alt="book.description.title"/>
                     <BookTitle>{{ book.description.title }}</BookTitle>
                     <BookAuthor>{{ book.description.author }}</BookAuthor>
+                    <BookGenre :index="book.description.genre" v-if="book.description.genre"/>
                 </router-link>
                 <BreakLine />
                 <BookCommentEditable :saveValue="saveComment" :value="book.comment" :bookId="book.id"/>
@@ -51,6 +52,7 @@
     import AppButton from "../../components/ui/AppButton"
     import BookAuthor from "../../components/ui/book_card/BookAuthor"
     import BookCommentEditable from "../../components/ui/book_card/BookCommentEditable"
+    import BookGenre from "../../components/ui/book_card/BookGenre";
     import BookImage from "../../components/ui/book_card/BookImage"
     import BookItemFrame from "../../components/ui/book_card/BookItemFrame"
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
@@ -67,6 +69,7 @@
             AppButton,
             BookAuthor,
             BookCommentEditable,
+            BookGenre,
             BookImage,
             BookItemFrame,
             BookListFrame,

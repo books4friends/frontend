@@ -6,6 +6,7 @@
                 <BookImage v-if="book.item.description.image" :img="book.item.description.image" :alt="book.item.description.title"/>
                 <BookTitle>{{ book.item.description.title }}</BookTitle>
                 <BookAuthor>{{ book.item.description.author }}</BookAuthor>
+                <BookGenre :index="book.item.description.genre" v-if="book.item.description.genre"/>
             </router-link>
             <BreakLine v-if="book.item.comment"/>
             <BookComment>{{ book.item.comment }}</BookComment>
@@ -22,6 +23,7 @@
 
     import BookAuthor from "../../components/ui/book_card/BookAuthor"
     import BookComment from "../../components/ui/book_card/BookComment"
+    import BookGenre from "../../components/ui/book_card/BookGenre";
     import BookImage from "../../components/ui/book_card/BookImage"
     import BookItemFrame from "../../components/ui/book_card/BookItemFrame"
     import BookListFrame from "../../components/ui/book_card/BookListFrame"
@@ -36,6 +38,7 @@
         components: {
             BookAuthor,
             BookComment,
+            BookGenre,
             BookImage,
             BookItemFrame,
             BreakLine,
