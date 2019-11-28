@@ -89,26 +89,26 @@
         },
         methods: {
             loadBook: function(){
-                axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/book/' + this.$route.params.id).then(function (response){
+                axios.get(process.env.VUE_APP_SERVER_URL + 'api/app/book/' + this.$route.params.id).then(function (response){
                     this.ownerType = response.data.owner_type;
                     this.book = response.data.book;
                     this.owner = response.data.owner;
                 }.bind(this))
             },
             saveComment: function(bookId, value){
-                axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/my-books/' + bookId + '/edit-comment/', {comment: value})
+                axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/my-books/' + bookId + '/edit-comment/', {comment: value})
                     .then(function (response) {
                         this.loadBook()
                     }.bind(this));
             },
             activate: function() {
-                axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/my-books/' + this.book.id + '/activate/')
+                axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/my-books/' + this.book.id + '/activate/')
                     .then(function (response) {
                         this.loadBook()
                     }.bind(this));
             },
             deactivate: function () {
-                axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/my-books/' + this.book.id + '/deactivate/')
+                axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/my-books/' + this.book.id + '/deactivate/')
                     .then(function (response) {
                         this.loadBook()
                     }.bind(this));
@@ -117,7 +117,7 @@
                 this.deleteSettings.visible = true;
             },
             handleDeleteDialog: function(attrs){
-                axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/my-books/' + this.book.id + '/delete/')
+                axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/my-books/' + this.book.id + '/delete/')
                     .then(function (response) {
                         this.$router.push({ path: '/app/my-books/' })
                     }.bind(this));

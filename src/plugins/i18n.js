@@ -19,7 +19,7 @@ if(config.locale !== 'undefined'){
         locale = 'ru';
     else
         locale = 'en';
-    axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/locale/set/', {locale: locale});
+    axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/settings/locale/set/', {locale: locale});
 }
 
 const i18n = new VueI18n({

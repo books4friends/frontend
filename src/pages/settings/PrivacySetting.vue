@@ -56,13 +56,13 @@
             save: async function(){
                 switch (this.privacyType) {
                     case this.ALL_FRIENDS:
-                        await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-all-friends/')
+                        await axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/settings/privacy/set-all-friends/')
                             .then(response => {
                                 this.notificationVisible = true;
                             });
                         break;
                     case this.ONLY_SOME_FRIENDS:
-                        await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-some-friends/',{
+                        await axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/settings/privacy/set-some-friends/',{
                             selected_friends: this.friends.filter(function(friend){
                                 return friend.whitelist_selected
                             }).map(friend => friend.external_id)
@@ -72,7 +72,7 @@
                             });
                         break;
                     case this.EXCEPT_SOME_FRIENDS:
-                        await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-except-some-friends/',{
+                        await axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/settings/privacy/set-except-some-friends/',{
                             selected_friends: this.friends.filter(function(friend){
                                 return friend.blacklist_selected
                             }).map(friend => friend.external_id)
@@ -82,7 +82,7 @@
                             });
                         break;
                     case this.ONLY_OWNER:
-                        await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/set-only-owner/')
+                        await axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/settings/privacy/set-only-owner/')
                             .then(response => {
                                 this.notificationVisible = true;
                             });
@@ -94,7 +94,7 @@
                 this.friends = [...this.friendsOriginal];
             },
             loadSettings: function(){
-                axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/settings/')
+                axios.get(process.env.VUE_APP_SERVER_URL + 'api/app/settings/')
                     .then(response => {
                         this.privacyType = response.data.privacy_type;
                         this.privacyTypeOriginal = response.data.privacy_type;
@@ -110,7 +110,7 @@
                     })
             },
             loadFriendsList: function(){
-                axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/settings/privacy/friends/')
+                axios.get(process.env.VUE_APP_SERVER_URL + 'api/app/settings/privacy/friends/')
                     .then(response => {
                         this.friendsOriginal = JSON.parse(JSON.stringify( response.data.friends ));
                         this.friends = JSON.parse(JSON.stringify( response.data.friends ));

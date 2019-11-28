@@ -24,7 +24,7 @@
         },
         methods: {
             save: async function(){
-                await axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/settings/locale/set/', {locale: this.key});
+                await axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/settings/locale/set/', {locale: this.key});
             },
             cancel: function () {
                 this.key = i18n.locale;

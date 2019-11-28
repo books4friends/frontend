@@ -91,7 +91,7 @@
                 }
                 if (this.searchStr.toLowerCase().split(/\s+/))
                     params.search = this.searchStr;
-                axios.get(process.env.VUE_APP_SERVER_URL + 'app/api/friends-books/', {
+                axios.get(process.env.VUE_APP_SERVER_URL + 'api/app/friends-books/', {
                     params: params
                 }).then(function (response){
                     if (response.data.data.books.length > 0){

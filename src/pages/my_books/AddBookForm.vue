@@ -164,7 +164,7 @@
 
                 this.clearFields();
 
-                axios.post(process.env.VUE_APP_SERVER_URL + 'app/api/my-books/add/', formData).then(function (response) {
+                axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/my-books/add/', formData).then(function (response) {
                     if (response.data.success) {
                         this.notificationText = this.$t('notifications.book_added', {title: response.data.book.description.title});
                         this.notificationVisible = true;
