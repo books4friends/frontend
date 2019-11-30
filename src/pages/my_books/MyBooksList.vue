@@ -102,6 +102,9 @@
                         this.books = response.data.books
                     })
             },
+            addBook: function(){
+                this.loadBooksList()
+            },
             saveComment: function(bookId, value){
                 axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/my-books/' + bookId + '/edit-comment/', {comment: value})
                     .then(function (response) {
