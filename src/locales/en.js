@@ -30,6 +30,7 @@ export default {
         'all_genres': 'All genres',
         'search': 'Search',
         'start_type_friends_name': 'Start type your friend name',
+        'not_founded': 'Not founded',
     },
     'navigation': {
         'about_project' : 'About The Project',

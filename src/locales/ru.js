@@ -30,6 +30,7 @@ export default {
         'all_genres': 'Все жанры',
         'search': 'Поиск',
         'start_type_friends_name': 'Начните вводить имя друга',
+        'not_founded': 'Не найдено',
     },
     'navigation': {
         'about_project' : 'О проекте',

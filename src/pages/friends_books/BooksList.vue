@@ -13,6 +13,7 @@
         </BookItemFrame>
         <InfiniteLoading :identifier="infiniteId" @infinite="loadBooks">
             <div slot="no-more"></div>
+            <div slot="no-results">{{ $t('filters.not_founded') }}</div>
         </InfiniteLoading>
     </BookListFrame>
 </template>
