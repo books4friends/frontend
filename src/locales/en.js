@@ -48,6 +48,7 @@ export default {
     },
     'privacy': {
         'all_friends': 'All friends',
+        'all_genres': 'All genres',
         'except_some_friends': 'All friends, except some',
         'only_owner': 'Only me',
         'only_some_friends': 'Only some friends',

@@ -55,6 +55,10 @@
             filter: {
                 type: Object,
                 required: true
+            },
+            genreFilter: {
+                type: Number,
+                required: true
             }
         },
         data:  function(){
@@ -75,7 +79,14 @@
             },
             searchStr: function () {
                 this.searchTimeout.reset();
-            }
+            },
+            genreFilter: {
+                handler(){
+                    this.infiniteId += 1;
+                    this.books = [];
+                },
+                deep: true
+            },
         },
         methods: {
             loadBooks: function ($state) {
@@ -96,6 +107,9 @@
                 }
                 if (this.searchStr.toLowerCase().split(/\s+/))
                     params.search = this.searchStr;
+                if (this.genreFilter !== -1)
+                    params.genre = this.genreFilter;
+
                 axios.get(process.env.VUE_APP_SERVER_URL + 'api/app/friends-books/', {
                     params: params
                 }).then(function (response){

@@ -27,6 +27,7 @@ export default {
     },
     'filters': {
         'all_friends': 'Все',
+        'all_genres': 'Все жанры',
         'search': 'Поиск',
         'start_type_friends_name': 'Начните вводить имя друга',
     },

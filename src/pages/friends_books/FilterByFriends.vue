@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="filter_commands">
-            <ul>
+            <UlChoice>
                 <li
                         @click="clearFriendsFilter"
                         v-bind:class="{ selected: filterStatus === FILTER_STATUS_ALL }"
@@ -9,10 +9,10 @@
                 >
                     {{ $t('filters.all_friends') }}
                 </li>
-            </ul>
+            </UlChoice>
         </div>
         <div id="cities">
-            <ul>
+            <UlChoice>
                 <li
                         v-for="city in citiesList"
                         @click="cityFilterChoice(city)"
@@ -21,7 +21,7 @@
                 >
                     {{ city.title }}
                 </li>
-            </ul>
+            </UlChoice>
         </div>
         <div id="friends_list">
             <ul>
@@ -40,10 +40,14 @@
 
 <script>
     import axios from 'axios';
+    import UlChoice from "../../components/ui/UlChoice";
 
     import { FILTER_ALL, FILTER_BY_CITY, FILTER_BY_FRIEND, FILTER_BY_FRIENDS_LIST } from "./consts"
 
     export default {
+        components:{
+            UlChoice
+        },
         props: {
             setFilter: {
                 type: Function,
@@ -95,30 +99,6 @@
 </script>
 
 <style scoped>
-
-.li_choice{
-    font-family: -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
-    font-weight: 400;
-    font-size: 13px;
-    color: #656565;
-
-    display: block;
-    height: 32px;
-    line-height: 31px;
-    cursor: pointer;
-    padding: 0 5px 0 28px;
-}
-
-.li_choice:hover{
-    background-color: #edeef0;
-}
-
-.li_choice.selected{
-    border-right: 2px solid #5181b8;
-    font-weight: 800;
-    color: #000;
-    background-color: #edeef0;
-}
 
 #friends_list > ul > li{
     display: flex;
