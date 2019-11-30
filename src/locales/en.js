@@ -27,6 +27,7 @@ export default {
     },
     'filters': {
         'all_friends': 'All',
+        'all_genres': 'All genres',
         'search': 'Search',
         'start_type_friends_name': 'Start type your friend name',
     },
@@ -48,7 +49,6 @@ export default {
     },
     'privacy': {
         'all_friends': 'All friends',
-        'all_genres': 'All genres',
         'except_some_friends': 'All friends, except some',
         'only_owner': 'Only me',
         'only_some_friends': 'Only some friends',
