@@ -126,9 +126,15 @@
                 this.deleteSettings.visible = false;
             },
         },
-        mounted: function () {
+        watch: {
+            '$route.params.id': function (id) {
+                if(id)
+                    this.loadBook();
+            }
+        },
+        created: function () {
             this.loadBook();
-        }
+        },
     }
 </script>
 
