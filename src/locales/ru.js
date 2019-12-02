@@ -1,6 +1,7 @@
 export default {
     'actions': {
         'add': 'Добавить',
+        'borrow_book': 'Одолжить книгу',
         'cancel': 'Отмена',
         'delete': 'Удалить',
         'ok': 'Ok',
@@ -20,8 +21,10 @@ export default {
         'comment': 'Комментарий',
         'description': 'Описание',
         'genre': 'Жанр',
-        'select_genre': 'Выбирете жанр',
         'no_genre': 'Нет жанра',
+        'owner': 'Владелец',
+        'select_genre': 'Выбирете жанр',
+        'return_date': 'Дата возврата',
         'title': 'Название',
         'upload_image': 'Загрузить свою картинку',
     },

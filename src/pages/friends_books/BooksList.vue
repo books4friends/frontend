@@ -10,6 +10,10 @@
             </router-link>
             <BreakLine v-if="book.item.comment"/>
             <BookComment>{{ book.item.comment }}</BookComment>
+
+            <router-link class="route-book" :to="'/app/book/'+book.item.id+'/borrow/'">
+                {{ $t('actions.borrow_book') }}
+            </router-link>
         </BookItemFrame>
         <InfiniteLoading :identifier="infiniteId" @infinite="loadBooks">
             <div slot="no-more"></div>

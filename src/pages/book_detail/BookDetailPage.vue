@@ -27,6 +27,10 @@
             </div>
             <div v-else>
                 <p>{{book.comment}}</p>
+
+                <router-link class="route-book" :to="'/app/book/'+book.id+'/borrow/'">
+                    {{ $t('actions.borrow_book') }}
+                </router-link>
             </div>
         </div>
         <DialogSetting
@@ -45,7 +49,6 @@
                 <span place="author" id="deleteDialog_author">{{this.book.description.author}}</span>
                 <span place="title" id="deleteDialog_title">"{{this.book.description.title}}"</span>
             </i18n>
-
         </DialogSetting>
     </div>
 </template>

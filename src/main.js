@@ -11,6 +11,7 @@ import MyBooksPage from './pages/my_books/MyBooksPage.vue'
 import SettingsPage from './pages/settings/SettingsPage.vue'
 import AboutPage from './pages/about/AboutPage.vue'
 import BookDetailPage from "./pages/book_detail/BookDetailPage";
+import BorrowBookPage from "./pages/borrow_book/BorrowBookPage";
 
 Vue.config.productionTip = false;
 
@@ -22,7 +23,8 @@ const routes = [
     { path: "/app/my-books/", component: MyBooksPage },
     { path: "/app/settings/", component: SettingsPage },
     { path: "/app/about/", component: AboutPage },
-    { path: "/app/book/:id/", component: BookDetailPage }
+    { path: "/app/book/:id/", component: BookDetailPage },
+    { path: "/app/book/:id/borrow/", component: BorrowBookPage },
 ];
 
 const router = new VueRouter({

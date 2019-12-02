@@ -1,6 +1,7 @@
 export default {
     'actions': {
         'add': 'Add',
+        'borrow_book': 'Borrow the book',
         'cancel': 'Cancel',
         'delete': 'Delete',
         'ok': 'Ok',
@@ -20,8 +21,10 @@ export default {
         'comment': 'Comment',
         'description': 'Description',
         'genre': 'Genre',
+        'owner': 'Owner',
         'select_genre': 'Select genre',
         'no_genre': 'No genre',
+        'return_date': 'Return date',
         'title': 'Title',
         'upload_image': 'Upload you own cover',
     },
