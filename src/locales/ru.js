@@ -14,9 +14,10 @@ export default {
         'without_comment': 'Без комментария',
     },
     'borrows': {
-        'take_date': 'Дата взятия',
+        'no_my_borrows': 'Вы еще не взяли ни одной книги',
         'planned_return_date': 'Дата планируемого возрвата',
         'real_return_date': 'Дата возврата',
+        'take_date': 'Дата взятия',
     },
     'dialogs': {
         'sure_to_delete': 'Вы уверены что хотите удалить книгу {author}. {title}',

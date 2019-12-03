@@ -12,6 +12,9 @@
                 {{ $t('borrows.planned_return_date') }}: {{ borrow.borrow_data.planned_return_date }}
             </p>
         </div>
+        <div v-if="borrows.length === 0">
+            {{ $t('borrows.no_my_borrows') }}
+        </div>
     </div>
 </template>
 

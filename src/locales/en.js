@@ -14,9 +14,10 @@ export default {
         'without_comment': 'No comment',
     },
     'borrows': {
-        'take_date': 'Take date',
+        'no_my_borrows': 'You have not borrowed a book yet',
         'planned_return_date': 'Planned return date',
         'real_return_date': 'Return date',
+        'take_date': 'Take date',
     },
     'dialogs': {
         'sure_to_delete': 'Are you sure you want to delete {author}. {title} book',
