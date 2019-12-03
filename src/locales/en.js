@@ -13,6 +13,11 @@ export default {
         'not_active': 'Not active',
         'without_comment': 'No comment',
     },
+    'borrows': {
+        'take_date': 'Take date',
+        'planned_return_date': 'Planned return date',
+        'real_return_date': 'Return date',
+    },
     'dialogs': {
         'sure_to_delete': 'Are you sure you want to delete {author}. {title} book',
     },
@@ -41,6 +46,7 @@ export default {
         'delete_book': 'Delete the book',
         'friends_books' : 'Friends Books',
         'my_books' : 'My Books',
+        'my_borrows' : 'My Borrows',
         'logout' : 'Logout',
         'settings' : 'Settings',
         'select_locale': 'Choose language',

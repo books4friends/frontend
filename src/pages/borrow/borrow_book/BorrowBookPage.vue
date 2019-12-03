@@ -22,8 +22,9 @@
 
 <script>
     import axios from 'axios';
-    import FriendTitle from "../../components/ui/FriendTitle";
-    import AppButton from "../../components/ui/AppButton";
+
+    import FriendTitle from "../../../components/ui/FriendTitle";
+    import AppButton from "../../../components/ui/AppButton";
 
     export default {
         name: "BorrowBookPage",
@@ -66,7 +67,8 @@
                         planned_return_date: this.returnDate
                     }
                 ).then(function(){
-                })
+                    this.$router.push({name: 'my-borrows', query: {reload: true}})
+                }.bind(this))
             }
 
         },

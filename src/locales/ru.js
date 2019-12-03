@@ -13,6 +13,11 @@ export default {
         'not_active': 'Не активна',
         'without_comment': 'Без комментария',
     },
+    'borrows': {
+        'take_date': 'Дата взятия',
+        'planned_return_date': 'Дата планируемого возрвата',
+        'real_return_date': 'Дата возврата',
+    },
     'dialogs': {
         'sure_to_delete': 'Вы уверены что хотите удалить книгу {author}. {title}',
     },
@@ -41,6 +46,7 @@ export default {
         'delete_book': 'Удалить книгу',
         'friends_books' : 'Книги друзей',
         'my_books' : 'Мои книги',
+        'my_borrows' : 'Взятые мной',
         'logout' : 'Выход',
         'select_locale': 'Выберите язык',
         'settings' : 'Настройки',
