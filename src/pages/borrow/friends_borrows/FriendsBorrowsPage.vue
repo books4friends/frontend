@@ -13,7 +13,7 @@
             </p>
         </div>
         <div v-if="borrows.length === 0">
-            {{ $t('borrows.no_my_borrows') }}
+            {{ $t('borrows.no_friend_borrows') }}
         </div>
     </div>
 </template>
@@ -23,7 +23,7 @@
     import FriendTitle from "../../../components/ui/FriendTitle";
 
     export default {
-        name: "MyBorrowsPage",
+        name: "FriendsBorrowsPage",
         components: {
             FriendTitle
         },
@@ -34,7 +34,7 @@
         },
         methods: {
             loadBorrows: function(){
-                axios.get(process.env.VUE_APP_SERVER_URL + 'api/app/borrows/my/')
+                axios.get(process.env.VUE_APP_SERVER_URL + 'api/app/borrows/friends/')
                     .then(response => {
                         this.borrows = response.data.borrows
                     })
@@ -45,7 +45,7 @@
         },
         activated: function () {
             if (this.$route.query.reload){
-                this.$router.push({path: '/app/my-borrows/'});
+                this.$router.push({path: '/app/friends-borrows/'});
                 this.loadBorrows()
             }
         },

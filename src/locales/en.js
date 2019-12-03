@@ -15,6 +15,7 @@ export default {
     },
     'borrows': {
         'no_my_borrows': 'You have not borrowed a book yet',
+        'no_friend_borrows': 'Nobody has not borrowed your book yet',
         'planned_return_date': 'Planned return date',
         'real_return_date': 'Return date',
         'take_date': 'Take date',
@@ -46,6 +47,7 @@ export default {
         'add_book': 'Add a book',
         'delete_book': 'Delete the book',
         'friends_books' : 'Friends Books',
+        'friends_borrows' : 'Friends Borrows',
         'my_books' : 'My Books',
         'my_borrows' : 'My Borrows',
         'logout' : 'Logout',

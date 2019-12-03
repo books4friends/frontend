@@ -15,6 +15,7 @@ export default {
     },
     'borrows': {
         'no_my_borrows': 'Вы еще не взяли ни одной книги',
+        'no_friend_borrows': 'У вас еще никто не взял ни одну книгу',
         'planned_return_date': 'Дата планируемого возрвата',
         'real_return_date': 'Дата возврата',
         'take_date': 'Дата взятия',
@@ -46,6 +47,7 @@ export default {
         'add_book': 'Добавить книгу',
         'delete_book': 'Удалить книгу',
         'friends_books' : 'Книги друзей',
+        'friends_borrows' : 'Взятые у меня',
         'my_books' : 'Мои книги',
         'my_borrows' : 'Взятые мной',
         'logout' : 'Выход',

@@ -16,6 +16,7 @@
                     <div class="dropdown-content-inner">
                         <router-link class="menu route" to="/app/settings/">{{ $t('navigation.settings') }}</router-link>
                         <router-link class="menu route" to="/app/about/">{{ $t('navigation.about_project') }}</router-link>
+                        <router-link class="menu route" to="/app/friends-borrows/">{{ $t('navigation.friends_borrows') }}</router-link>
                         <router-link class="menu route" to="/app/my-borrows/">{{ $t('navigation.my_borrows') }}</router-link>
                         <div class="menu" @click="logout">{{ $t('navigation.logout') }}</div>
                     </div>
