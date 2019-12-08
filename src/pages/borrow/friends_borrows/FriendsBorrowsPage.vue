@@ -10,6 +10,7 @@
             </p>
             <p v-else>
                 {{ $t('borrows.planned_return_date') }}: {{ borrow.borrow_data.planned_return_date }}
+                 <router-link :to="'/app/borrow/'+borrow.id+'/'">Вернуть книгу</router-link>
             </p>
         </div>
         <div v-if="borrows.length === 0">
@@ -29,7 +30,8 @@
         },
         data: () => {
             return{
-                borrows: []
+                borrows: [],
+                ownerType: ''
             }
         },
         methods: {
@@ -38,7 +40,7 @@
                     .then(response => {
                         this.borrows = response.data.borrows
                     })
-            }
+            },
         },
         mounted: function () {
             this.loadBorrows()
