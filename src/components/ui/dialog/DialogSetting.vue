@@ -4,7 +4,7 @@
             <DialogHeader :cancelDialog="cancelDialog" :attrs="attrs" :title="title" />
             <div class="content" ><slot></slot></div>
             <div class="setting_dialog-control">
-                <AppButton :onClick="cancelDialog" :attrs="attrs" transparent>{{ $t('actions.cancel') }}</AppButton>
+                <AppButton :onClick="cancelDialog" :attrs="attrs" transparent>{{ $t(cancelTitle) }}</AppButton>
                 <AppButton :onClick="onAccept" :attrs="attrs">{{ $t(acceptTitle) }}</AppButton>
             </div>
         </div>
@@ -36,10 +36,15 @@
                 type: Function,
                 required: true
             },
+            cancelTitle: {
+                type: String,
+                required: false,
+                default: 'actions.cancel'
+            },
             acceptTitle: {
                 type: String,
                 required: false,
-                default: 'actions.ok'
+                default: 'actions.accept'
             },
             attrs: {
                 type: Array,

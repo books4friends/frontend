@@ -29,6 +29,7 @@
         },
         data: function(){
             return {
+                ownerType: '',
                 borrow: {
                     id: '',
                     friend:{

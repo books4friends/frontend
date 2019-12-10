@@ -5,6 +5,7 @@
             <p>{{ borrow.book.description.title }}</p>
             <p>{{ borrow.book.description.author }}</p>
             <p> {{ $t('borrows.take_date') }}: {{ borrow.borrow_data.take_date }}</p>
+            <AppButton v-if="borrow.borrow_data.status==='new'" :onClick="$refs.cancelDialog.openDialog" :attrs="[borrow]">{{ $t('actions.cancel') }}</AppButton>
             <p v-if="borrow.borrow_data.real_return_date">
                 {{ $t('borrows.real_return_date') }}: {{ borrow.borrow_data.real_return_date }}
             </p>
@@ -15,17 +16,23 @@
         <div v-if="borrows.length === 0">
             {{ $t('borrows.no_my_borrows') }}
         </div>
+        <CancelBorrowDialog  ref="cancelDialog" :afterAccept="loadBorrows"/>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+
+    import AppButton from "../../../components/ui/AppButton";
+    import CancelBorrowDialog from "../dialogs/CancelBorrowDialog";
     import FriendTitle from "../../../components/ui/FriendTitle";
 
     export default {
         name: "MyBorrowsPage",
         components: {
-            FriendTitle
+            AppButton,
+            FriendTitle,
+            CancelBorrowDialog
         },
         data: () => {
             return{

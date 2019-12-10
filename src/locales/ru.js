@@ -1,12 +1,17 @@
 export default {
     'actions': {
+        'accept': 'Подтвердить',
         'add': 'Добавить',
+        'approve': 'Подвердить',
         'borrow_book': 'Одолжить книгу',
         'cancel': 'Отмена',
         'delete': 'Удалить',
+        'reject': 'Отказать',
         'ok': 'Ok',
+        'no': 'Нет',
         'save': 'Сохранить',
         'show_selected_friends': 'показать выбраных',
+        'yes': 'Да',
     },
     'book_desc': {
         'active': 'Активна',
@@ -21,7 +26,10 @@ export default {
         'take_date': 'Дата взятия',
     },
     'dialogs': {
-        'sure_to_delete': 'Вы уверены что хотите удалить книгу {author}. {title}',
+        'sure_to_approve_borrow': 'Вы уверены, что одолжить книгу {author}. {title}',
+        'sure_to_cancel_borrow': 'Вы уверены, что не хотите брать книгу {author}. {title}',
+        'sure_to_delete': 'Вы уверены, что хотите удалить книгу {author}. {title}',
+        'sure_to_reject_borrow': 'Вы уверены, что не хотите давать книгу {author}. {title}',
     },
     'forms': {
         'author': 'Автор',
@@ -44,8 +52,11 @@ export default {
     },
     'navigation': {
         'about_project' : 'О проекте',
+        'approve_borrow': 'Подвердить передачу',
         'add_book': 'Добавить книгу',
+        'cancel_borrow': 'Отменить просьбу о книге',
         'delete_book': 'Удалить книгу',
+        'reject_borrow': 'Отказать в просьбе о книге',
         'friends_books' : 'Книги друзей',
         'friends_borrows' : 'Взятые у меня',
         'my_books' : 'Мои книги',

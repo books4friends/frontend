@@ -5,27 +5,41 @@
             <p>{{ borrow.book.description.title }}</p>
             <p>{{ borrow.book.description.author }}</p>
             <p> {{ $t('borrows.take_date') }}: {{ borrow.borrow_data.take_date }}</p>
-            <p v-if="borrow.borrow_data.real_return_date">
-                {{ $t('borrows.real_return_date') }}: {{ borrow.borrow_data.real_return_date }}
-            </p>
-            <p v-else>
+            <div v-if="borrow.borrow_data.status==='new'">
                 {{ $t('borrows.planned_return_date') }}: {{ borrow.borrow_data.planned_return_date }}
-                 <router-link :to="'/app/borrow/'+borrow.id+'/'">Вернуть книгу</router-link>
-            </p>
+                <AppButton :onClick="$refs.approveDialog.openDialog" :attrs="[borrow]">{{ $t('actions.approve') }}</AppButton>
+                <AppButton :onClick="$refs.rejectDialog.openDialog" :attrs="[borrow]">{{ $t('actions.reject') }}</AppButton>
+            </div>
+            <div v-else-if="borrow.borrow_data.status==='approved'">
+                {{ $t('borrows.planned_return_date') }}: {{ borrow.borrow_data.planned_return_date }}
+                <router-link :to="'/app/borrow/'+borrow.id+'/'">Вернуть книгу</router-link>
+            </div>
+            <div v-else>
+                {{ $t('borrows.real_return_date') }}: {{ borrow.borrow_data.real_return_date }}
+            </div>
         </div>
         <div v-if="borrows.length === 0">
             {{ $t('borrows.no_friend_borrows') }}
         </div>
+        <ApproveBorrowDialog  ref="approveDialog" :afterAccept="loadBorrows"/>
+        <DiscardBorrowDialog  ref="rejectDialog" :afterAccept="loadBorrows"/>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+
+    import AppButton from "../../../components/ui/AppButton";
+    import ApproveBorrowDialog from "../dialogs/ApproveBorrowDialog";
+    import DiscardBorrowDialog from "../dialogs/RejectBorrowDialog";
     import FriendTitle from "../../../components/ui/FriendTitle";
 
     export default {
         name: "FriendsBorrowsPage",
         components: {
+            AppButton,
+            ApproveBorrowDialog,
+            DiscardBorrowDialog,
             FriendTitle
         },
         data: () => {

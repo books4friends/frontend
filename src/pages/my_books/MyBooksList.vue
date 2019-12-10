@@ -40,7 +40,6 @@
                 <span place="author" id="deleteDialog_author">{{deleteSettings.book.description.author}}</span>
                 <span place="title" id="deleteDialog_title">"{{deleteSettings.book.description.title}}"</span>
             </i18n>
-
         </DialogSetting>
     </div>
 </template>
