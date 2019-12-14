@@ -1,12 +1,17 @@
 export default {
     'actions': {
+        'accept': 'Accept',
         'add': 'Add',
+        'approve': 'Approve',
         'borrow_book': 'Borrow the book',
         'cancel': 'Cancel',
         'delete': 'Delete',
         'ok': 'Ok',
+        'no': 'No',
+        'reject': 'Reject',
         'save': 'Save',
         'show_selected_friends': 'show selected',
+        'yes': 'Yes',
     },
     'book_desc': {
         'active': 'Active',
@@ -21,7 +26,10 @@ export default {
         'take_date': 'Take date',
     },
     'dialogs': {
+        'sure_to_approve_borrow': 'Are you sure you want to give {author}. {title}',
+        'sure_to_cancel_borrow': 'Are you sure you don`t want to take {author}. {title}',
         'sure_to_delete': 'Are you sure you want to delete {author}. {title} book',
+        'sure_to_reject_borrow': 'Are you sure you don`t want to give {author}. {title}',
     },
     'forms': {
         'author': 'Author',
@@ -45,12 +53,15 @@ export default {
     'navigation': {
         'about_project' : 'About The Project',
         'add_book': 'Add a book',
+        'approve_borrow': 'Approve the borrowing',
+        'cancel_borrow': 'Cancel the borrowing',
         'delete_book': 'Delete the book',
         'friends_books' : 'Friends Books',
         'friends_borrows' : 'Friends Borrows',
         'my_books' : 'My Books',
         'my_borrows' : 'My Borrows',
         'logout' : 'Logout',
+        'reject_borrow': 'Reject the borrowing',
         'settings' : 'Settings',
         'select_locale': 'Choose language',
         'who_can_see_my_books': 'Who can see my books',

@@ -52,8 +52,8 @@ export default {
     },
     'navigation': {
         'about_project' : 'О проекте',
-        'approve_borrow': 'Подвердить передачу',
         'add_book': 'Добавить книгу',
+        'approve_borrow': 'Подвердить передачу',
         'cancel_borrow': 'Отменить просьбу о книге',
         'delete_book': 'Удалить книгу',
         'reject_borrow': 'Отказать в просьбе о книге',
