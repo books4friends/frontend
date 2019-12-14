@@ -4,13 +4,24 @@
         <p>{{ borrow.book.description.title }}</p>
         <p>{{ borrow.book.description.author }}</p>
         <p> {{ $t('borrows.take_date') }}: {{ borrow.borrow_data.take_date }}</p>
-        <p v-if="borrow.borrow_data.real_return_date">
-            {{ $t('borrows.real_return_date') }}: {{ borrow.borrow_data.real_return_date }}
-        </p>
-        <p v-else>
+        <div v-if="ownerType==='self' && borrow.borrow_data.status==='approved'">
             {{ $t('borrows.planned_return_date') }}: {{ borrow.borrow_data.planned_return_date }}
-        </p>
-        <div v-if="ownerType==='self' && !borrow.borrow_data.real_return_date">
+            <div>
+                <label>{{ $t('borrows.keeping.label') }} </label>
+                <select v-model="keeping">
+                    <option selected :value="0">{{ $t('borrows.keeping.same') }}</option>
+                    <option selected :value="1">{{ $t('borrows.keeping.spoiled_a_little') }}</option>
+                    <option selected :value="2">{{ $t('borrows.keeping.spoiled') }}</option>
+                </select>
+            </div>
+            <div>
+                <label>{{ $t('borrows.time.label') }} </label>
+                <select v-model="keeping">
+                    <option selected :value="0">{{ $t('borrows.time.in_time') }}</option>
+                    <option selected :value="1">{{ $t('borrows.time.late_a_little') }}</option>
+                    <option selected :value="2">{{ $t('borrows.time.late') }}</option>
+                </select>
+            </div>
             <AppButton :onClick="returnBorrow">Вернуть книгу</AppButton>
         </div>
     </div>
@@ -49,7 +60,9 @@
                         real_return_date: '',
                         planned_return_date: '',
                     }
-                }
+                },
+                keeping: 0,
+                time: 0
             }
         },
         methods: {
@@ -61,7 +74,10 @@
                     })
             },
             returnBorrow: function () {
-                axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/borrows/'+ this.$route.params.id + '/return/').then(
+                axios.post(process.env.VUE_APP_SERVER_URL + 'api/app/borrows/'+ this.$route.params.id + '/return/', {
+                    keeping: this.keeping,
+                    time: this.time
+                }).then(
                     this.$router.push({name: 'friends-borrows', query: {reload: true}})
                 )
             },

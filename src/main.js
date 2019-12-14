@@ -14,7 +14,7 @@ import BookDetailPage from "./pages/book_detail/BookDetailPage";
 import BorrowBookPage from "./pages/borrow/borrow_book/BorrowBookPage";
 import MyBorrowsPage from "./pages/borrow/my_borrows/MyBorrowsPage";
 import FriendsBorrowsPage from "./pages/borrow/friends_borrows/FriendsBorrowsPage";
-import BorrowDetailPage from "./pages/borrow/borrow_page/BorrowDetailPage";
+import BorrowDetailPage from "./pages/borrow/borrow_return/BorrowReturnPage";
 
 Vue.config.productionTip = false;
 

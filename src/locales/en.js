@@ -19,6 +19,18 @@ export default {
         'without_comment': 'No comment',
     },
     'borrows': {
+        'keeping': {
+            'label': 'Keeping status',
+            'same': 'same',
+            'spoiled_a_little': 'spoiled a little',
+            'spoiled': 'spoiled',
+        },
+        'time': {
+            'label': 'Time status',
+            'in_time': 'in time',
+            'late_a_little': 'late a little',
+            'late': 'late',
+        },
         'no_my_borrows': 'You have not borrowed a book yet',
         'no_friend_borrows': 'Nobody has not borrowed your book yet',
         'planned_return_date': 'Planned return date',
