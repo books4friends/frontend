@@ -10,8 +10,8 @@
             </router-link>
             <BreakLine v-if="book.item.comment"/>
             <BookComment>{{ book.item.comment }}</BookComment>
-
-            <router-link class="route-book" :to="'/app/book/'+book.item.id+'/borrow/'">
+            <span v-if="book.borrowed">{{ $t('borrows.borrowed') }}</span>
+            <router-link v-else class="route-book" :to="'/app/book/'+book.item.id+'/borrow/'">
                 {{ $t('actions.borrow_book') }}
             </router-link>
         </BookItemFrame>

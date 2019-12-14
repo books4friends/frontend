@@ -31,6 +31,7 @@ export default {
             'late_a_little': 'late a little',
             'late': 'late',
         },
+        'borrowed': 'borrowed',
         'no_my_borrows': 'You have not borrowed a book yet',
         'no_friend_borrows': 'Nobody has not borrowed your book yet',
         'planned_return_date': 'Planned return date',
