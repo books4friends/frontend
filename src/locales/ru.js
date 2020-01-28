@@ -10,7 +10,7 @@ export default {
         'ok': 'Ok',
         'no': 'Нет',
         'save': 'Сохранить',
-        'show_selected_friends': 'показать выбраных',
+        'show_selected_friends': 'показать выбранных',
         'yes': 'Да',
     },
     'book_desc': {
@@ -20,7 +20,7 @@ export default {
     },
     'borrows': {
         'keeping': {
-            'label': 'Статус сохраности',
+            'label': 'Статус сохранности',
             'same': 'хорошее',
             'spoiled_a_little': 'чуть-чуть испорчено',
             'spoiled': 'испорчено',
@@ -28,13 +28,13 @@ export default {
         'time': {
             'label': 'Статус по времени',
             'in_time': 'вернуто во-время',
-            'late_a_little': 'вернуто с небольшим опазданием',
-            'late': 'вернуто с опазданием',
+            'late_a_little': 'вернуто с небольшим опозданием',
+            'late': 'вернуто с опозданием',
         },
         'borrowed': 'Занята',
         'no_my_borrows': 'Вы еще не взяли ни одной книги',
         'no_friend_borrows': 'У вас еще никто не взял ни одну книгу',
-        'planned_return_date': 'Дата планируемого возрвата',
+        'planned_return_date': 'Дата планируемого возврата',
         'real_return_date': 'Дата возврата',
         'take_date': 'Дата взятия',
     },
@@ -51,7 +51,7 @@ export default {
         'genre': 'Жанр',
         'no_genre': 'Нет жанра',
         'owner': 'Владелец',
-        'select_genre': 'Выбирете жанр',
+        'select_genre': 'Выберите жанр',
         'return_date': 'Дата возврата',
         'title': 'Название',
         'upload_image': 'Загрузить свою картинку',
@@ -66,7 +66,7 @@ export default {
     'navigation': {
         'about_project' : 'О проекте',
         'add_book': 'Добавить книгу',
-        'approve_borrow': 'Подвердить передачу',
+        'approve_borrow': 'Подтвердить передачу',
         'cancel_borrow': 'Отменить просьбу о книге',
         'delete_book': 'Удалить книгу',
         'reject_borrow': 'Отказать в просьбе о книге',
@@ -91,3 +91,5 @@ export default {
         'only_some_friends': 'Некоторые друзья',
     },
 }
+
+
