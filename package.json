@@ -17,7 +17,7 @@
     "webpack-bundle-tracker": "^0.4.2-beta"
   },
   "devDependencies": {
-    "@vue/cli-service": "^3.2.0",
+    "@vue/cli-service": "^5.0.8",
     "vue-template-compiler": "^2.5.17"
   },
   "postcss": {
